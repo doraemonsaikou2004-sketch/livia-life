@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LIVIA Life（リヴィアライフ）</title>
+<style>
+/* ============================================================
+   LIVIA Life - スタイル（スマホ縦画面・最大幅480px想定）
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --main: #8d7fc9;
+  --main-dark: #6f5fb3;
+  --accent: #f2a7c3;
+  --bg: #faf6fd;
+  --card: #ffffff;
+  --text: #3d3550;
+  --sub: #8b84a0;
+  --ai-gold: #f5b942;
+}
+
+html, body {
+  font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.screen { display: none; flex: 1; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ---------- 共通 ---------- */
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 26px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--main), var(--accent));
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(141, 127, 201, 0.35);
+}
+.btn:active { transform: scale(0.97); }
+.btn.sub {
+  background: #fff;
+  color: var(--main-dark);
+  border: 2px solid var(--main);
+  box-shadow: none;
+}
+.btn.small { padding: 8px 16px; font-size: 14px; }
+.btn:disabled { opacity: 0.45; box-shadow: none; }
+
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 2px 12px rgba(61, 53, 80, 0.08);
+}
+
+input[type="text"], input[type="number"], input[type="date"],
+select, textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 2px solid #e3dcf2;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #fff;
+  color: var(--text);
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--main); }
+label.field { display: block; margin-bottom: 14px; font-size: 14px; font-weight: bold; }
+label.field > span { display: block; margin-bottom: 6px; }
+label.field .hint { font-weight: normal; color: var(--sub); font-size: 12px; }
+.checks { display: flex; flex-wrap: wrap; gap: 8px; }
+.checks label {
+  background: #f1ecfa; border-radius: 999px; padding: 7px 13px;
+  font-size: 13px; font-weight: normal; cursor: pointer;
+}
+.checks input { margin-right: 4px; }
+
+/* ---------- ログイン ---------- */
+#screen-login, #screen-setup-notice {
+  align-items: center; justify-content: center; text-align: center; padding: 32px 24px;
+  background: linear-gradient(160deg, #efe7fb 0%, #fdeef4 100%);
+}
+.logo { font-size: 42px; font-weight: bold; letter-spacing: 2px; color: var(--main-dark); }
+.logo-sub { color: var(--sub); margin: 6px 0 36px; font-size: 14px; }
+.google-btn {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; color: #3c4043; border: 1px solid #dadce0;
+  border-radius: 999px; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.note { margin-top: 22px; font-size: 12px; color: var(--sub); line-height: 1.7; max-width: 340px; }
+
+/* ---------- ヘッダー ---------- */
+header.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; background: linear-gradient(135deg, var(--main), var(--accent));
+  color: #fff; position: sticky; top: 0; z-index: 10;
+}
+header.topbar .title { font-weight: bold; font-size: 18px; letter-spacing: 1px; }
+.ai-badge {
+  background: rgba(255,255,255,0.92); color: #a86e00; font-weight: bold;
+  border-radius: 999px; padding: 5px 13px; font-size: 14px;
+}
+.logout-link { color: #fff; font-size: 12px; background: none; border: none; cursor: pointer; text-decoration: underline; }
+
+/* ---------- 下タブ ---------- */
+nav.tabbar {
+  display: flex; border-top: 1px solid #e9e2f5; background: #fff;
+  position: sticky; bottom: 0; z-index: 10;
+}
+nav.tabbar button {
+  flex: 1; background: none; border: none; padding: 10px 0 12px;
+  font-size: 13px; color: var(--sub); cursor: pointer;
+}
+nav.tabbar button.active { color: var(--main-dark); font-weight: bold; }
+nav.tabbar .tab-icon { display: block; font-size: 20px; margin-bottom: 2px; }
+
+main { flex: 1; padding: 16px; overflow-y: auto; }
+
+/* ---------- 部屋 ---------- */
+.room {
+  border-radius: 20px; padding: 22px 16px 18px; text-align: center;
+  background: linear-gradient(180deg, #dfe9f7 0%, #f7e8ef 78%, #e8d9c0 78.2%, #e8d9c0 100%);
+  box-shadow: inset 0 0 0 3px rgba(255,255,255,0.6), 0 4px 16px rgba(61,53,80,0.10);
+}
+.room .window {
+  width: 110px; height: 84px; margin: 0 auto 8px; border-radius: 8px;
+  background: linear-gradient(180deg, #a8d4f0, #e8f6ff);
+  border: 5px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+.room .avatar-wrap { cursor: pointer; display: inline-block; animation: breathe 3.2s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.room .char-name { font-size: 22px; font-weight: bold; margin-top: 8px; }
+.room .char-meta { color: var(--sub); font-size: 13px; margin-top: 2px; }
+.room .reaction {
+  min-height: 24px; margin-top: 10px; font-size: 14px; color: var(--main-dark);
+}
+.room-actions { display: flex; gap: 10px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+.char-switch { display: flex; gap: 8px; overflow-x: auto; padding: 12px 2px 2px; }
+.char-switch button {
+  border: 2px solid #e3dcf2; background: #fff; border-radius: 999px;
+  padding: 7px 14px; font-size: 14px; cursor: pointer; white-space: nowrap;
+}
+.char-switch button.active { border-color: var(--main); background: #f1ecfa; font-weight: bold; }
+
+/* ---------- 会話 ---------- */
+.chat-log { display: flex; flex-direction: column; gap: 10px; padding-bottom: 8px; }
+.bubble {
+  max-width: 78%; padding: 10px 14px; border-radius: 18px; font-size: 15px; line-height: 1.5;
+  white-space: pre-wrap; word-break: break-word;
+}
+.bubble.char { background: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 5px rgba(61,53,80,0.10); }
+.bubble.player { background: linear-gradient(135deg, var(--main), #a08fd6); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+.bubble.system { background: none; box-shadow: none; color: var(--sub); font-size: 12px; align-self: center; text-align: center; }
+.typing { color: var(--sub); font-size: 13px; align-self: flex-start; padding: 4px 6px; }
+.chat-form { display: flex; gap: 8px; padding: 10px 12px; background: #fff; border-top: 1px solid #e9e2f5; position: sticky; bottom: 0; }
+.chat-form input { flex: 1; }
+.chat-form button { flex: none; }
+
+/* ---------- フォーム画面 ---------- */
+.form-screen { padding: 20px 16px 40px; }
+.form-screen h2 { font-size: 20px; margin-bottom: 4px; }
+.form-screen .lead { color: var(--sub); font-size: 13px; margin-bottom: 18px; line-height: 1.6; }
+.form-actions { display: flex; gap: 10px; margin-top: 8px; }
+.error { color: #d9534f; font-size: 13px; margin: 8px 0; min-height: 18px; }
+.toast {
+  position: fixed; left: 50%; bottom: 92px; transform: translateX(-50%);
+  background: rgba(61,53,80,0.92); color: #fff; padding: 10px 18px; border-radius: 999px;
+  font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 50;
+  max-width: 88%; text-align: center;
+}
+.toast.show { opacity: 1; }
+.empty { text-align: center; color: var(--sub); padding: 40px 16px; line-height: 1.8; }
+
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- 読み込み中 -->
+  <section id="screen-loading" class="screen active">
+    <div style="margin:auto;text-align:center;color:#8b84a0;">読み込み中…</div>
+  </section>
+
+  <!-- Firebase未設定の案内 -->
+  <section id="screen-setup-notice" class="screen">
+    <div class="logo">LIVIA Life</div>
+    <p class="logo-sub">リヴィアライフ</p>
+    <div class="card" style="text-align:left;line-height:1.8;font-size:14px;">
+      <p><strong>もう少しで準備完了です。</strong></p>
+      <p>Firebaseの設定値がまだ貼り付けられていません。</p>
+      <p><code>js/firebase-config.js</code> を開いて、README.mdの手順どおりに
+      自分のFirebaseプロジェクトの値を貼り付けてください。</p>
+    </div>
+  </section>
+
+  <!-- ログイン -->
+  <section id="screen-login" class="screen">
+    <div class="logo">LIVIA Life</div>
+    <p class="logo-sub">リヴィアライフ ― AIと暮らす、もうひとつの日常</p>
+    <button class="google-btn" id="btn-google-login">
+      <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 8 3l5.7-5.7C34.3 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34.3 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+      Googleでログイン
+    </button>
+    <p class="note">ログインすると、あなたのデータ（プレイヤー情報・キャラクター・会話）は
+    あなたのFirebaseにだけ保存されます。</p>
+    <p class="error" id="login-error"></p>
+  </section>
+
+  <!-- プレイヤー登録 -->
+  <section id="screen-player-setup" class="screen">
+    <div class="form-screen">
+      <h2>プレイヤー登録</h2>
+      <p class="lead">あなた自身の登録です（分身キャラは作りません）。<br>
+      登録すると開始ボーナスとして <strong>1000Ai</strong> がもらえます。</p>
+      <form id="form-player">
+        <label class="field"><span>名前 *</span>
+          <input type="text" id="p-name" required maxlength="20" placeholder="例：佐々木">
+        </label>
+        <label class="field"><span>あだ名 <span class="hint">（キャラにこう呼ばれたい名前）</span></span>
+          <input type="text" id="p-nickname" maxlength="20" placeholder="例：こうき">
+        </label>
+        <label class="field"><span>性別 *</span>
+          <select id="p-gender" required>
+            <option value="">選んでください</option>
+            <option>男</option><option>女</option><option>その他</option>
+          </select>
+        </label>
+        <p class="error" id="player-error"></p>
+        <div class="form-actions">
+          <button type="submit" class="btn">登録してはじめる</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- メイン（部屋／会話／キャラ） -->
+  <section id="screen-home" class="screen">
+    <header class="topbar">
+      <div>
+        <div class="title">LIVIA Life</div>
+        <button class="logout-link" id="btn-logout">ログアウト</button>
+      </div>
+      <div class="ai-badge">💰 <span id="ai-balance">0</span> Ai</div>
+    </header>
+
+    <main id="tab-room" class="tab-page">
+      <div id="room-empty" class="empty" style="display:none;">
+        まだキャラクターがいません。<br>最初のキャラを作りましょう。<br><br>
+        <button class="btn" data-goto-create>キャラを作る</button>
+      </div>
+      <div id="room-main" style="display:none;">
+        <div class="room">
+          <div class="window"></div>
+          <div class="avatar-wrap" id="room-avatar" title="タップで反応"></div>
+          <div class="char-name" id="room-char-name"></div>
+          <div class="char-meta" id="room-char-meta"></div>
+          <div class="reaction" id="room-reaction"></div>
+          <div class="room-actions">
+            <button class="btn small" id="btn-to-chat">💬 会話する</button>
+            <button class="btn small sub" id="btn-naderu">🤲 なでる</button>
+          </div>
+        </div>
+        <div class="char-switch" id="char-switch"></div>
+      </div>
+    </main>
+
+    <main id="tab-chat" class="tab-page" style="display:none;flex-direction:column;padding-bottom:0;">
+      <div id="chat-empty" class="empty" style="display:none;">
+        会話できるキャラクターがいません。<br><br>
+        <button class="btn" data-goto-create>キャラを作る</button>
+      </div>
+      <div id="chat-main" style="display:none;flex-direction:column;flex:1;min-height:0;">
+        <div class="chat-log" id="chat-log" style="overflow-y:auto;flex:1;"></div>
+        <div class="typing" id="chat-typing" style="display:none;">入力中…</div>
+        <form class="chat-form" id="form-chat">
+          <input type="text" id="chat-input" placeholder="メッセージを入力" autocomplete="off" maxlength="500">
+          <button type="submit" class="btn small">送信</button>
+        </form>
+      </div>
+    </main>
+
+    <main id="tab-chars" class="tab-page" style="display:none;">
+      <div id="char-list"></div>
+      <div style="text-align:center;margin-top:16px;">
+        <button class="btn" id="btn-new-char">＋ キャラを作る（最大3人）</button>
+      </div>
+    </main>
+
+    <nav class="tabbar">
+      <button data-tab="room" class="active"><span class="tab-icon">🏠</span>部屋</button>
+      <button data-tab="chat"><span class="tab-icon">💬</span>会話</button>
+      <button data-tab="chars"><span class="tab-icon">👥</span>キャラ</button>
+    </nav>
+  </section>
+
+  <!-- キャラ作成 -->
+  <section id="screen-char-create" class="screen">
+    <div class="form-screen">
+      <h2>キャラクター作成</h2>
+      <p class="lead">全ての項目を埋めると作れます。迷ったら「おまかせで自動入力」を押してください（性格は作成後に変えられません）。</p>
+      <form id="form-char">
+        <label class="field"><span>名前 *</span>
+          <input type="text" id="c-name" required maxlength="20">
+        </label>
+        <label class="field"><span>性別 *</span>
+          <select id="c-gender" required>
+            <option value="">選んでください</option>
+            <option>女</option><option>男</option><option>その他</option>
+          </select>
+        </label>
+        <label class="field"><span>年齢（5〜100歳）*</span>
+          <input type="number" id="c-age" required min="5" max="100" value="20">
+        </label>
+        <label class="field"><span>誕生日 *</span>
+          <input type="date" id="c-birthday" required>
+        </label>
+        <label class="field"><span>あなたとの関係性 *</span>
+          <select id="c-relationship"></select>
+          <input type="text" id="c-relationship-free" maxlength="20" placeholder="自由入力（その他の時）" style="display:none;margin-top:6px;">
+        </label>
+        <label class="field"><span>職業 *</span>
+          <select id="c-occupation"></select>
+          <input type="text" id="c-occupation-free" maxlength="20" placeholder="職業名（その他の時）" style="display:none;margin-top:6px;">
+        </label>
+        <label class="field" id="field-parttime" style="display:none;"><span>バイトはする？（学生のみ）</span>
+          <select id="c-parttime">
+            <option value="none">しない</option>
+            <option value="parttime">バイトする</option>
+          </select>
+        </label>
+
+        <h3 style="margin:18px 0 10px;">見た目</h3>
+        <label class="field"><span>髪型 *</span><select id="c-hairstyle"></select></label>
+        <label class="field"><span>髪色 *</span><select id="c-haircolor"></select></label>
+        <label class="field"><span>目の色 *</span><select id="c-eyecolor"></select></label>
+        <label class="field"><span>体型・雰囲気 <span class="hint">（数字ではなく雰囲気で）</span></span>
+          <input type="text" id="c-build" maxlength="30" placeholder="例：小柄、すらっと高め">
+        </label>
+        <label class="field"><span>見た目の説明 <span class="hint">（言葉で伝える方式）</span></span>
+          <textarea id="c-appearance" rows="2" maxlength="200" placeholder="例：黒髪に白のグラデーション、タトゥーがある"></textarea>
+        </label>
+        <div style="text-align:center;margin:6px 0 16px;" id="c-avatar-preview"></div>
+
+        <h3 style="margin:18px 0 10px;">性格テンプレート</h3>
+        <label class="field"><span>一人称 *</span>
+          <input type="text" id="c-firstperson" required maxlength="10" placeholder="例：私、ぼく、俺、りん">
+        </label>
+        <label class="field"><span>性格（複数えらべます）*</span>
+          <div class="checks" id="c-tags"></div>
+        </label>
+        <label class="field"><span>口癖</span>
+          <input type="text" id="c-catchphrase" maxlength="30" placeholder="例：〜だもんね">
+        </label>
+        <label class="field"><span>寂しい時にどんな表現をする？ *</span>
+          <select id="c-lonely"></select>
+        </label>
+        <label class="field"><span>話し方の特徴 *</span>
+          <select id="c-speech"></select>
+        </label>
+        <label class="field"><span>好きな食べ物</span>
+          <input type="text" id="c-food" maxlength="30" placeholder="例：焼肉（タン）">
+        </label>
+        <label class="field"><span>方言 *</span>
+          <select id="c-dialect"></select>
+        </label>
+        <label class="field"><span>方言の濃さ *</span>
+          <select id="c-dialect-level"></select>
+        </label>
+        <label class="field"><span>国籍</span>
+          <input type="text" id="c-nationality" maxlength="20" placeholder="例：日本" value="日本">
+        </label>
+        <label class="field"><span>血液型</span><select id="c-blood"></select></label>
+        <label class="field"><span>利き手</span><select id="c-hand"></select></label>
+
+        <p class="error" id="char-error"></p>
+        <div class="form-actions">
+          <button type="button" class="btn sub" id="btn-omakase">おまかせで自動入力</button>
+          <button type="submit" class="btn">このキャラで決定</button>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn sub small" id="btn-back-home">もどる</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK（compat版：ビルド不要でそのまま使える） -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+// ============================================================
+// LIVIA Life - Firebase設定
+// ============================================================
+// Firebaseプロジェクト「livia-life」のWebアプリ設定。
+// ※この値は「秘密鍵」ではありません。Webアプリ用の公開設定です。
+//   （データの保護は Firestore のルールで行います）
+// ============================================================
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDsSviXrWbqjs_qZyr42rcKiyz9m7rUBQw",
+  authDomain: "livia-life.firebaseapp.com",
+  projectId: "livia-life",
+  storageBucket: "livia-life.firebasestorage.app",
+  messagingSenderId: "963938366144",
+  appId: "1:963938366144:web:f1d38e58474452fa3ff325"
+};
+
+// 設定が貼り付け済みかどうかを判定する（アプリ側で使用）
+window.LIVIA_FIREBASE_CONFIG = firebaseConfig;
+window.LIVIA_CONFIGURED = firebaseConfig.apiKey !== "YOUR_API_KEY";
+
+</script>
+<script>
+// ============================================================
+// LIVIA Life - マスターデータ（選択肢など）
+// 仕様: ~/workspace/projects/ai-tomodachi-app/spec.md 準拠
+// ============================================================
+
+window.LIVIA_DATA = {
+
+  // 関係性（自由入力も可）
+  relationships: [
+    "恋人", "友達", "幼なじみ", "親", "兄弟姉妹", "子供",
+    "ルームメイト", "先輩", "後輩", "先生", "会社の同期",
+    "ペット", "執事", "メイド"
+  ],
+
+  // 職業（選択式。「その他」の時だけ自由入力）
+  occupations: [
+    "学生", "サラリーマン", "先生", "医者", "店員", "クリエイター",
+    "フリーター", "警察", "美容師", "バーテンダー", "バンドマン",
+    "パティシエ", "無職"
+  ],
+
+  // 方言（10種類。関西弁・三重弁・博多弁・津軽弁は必須指定）
+  dialects: [
+    "標準語", "関西弁", "三重弁", "博多弁", "津軽弁",
+    "京都弁", "名古屋弁", "北海道弁", "広島弁", "沖縄弁"
+  ],
+
+  // 方言の濃さ
+  dialectLevels: [
+    { value: "light", label: "少しだけなまる" },
+    { value: "normal", label: "ふつう" },
+    { value: "strong", label: "めっちゃなまる" }
+  ],
+
+  // 性格タグ（複数選択）
+  personalityTags: [
+    "甘えん坊", "クール", "元気", "おっとり", "ツンデレ",
+    "優しい", "しっかり者", "天然", "人見知り", "面倒見がいい",
+    "寂しがり屋", "マイペース"
+  ],
+
+  // 寂しい時の表現（性格テンプレ項目）
+  lonelyStyles: [
+    "黙ってそばに来る",
+    "素直に「寂しい」と言う",
+    "そっけなくなる",
+    "連絡が増える",
+    "甘えてくる"
+  ],
+
+  // 話し方の特徴
+  speechStyles: [
+    "フランク", "丁寧", "ぶっきらぼう", "甘えた感じ", "落ち着いた感じ"
+  ],
+
+  // 髪型（立ち絵の簡易アバター用）
+  hairStyles: [
+    { value: "long", label: "ロング" },
+    { value: "short", label: "ショート" },
+    { value: "bob", label: "ボブ" },
+    { value: "twintail", label: "ツインテール" },
+    { value: "ponytail", label: "ポニーテール" }
+  ],
+
+  // 髪色
+  hairColors: [
+    { value: "#3a2e2a", label: "黒" },
+    { value: "#6b4a2f", label: "茶色" },
+    { value: "#c9a86a", label: "金色" },
+    { value: "#b8b8c4", label: "銀色" },
+    { value: "#e8a0b4", label: "ピンク" },
+    { value: "#7a9cc6", label: "青色" },
+    { value: "#9b7ec8", label: "紫色" },
+    { value: "#c46a5a", label: "赤色" }
+  ],
+
+  // 目の色
+  eyeColors: [
+    { value: "#4a3226", label: "茶色" },
+    { value: "#2e2e2e", label: "黒" },
+    { value: "#5a7ec9", label: "青" },
+    { value: "#5aa06a", label: "緑" },
+    { value: "#a05ac9", label: "紫" },
+    { value: "#c9a03a", label: "金色" }
+  ],
+
+  bloodTypes: ["A", "B", "O", "AB", "不明"],
+  dominantHands: ["右利き", "左利き", "両利き"],
+
+  // 経済バランス（仕様で決定済みの数字）
+  economy: {
+    startAi: 1000,        // 開始時の所持Ai
+    loginBonusBase: 50,   // ログインボーナス1日目（ログイン日数ごとに+1、上限なし）
+    chatRewardPerRound: 1 // 会話1往復で1Ai
+  }
+};
+
+</script>
+<script>
+// ============================================================
+// LIVIA Life - データ層（Firestore）
+// ------------------------------------------------------------
+// データ構造:
+//   users/{uid}                                  … プレイヤー情報
+//   users/{uid}/characters/{characterId}         … キャラ情報
+//   users/{uid}/characters/{characterId}/messages/{messageId} … 会話履歴
+//
+// 状態（所持Ai・好感度・キャラ設定など）は必ずここを通して保存し、
+// 会話や表示と食い違わないようにする（最重要要件）。
+// ============================================================
+
+window.LiviaDB = (function () {
+  let db = null;
+  let uid = null;
+
+  function init(userId) {
+    db = firebase.firestore();
+    uid = userId;
+  }
+
+  function playerRef() {
+    return db.collection("users").doc(uid);
+  }
+
+  function charactersRef() {
+    return playerRef().collection("characters");
+  }
+
+  function messagesRef(characterId) {
+    return charactersRef().doc(characterId).collection("messages");
+  }
+
+  // ---------- プレイヤー ----------
+  async function getPlayer() {
+    const snap = await playerRef().get();
+    return snap.exists ? snap.data() : null;
+  }
+
+  async function createPlayer(data) {
+    const player = Object.assign({
+      ai: window.LIVIA_DATA.economy.startAi,
+      loginDays: 0,
+      lastLoginDate: "",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, data);
+    await playerRef().set(player);
+    return player;
+  }
+
+  async function updatePlayer(fields) {
+    await playerRef().update(fields);
+  }
+
+  // Ai残高を増減する（増減後の残高を返す）
+  async function addAi(delta) {
+    await playerRef().update({
+      ai: firebase.firestore.FieldValue.increment(delta)
+    });
+    const snap = await playerRef().get();
+    return snap.data().ai;
+  }
+
+  // ログインボーナス: 1日目50Ai、ログイン日数ごとに+1Ai。途切れてもリセットしない。
+  // 今日すでに受け取っていたら null を返す。
+  async function claimLoginBonus() {
+    const today = new Date();
+    const todayStr = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    const player = await getPlayer();
+    if (!player || player.lastLoginDate === todayStr) return null;
+    const days = (player.loginDays || 0) + 1;
+    const amount = window.LIVIA_DATA.economy.loginBonusBase + (days - 1);
+    await playerRef().update({
+      loginDays: days,
+      lastLoginDate: todayStr,
+      ai: firebase.firestore.FieldValue.increment(amount)
+    });
+    return { days: days, amount: amount };
+  }
+
+  // ---------- キャラ ----------
+  async function listCharacters() {
+    const snap = await charactersRef().orderBy("createdAt", "asc").get();
+    return snap.docs.map(function (d) {
+      return Object.assign({ id: d.id }, d.data());
+    });
+  }
+
+  async function createCharacter(data) {
+    const character = Object.assign({
+      affection: 0, // 好感度は内部数値のみ（画面には出さない）
+      memories: [], // キャラが覚えている大事なこと
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, data);
+    const ref = await charactersRef().add(character);
+    character.id = ref.id;
+    return character;
+  }
+
+  async function updateCharacter(characterId, fields) {
+    await charactersRef().doc(characterId).update(fields);
+  }
+
+  async function addAffection(characterId, delta) {
+    await charactersRef().doc(characterId).update({
+      affection: firebase.firestore.FieldValue.increment(delta)
+    });
+  }
+
+  async function deleteCharacter(characterId) {
+    // 会話履歴も一緒に消す（消したキャラは復活できない仕様）
+    const msgs = await messagesRef(characterId).get();
+    const batch = db.batch();
+    msgs.docs.forEach(function (d) { batch.delete(d.ref); });
+    batch.delete(charactersRef().doc(characterId));
+    await batch.commit();
+  }
+
+  // ---------- 会話 ----------
+  async function listMessages(characterId, limit) {
+    const snap = await messagesRef(characterId)
+      .orderBy("createdAt", "asc")
+      .limit(limit || 100)
+      .get();
+    return snap.docs.map(function (d) {
+      return Object.assign({ id: d.id }, d.data());
+    });
+  }
+
+  async function addMessage(characterId, sender, text) {
+    await messagesRef(characterId).add({
+      sender: sender, // "player" | "character"
+      text: text,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+
+  return {
+    init: init,
+    getPlayer: getPlayer,
+    createPlayer: createPlayer,
+    updatePlayer: updatePlayer,
+    addAi: addAi,
+    claimLoginBonus: claimLoginBonus,
+    listCharacters: listCharacters,
+    createCharacter: createCharacter,
+    updateCharacter: updateCharacter,
+    addAffection: addAffection,
+    deleteCharacter: deleteCharacter,
+    listMessages: listMessages,
+    addMessage: addMessage
+  };
+})();
+
+</script>
+<script>
+// ============================================================
+// LIVIA Life - 簡易アバター生成
+// キャラ作成で選んだ髪型・髪色・目の色から、SVGの立ち絵風アバターを作る。
+// （将来、AI生成イラストに差し替える場合はこの関数の戻り値を差し替える）
+// ============================================================
+
+window.LiviaAvatar = (function () {
+
+  function hairPath(style) {
+    switch (style) {
+      case "short":
+        return "M60 18 C34 18 24 40 26 62 L38 62 C36 44 44 32 60 32 C76 32 84 44 82 62 L94 62 C96 40 86 18 60 18 Z";
+      case "bob":
+        return "M60 14 C30 14 20 38 24 74 L40 74 C38 50 44 30 60 30 C76 30 82 50 80 74 L96 74 C100 38 90 14 60 14 Z";
+      case "twintail":
+        return "M60 16 C38 16 28 34 30 56 L40 56 C40 40 48 30 60 30 C72 30 80 40 80 56 L90 56 C92 34 82 16 60 16 Z"
+          + " M28 40 C16 50 14 78 20 96 L34 92 C28 72 30 54 34 44 Z"
+          + " M92 40 C104 50 106 78 100 96 L86 92 C92 72 90 54 86 44 Z";
+      case "ponytail":
+        return "M60 14 C36 14 26 36 28 58 L42 58 C40 42 48 28 60 28 C72 28 80 42 78 58 L92 58 C94 36 84 14 60 14 Z"
+          + " M84 22 C98 30 100 58 94 82 L82 76 C88 56 86 38 80 28 Z";
+      case "long":
+      default:
+        return "M60 12 C28 12 18 40 22 96 L40 96 C38 58 44 28 60 28 C76 28 82 58 80 96 L98 96 C102 40 92 12 60 12 Z";
+    }
+  }
+
+  // character: { hairStyle, hairColor, eyeColor, gender }
+  function svg(character, size) {
+    const hair = character.hairColor || "#3a2e2a";
+    const eyes = character.eyeColor || "#4a3226";
+    const s = size || 240;
+    return ''
+      + '<svg viewBox="0 0 120 120" width="' + s + '" height="' + s + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="キャラクター">'
+      + '<rect x="0" y="0" width="120" height="120" rx="16" fill="#f3e9f7"/>'
+      // 体（服）
+      + '<path d="M32 120 C34 98 46 90 60 90 C74 90 86 98 88 120 Z" fill="#8d7fc9"/>'
+      // 顔
+      + '<ellipse cx="60" cy="56" rx="24" ry="26" fill="#ffe3d0"/>'
+      // 髪（後ろ＋前髪）
+      + '<path d="' + hairPath(character.hairStyle) + '" fill="' + hair + '"/>'
+      + '<path d="M36 52 C38 34 48 26 60 26 C72 26 82 34 84 52 C76 40 70 44 60 38 C50 44 44 40 36 52 Z" fill="' + hair + '"/>'
+      // 目
+      + '<ellipse cx="51" cy="58" rx="3.2" ry="4.6" fill="' + eyes + '"/>'
+      + '<ellipse cx="69" cy="58" rx="3.2" ry="4.6" fill="' + eyes + '"/>'
+      + '<circle cx="52.2" cy="56.4" r="1.1" fill="#ffffff"/>'
+      + '<circle cx="70.2" cy="56.4" r="1.1" fill="#ffffff"/>'
+      // ほっぺ・口
+      + '<ellipse cx="44" cy="68" rx="4.5" ry="2.4" fill="#ffb3a0" opacity="0.7"/>'
+      + '<ellipse cx="76" cy="68" rx="4.5" ry="2.4" fill="#ffb3a0" opacity="0.7"/>'
+      + '<path d="M56 70 Q60 73.5 64 70" stroke="#c97b63" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
+      + '</svg>';
+  }
+
+  return { svg: svg };
+})();
+
+</script>
+<script>
+// ============================================================
+// LIVIA Life - 会話エンジン（土台版：ルールベース）
+// ------------------------------------------------------------
+// 返信の生成はこのファイルに閉じ込めてある。
+// 将来、本物のAI（API）に差し替える時は generateReply() の中身を
+// API呼び出しに置き換えれば、他の画面には影響しない。
+//
+// generateReply(character, player, userText) -> 文字列の配列
+//   配列の要素1つ = 吹き出し1つ（短文の連投を再現するため）
+// ============================================================
+
+window.LiviaChatAI = (function () {
+
+  function pick(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function hasTag(character, tag) {
+    return (character.personalityTags || []).indexOf(tag) >= 0;
+  }
+
+  // 好感度で距離感を変える（数値自体は画面に出さない仕様）
+  function toneLevel(character) {
+    const a = character.affection || 0;
+    if (a >= 60) return 2; // かなり仲良し
+    if (a >= 20) return 1; // 仲良し
+    return 0;              // 出会ったばかり
+  }
+
+  function callName(character, player) {
+    // 仲良くなるにつれて呼び方が変わる（さん付け → あだ名）
+    const tone = toneLevel(character);
+    if (tone >= 1 && player.nickname) return player.nickname;
+    return player.name + "さん";
+  }
+
+  // ---------- 方言の適用（語尾の軽い変換） ----------
+  const dialectRules = {
+    "関西弁": [["だよ", "やで"], ["だね", "やね"], ["じゃない", "ちゃう"], ["本当", "ほんま"], ["ありがとう", "おおきに"]],
+    "三重弁": [["だよ", "やに"], ["だね", "やね"], ["じゃない", "やない"]],
+    "博多弁": [["だよ", "ばい"], ["だね", "ね"], ["してる", "しとる"], ["じゃない", "やない"]],
+    "津軽弁": [["だよ", "だばい"], ["だね", "だね"], ["寒い", "しばれる"]],
+    "京都弁": [["ください", "おくれやす"], ["ありがとう", "おおきに"], ["だね", "どすね"]],
+    "名古屋弁": [["だよ", "だで"], ["じゃない", "じゃにゃあ"], ["すごい", "どえりゃあ"]],
+    "北海道弁": [["すごい", "なまら"], ["だよ", "だべ"], ["寒い", "しばれる"]],
+    "広島弁": [["だよ", "じゃけえ"], ["じゃない", "じゃにゃあ"], ["してる", "しとる"]],
+    "沖縄弁": [["ありがとう", "にふぇーでーびる"], ["すごい", "でーじ"], ["だよ", "さぁ"]]
+  };
+
+  function applyDialect(text, character) {
+    const dialect = character.dialect;
+    if (!dialect || dialect === "標準語") return text;
+    const rules = dialectRules[dialect];
+    if (!rules) return text;
+    // 濃さで変換する確率を変える
+    const rate = character.dialectLevel === "strong" ? 0.9
+      : character.dialectLevel === "light" ? 0.3 : 0.6;
+    let out = text;
+    rules.forEach(function (pair) {
+      if (Math.random() < rate && out.indexOf(pair[0]) >= 0) {
+        out = out.replace(pair[0], pair[1]);
+      }
+    });
+    return out;
+  }
+
+  // ---------- ルールベース返信 ----------
+  function baseReply(character, player, userText) {
+    const t = userText || "";
+    const name = callName(character, player);
+    const tone = toneLevel(character);
+    const cool = hasTag(character, "クール");
+    const genki = hasTag(character, "元気");
+    const amaenbo = hasTag(character, "甘えん坊");
+
+    if (/おはよ/.test(t)) {
+      return [pick(["おはよう、" + name + "。", "おはよう。今日もいい日になるといいね"])];
+    }
+    if (/おやすみ|寝る/.test(t)) {
+      return [pick(["おやすみ。ゆっくり休んでね", "おやすみ、" + name + "。いい夢見てね"])];
+    }
+    if (/ありがとう|ありがと/.test(t)) {
+      return [pick(["どういたしまして", "ううん、こちらこそだよ", "えへへ、よかった"])];
+    }
+    if (/好き|大好き/.test(t)) {
+      if (tone >= 2) return [pick(["…ありがとう。私もだよ", "私も、" + name + "のことが好きだよ"])];
+      if (tone >= 1) return [pick(["え、ほんと？ …ありがとう", "ふふ、嬉しいな"])];
+      return [pick(["えっ…ありがとう", "そ、そうなんだ…ありがとう"])];
+    }
+    if (/疲れ|つかれ/.test(t)) {
+      return [pick(["お疲れさま。無理しないでね", "大丈夫？ 少し休んだ方がいいよ", "お疲れさま、" + name + "。今日はゆっくりしてね"])];
+    }
+    if (/ごはん|食べ|お腹|腹/.test(t)) {
+      const food = character.favoriteFood || "美味しいもの";
+      return [pick(["ごはんの話？ 私は" + food + "が好きだよ", "いいね、一緒に食べたいな"])];
+    }
+    if (/寂し|さみし/.test(t)) {
+      if (amaenbo) return [pick(["私も寂しかった…", "ねえ、もっとお話ししよう？"])];
+      return [pick(["…ここにいるよ", "大丈夫、私はここにいるから"])];
+    }
+    if (/今日|仕事|学校|バイト/.test(t)) {
+      return [pick(["今日はどんな日だった？", "ふんふん、それでどうだった？", "話してくれてありがとう"])];
+    }
+    if (/名前|自己紹介/.test(t)) {
+      return ["私は" + character.name + "だよ。よろしくね、" + name];
+    }
+    if (character.catchphrase && Math.random() < 0.25) {
+      return [pick(["うん、" + character.catchphrase, "そうだね。…あ、" + character.catchphrase])];
+    }
+    if (cool) {
+      return [pick(["うん", "そうなんだ", "…悪くないね", "ふーん、面白い話だね"])];
+    }
+    if (genki) {
+      return [pick(["ほんと！？ いいね！", "わかるわかる！", "それ、すっごく楽しそう！"])];
+    }
+    return [pick([
+      "うん、聞いてるよ",
+      "そうなんだ。もっと聞かせて",
+      "ふふ、" + name + "と話すの楽しいな",
+      "なるほどね"
+    ])];
+  }
+
+  function generateReply(character, player, userText) {
+    let replies = baseReply(character, player, userText);
+    // たまに短文を連投する
+    if (Math.random() < 0.3) {
+      replies = replies.concat([pick(["あ、そうだ", "ねえねえ", "…うん", "ふふ"])]);
+    }
+    return replies.map(function (r) { return applyDialect(r, character); });
+  }
+
+  // 部屋でタップ／なでた時の反応
+  function tapReaction(character) {
+    const lines = [
+      "ん？ なあに",
+      "えへへ、くすぐったい",
+      "…もっと撫でてもいいよ",
+      "呼んだ？",
+      "なあに、" + (character.catchphrase || "どうしたの")
+    ];
+    return applyDialect(pick(lines), character);
+  }
+
+  // 最初の挨拶（隣に引っ越してきた設定）
+  function firstGreeting(character, player) {
+    const text = "はじめまして、隣に引っ越してきた" + character.name + "です。"
+      + "連絡先を交換できて良かったです。"
+      + "困ったことがあったら、いつでも相談してくださいね。";
+    return applyDialect(text, character);
+  }
+
+  return {
+    generateReply: generateReply,
+    tapReaction: tapReaction,
+    firstGreeting: firstGreeting
+  };
+})();
+
+</script>
+<script>
+// ============================================================
+// LIVIA Life - アプリ本体（画面遷移とイベント）
+// ============================================================
+
+(function () {
+  "use strict";
+  const D = window.LIVIA_DATA;
+  const $ = function (id) { return document.getElementById(id); };
+
+  let currentUser = null;
+  let player = null;
+  let characters = [];
+  let currentCharId = null;
+
+  // ---------- 画面切り替え ----------
+  function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(function (s) {
+      s.classList.toggle("active", s.id === id);
+    });
+  }
+
+  function showTab(tab) {
+    document.querySelectorAll("nav.tabbar button").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.tab === tab);
+    });
+    ["room", "chat", "chars"].forEach(function (t) {
+      $("tab-" + t).style.display = t === tab ? (t === "chat" ? "flex" : "block") : "none";
+    });
+    if (tab === "chat") renderChat();
+    if (tab === "chars") renderCharList();
+  }
+
+  function toast(msg) {
+    const el = $("toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    setTimeout(function () { el.classList.remove("show"); }, 2600);
+  }
+
+  function currentChar() {
+    return characters.find(function (c) { return c.id === currentCharId; }) || characters[0] || null;
+  }
+
+  function refreshAiBadge() {
+    if (player) $("ai-balance").textContent = (player.ai || 0).toLocaleString();
+  }
+
+  // ---------- 起動 ----------
+  function start() {
+    if (!window.LIVIA_CONFIGURED) {
+      showScreen("screen-setup-notice");
+      return;
+    }
+    firebase.initializeApp(window.LIVIA_FIREBASE_CONFIG);
+    const auth = firebase.auth();
+
+    // リダイレクト方式ログインの結果受け取り
+    auth.getRedirectResult().catch(function (e) {
+      $("login-error").textContent = "ログインに失敗しました：" + e.message;
+    });
+
+    auth.onAuthStateChanged(async function (user) {
+      if (!user) {
+        currentUser = null;
+        showScreen("screen-login");
+        return;
+      }
+      currentUser = user;
+      window.LiviaDB.init(user.uid);
+      player = await window.LiviaDB.getPlayer();
+      if (!player) {
+        showScreen("screen-player-setup");
+        return;
+      }
+      await enterHome();
+    });
+  }
+
+  async function enterHome() {
+    characters = await window.LiviaDB.listCharacters();
+    if (characters.length && !currentCharId) currentCharId = characters[0].id;
+    refreshAiBadge();
+    showScreen("screen-home");
+    showTab("room");
+    renderRoom();
+    // ログインボーナス（1日1回）
+    const bonus = await window.LiviaDB.claimLoginBonus();
+    if (bonus) {
+      player = await window.LiviaDB.getPlayer();
+      refreshAiBadge();
+      toast("ログインボーナス " + bonus.amount + "Ai を受け取りました（" + bonus.days + "日目）");
+    }
+  }
+
+  // ---------- ログイン ----------
+  $("btn-google-login").addEventListener("click", function () {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider).catch(function (e) {
+      // ポップアップが使えない環境（スマホ等）ではリダイレクト方式に切り替える
+      if (e.code === "auth/popup-blocked" || e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request") {
+        firebase.auth().signInWithRedirect(provider);
+      } else {
+        $("login-error").textContent = "ログインに失敗しました：" + e.message;
+      }
+    });
+  });
+
+  $("btn-logout").addEventListener("click", function () {
+    firebase.auth().signOut();
+  });
+
+  // ---------- プレイヤー登録 ----------
+  $("form-player").addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    const name = $("p-name").value.trim();
+    const nickname = $("p-nickname").value.trim();
+    const gender = $("p-gender").value;
+    if (!name || !gender) {
+      $("player-error").textContent = "名前と性別は必須です。";
+      return;
+    }
+    player = await window.LiviaDB.createPlayer({
+      name: name,
+      nickname: nickname || name,
+      gender: gender
+    });
+    toast("登録しました。開始ボーナス " + D.economy.startAi + "Ai");
+    await enterHome();
+  });
+
+  // ---------- タブ ----------
+  document.querySelectorAll("nav.tabbar button").forEach(function (b) {
+    b.addEventListener("click", function () { showTab(b.dataset.tab); });
+  });
+  document.querySelectorAll("[data-goto-create]").forEach(function (b) {
+    b.addEventListener("click", openCharCreate);
+  });
+  $("btn-new-char").addEventListener("click", openCharCreate);
+  $("btn-back-home").addEventListener("click", function () {
+    showScreen("screen-home");
+  });
+
+  // ---------- 部屋 ----------
+  function renderRoom() {
+    const c = currentChar();
+    $("room-empty").style.display = c ? "none" : "block";
+    $("room-main").style.display = c ? "block" : "none";
+    if (!c) return;
+    currentCharId = c.id;
+    $("room-avatar").innerHTML = window.LiviaAvatar.svg(c, 220);
+    $("room-char-name").textContent = c.name;
+    $("room-char-meta").textContent =
+      (c.relationship || "") + " ・ " + (c.age || "") + "歳 ・ " + (c.occupationLabel || c.occupation || "");
+    $("room-reaction").textContent = "";
+    // キャラ切り替え
+    const sw = $("char-switch");
+    sw.innerHTML = "";
+    characters.forEach(function (ch) {
+      const b = document.createElement("button");
+      b.textContent = ch.name;
+      if (ch.id === c.id) b.className = "active";
+      b.addEventListener("click", function () {
+        currentCharId = ch.id;
+        renderRoom();
+      });
+      sw.appendChild(b);
+    });
+  }
+
+  async function doTap() {
+    const c = currentChar();
+    if (!c) return;
+    $("room-reaction").textContent = window.LiviaChatAI.tapReaction(c);
+    await window.LiviaDB.addAffection(c.id, 1);
+    c.affection = (c.affection || 0) + 1;
+  }
+  $("room-avatar").addEventListener("click", doTap);
+  $("btn-naderu").addEventListener("click", doTap);
+  $("btn-to-chat").addEventListener("click", function () { showTab("chat"); });
+
+  // ---------- キャラ一覧 ----------
+  function renderCharList() {
+    const wrap = $("char-list");
+    wrap.innerHTML = "";
+    if (!characters.length) {
+      wrap.innerHTML = '<div class="empty">まだキャラクターがいません。</div>';
+    }
+    characters.forEach(function (c) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.style.marginBottom = "12px";
+      card.style.display = "flex";
+      card.style.gap = "14px";
+      card.style.alignItems = "center";
+      card.innerHTML = "<div></div><div><strong></strong><br><small style='color:#8b84a0;'></small></div>";
+      card.firstChild.innerHTML = window.LiviaAvatar.svg(c, 72);
+      card.querySelector("strong").textContent = c.name;
+      card.querySelector("small").textContent =
+        (c.relationship || "") + " ・ " + (c.occupationLabel || "") + " ・ " + (c.dialect || "");
+      card.addEventListener("click", function () {
+        currentCharId = c.id;
+        renderRoom();
+        showTab("room");
+      });
+      wrap.appendChild(card);
+    });
+    $("btn-new-char").disabled = characters.length >= 3;
+  }
+
+  // ---------- 会話 ----------
+  async function renderChat() {
+    const c = currentChar();
+    $("chat-empty").style.display = c ? "none" : "block";
+    $("chat-main").style.display = c ? "flex" : "none";
+    if (!c) return;
+    const log = $("chat-log");
+    log.innerHTML = "";
+    const msgs = await window.LiviaDB.listMessages(c.id, 100);
+    if (!msgs.length) {
+      // 最初の挨拶（隣に引っ越してきた設定）
+      const greeting = window.LiviaChatAI.firstGreeting(c, player);
+      await window.LiviaDB.addMessage(c.id, "character", greeting);
+      appendBubble("character", greeting);
+    } else {
+      msgs.forEach(function (m) { appendBubble(m.sender, m.text); });
+    }
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function appendBubble(sender, text) {
+    const log = $("chat-log");
+    const div = document.createElement("div");
+    div.className = "bubble " + (sender === "player" ? "player" : "char");
+    div.textContent = text;
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+    return div;
+  }
+
+  $("form-chat").addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    const c = currentChar();
+    if (!c) return;
+    const input = $("chat-input");
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    appendBubble("player", text);
+    await window.LiviaDB.addMessage(c.id, "player", text);
+
+    // 入力中表示 → 少し待って返信（連投は吹き出しを分ける）
+    $("chat-typing").style.display = "block";
+    const replies = window.LiviaChatAI.generateReply(c, player, text);
+    let delay = 700;
+    for (const r of replies) {
+      await new Promise(function (res) { setTimeout(res, delay); });
+      appendBubble("character", r);
+      await window.LiviaDB.addMessage(c.id, "character", r);
+      delay = 500;
+    }
+    $("chat-typing").style.display = "none";
+
+    // 会話1往復で1Ai、好感度も少し上がる
+    const balance = await window.LiviaDB.addAi(D.economy.chatRewardPerRound);
+    player.ai = balance;
+    refreshAiBadge();
+    await window.LiviaDB.addAffection(c.id, 1);
+    c.affection = (c.affection || 0) + 1;
+  });
+
+  // ---------- キャラ作成フォーム ----------
+  function fillSelect(id, items, getLabel) {
+    const sel = $(id);
+    sel.innerHTML = "";
+    items.forEach(function (item) {
+      const opt = document.createElement("option");
+      if (typeof item === "string") {
+        opt.value = item; opt.textContent = item;
+      } else {
+        opt.value = item.value; opt.textContent = getLabel ? getLabel(item) : item.label;
+      }
+      sel.appendChild(opt);
+    });
+  }
+
+  function initCharForm() {
+    fillSelect("c-relationship", D.relationships.concat(["その他（自由入力）"]));
+    fillSelect("c-occupation", D.occupations.concat(["その他"]));
+    fillSelect("c-hairstyle", D.hairStyles);
+    fillSelect("c-haircolor", D.hairColors);
+    fillSelect("c-eyecolor", D.eyeColors);
+    fillSelect("c-lonely", D.lonelyStyles);
+    fillSelect("c-speech", D.speechStyles);
+    fillSelect("c-dialect", D.dialects);
+    fillSelect("c-dialect-level", D.dialectLevels);
+    fillSelect("c-blood", D.bloodTypes);
+    fillSelect("c-hand", D.dominantHands);
+    const tags = $("c-tags");
+    tags.innerHTML = "";
+    D.personalityTags.forEach(function (t) {
+      const label = document.createElement("label");
+      const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.value = t; cb.name = "ptag";
+      label.appendChild(cb);
+      label.appendChild(document.createTextNode(t));
+      tags.appendChild(label);
+    });
+    updateAvatarPreview();
+  }
+
+  function selectedCharAppearance() {
+    return {
+      hairStyle: $("c-hairstyle").value,
+      hairColor: $("c-haircolor").value,
+      eyeColor: $("c-eyecolor").value
+    };
+  }
+
+  function updateAvatarPreview() {
+    $("c-avatar-preview").innerHTML = window.LiviaAvatar.svg(selectedCharAppearance(), 140);
+  }
+  ["c-hairstyle", "c-haircolor", "c-eyecolor"].forEach(function (id) {
+    document.addEventListener("change", function (e) {
+      if (e.target && e.target.id === id) updateAvatarPreview();
+    });
+  });
+
+  $("c-relationship").addEventListener("change", function () {
+    $("c-relationship-free").style.display = this.value.indexOf("その他") === 0 ? "block" : "none";
+  });
+  $("c-occupation").addEventListener("change", function () {
+    $("c-occupation-free").style.display = this.value === "その他" ? "block" : "none";
+    $("field-parttime").style.display = this.value === "学生" ? "block" : "none";
+  });
+
+  function openCharCreate() {
+    if (characters.length >= 3) {
+      toast("キャラは最大3人までです");
+      return;
+    }
+    showScreen("screen-char-create");
+  }
+
+  // おまかせ（ランダム自動入力）
+  $("btn-omakase").addEventListener("click", function () {
+    const pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
+    const names = ["さくら", "ゆう", "れん", "あおい", "そら", "ひなた", "つむぎ", "かいと"];
+    $("c-name").value = pick(names);
+    $("c-gender").value = pick(["女", "男"]);
+    $("c-age").value = 16 + Math.floor(Math.random() * 15);
+    $("c-relationship").value = pick(D.relationships);
+    $("c-occupation").value = pick(D.occupations);
+    $("c-occupation").dispatchEvent(new Event("change"));
+    $("c-hairstyle").value = pick(D.hairStyles).value;
+    $("c-haircolor").value = pick(D.hairColors).value;
+    $("c-eyecolor").value = pick(D.eyeColors).value;
+    $("c-firstperson").value = pick(["私", "ぼく", "俺", "あたし"]);
+    $("c-lonely").value = pick(D.lonelyStyles);
+    $("c-speech").value = pick(D.speechStyles);
+    $("c-dialect").value = pick(D.dialects);
+    $("c-dialect-level").value = pick(D.dialectLevels).value;
+    document.querySelectorAll("input[name='ptag']").forEach(function (cb) {
+      cb.checked = Math.random() < 0.25;
+    });
+    if (!document.querySelector("input[name='ptag']:checked")) {
+      document.querySelector("input[name='ptag']").checked = true;
+    }
+    updateAvatarPreview();
+  });
+
+  $("form-char").addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    const err = $("char-error");
+    const name = $("c-name").value.trim();
+    const gender = $("c-gender").value;
+    const age = parseInt($("c-age").value, 10);
+    const birthday = $("c-birthday").value;
+    const tags = Array.from(document.querySelectorAll("input[name='ptag']:checked")).map(function (cb) { return cb.value; });
+    if (!name || !gender || !(age >= 5 && age <= 100) || !birthday || !tags.length || !$("c-firstperson").value.trim()) {
+      err.textContent = "必須項目（名前・性別・年齢・誕生日・性格・一人称）を全て埋めてください。";
+      return;
+    }
+    err.textContent = "";
+    let relationship = $("c-relationship").value;
+    if (relationship.indexOf("その他") === 0) relationship = $("c-relationship-free").value.trim() || "その他";
+    let occupation = $("c-occupation").value;
+    let occupationLabel = occupation;
+    if (occupation === "その他") occupationLabel = $("c-occupation-free").value.trim() || "その他";
+
+    const data = Object.assign(selectedCharAppearance(), {
+      name: name,
+      gender: gender,
+      age: age,
+      birthday: birthday,
+      relationship: relationship,
+      occupation: occupation,
+      occupationLabel: occupationLabel,
+      parttime: occupation === "学生" ? $("c-parttime").value : "none",
+      build: $("c-build").value.trim(),
+      appearanceNote: $("c-appearance").value.trim(),
+      firstPerson: $("c-firstperson").value.trim(),
+      personalityTags: tags,
+      catchphrase: $("c-catchphrase").value.trim(),
+      lonelyStyle: $("c-lonely").value,
+      speechStyle: $("c-speech").value,
+      favoriteFood: $("c-food").value.trim(),
+      dialect: $("c-dialect").value,
+      dialectLevel: $("c-dialect-level").value,
+      nationality: $("c-nationality").value.trim(),
+      bloodType: $("c-blood").value,
+      dominantHand: $("c-hand").value
+    });
+
+    const created = await window.LiviaDB.createCharacter(data);
+    characters.push(created);
+    currentCharId = created.id;
+    toast(created.name + " が隣に引っ越してきました！");
+    showScreen("screen-home");
+    renderRoom();
+    showTab("room");
+  });
+
+  // ---------- 起動 ----------
+  initCharForm();
+  start();
+})();
+
+</script>
+</body>
+</html>
