@@ -189,6 +189,105 @@ main { flex: 1; padding: 16px; overflow-y: auto; }
 .toast.show { opacity: 1; }
 .empty { text-align: center; color: var(--sub); padding: 40px 16px; line-height: 1.8; }
 
+/* ---------- 部屋（追加要素） ---------- */
+.room-house { font-size: 13px; color: var(--main-dark); font-weight: bold; margin-bottom: 6px; }
+.room-furniture { font-size: 24px; letter-spacing: 4px; min-height: 30px; margin-top: 6px; }
+.portrait-img {
+  width: 220px; height: 293px; object-fit: cover; border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(61,53,80,0.18); background: #f3e9f7;
+}
+
+/* ---------- 会話ヘッダー ---------- */
+.chat-head {
+  display: flex; align-items: center; gap: 10px; padding: 8px 4px 10px;
+  font-weight: bold; font-size: 15px;
+}
+.chat-head img { border-radius: 10px; object-fit: cover; }
+.chat-portrait-img { width: 44px; height: 58px; object-fit: cover; border-radius: 10px; background: #f3e9f7; }
+.chat-head svg { border-radius: 10px; }
+
+/* ---------- お店・所持品・ガチャのグリッド ---------- */
+.shop-cats { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.shop-cats button {
+  border: 2px solid #e3dcf2; background: #fff; border-radius: 999px;
+  padding: 8px 14px; font-size: 14px; cursor: pointer; white-space: nowrap;
+}
+.shop-cats button.active { border-color: var(--main); background: #f1ecfa; font-weight: bold; }
+.item-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.item-card {
+  background: var(--card); border-radius: 14px; padding: 12px;
+  box-shadow: 0 2px 8px rgba(61,53,80,0.08); text-align: center;
+}
+.item-card .item-icon { font-size: 34px; }
+.item-card .item-name { font-weight: bold; font-size: 14px; margin-top: 4px; }
+.item-card .item-desc { color: var(--sub); font-size: 11px; margin-top: 2px; line-height: 1.5; }
+.item-card .item-price { color: #a86e00; font-weight: bold; font-size: 13px; margin: 6px 0; }
+.item-card .item-count { color: var(--main-dark); font-weight: bold; font-size: 12px; }
+.rarity-badge {
+  display: inline-block; font-size: 11px; font-weight: bold; color: #fff;
+  border-radius: 999px; padding: 2px 9px; margin-top: 4px;
+}
+
+/* ---------- ガチャ ---------- */
+.gacha-rates { margin-top: 14px; font-size: 12px; color: var(--sub); line-height: 1.9; }
+.gacha-result-item {
+  background: var(--card); border-radius: 14px; padding: 10px; text-align: center;
+  box-shadow: 0 2px 8px rgba(61,53,80,0.08);
+}
+.gacha-result-item .item-icon { font-size: 30px; }
+
+/* ---------- モーダル ---------- */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(40,32,60,0.55);
+  display: flex; align-items: flex-end; justify-content: center; z-index: 60;
+}
+.modal-card {
+  background: var(--bg); width: 100%; max-width: 480px; max-height: 86dvh;
+  border-radius: 20px 20px 0 0; display: flex; flex-direction: column; overflow: hidden;
+}
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px; font-weight: bold; font-size: 17px; background: #fff;
+  border-bottom: 1px solid #e9e2f5;
+}
+.modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--sub); }
+.modal-body { padding: 16px; overflow-y: auto; }
+.modal-body .row-btns { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+.list-row {
+  display: flex; align-items: center; gap: 10px; background: #fff; border-radius: 12px;
+  padding: 10px 12px; margin-bottom: 8px; box-shadow: 0 1px 5px rgba(61,53,80,0.07);
+}
+.list-row .grow { flex: 1; text-align: left; }
+
+/* ---------- お出かけシーン ---------- */
+.outing-scene { text-align: center; }
+.outing-place { font-size: 15px; font-weight: bold; color: var(--main-dark); margin-bottom: 10px; }
+.outing-line {
+  background: #fff; border-radius: 14px; padding: 12px 14px; margin-top: 12px;
+  font-size: 15px; line-height: 1.6; box-shadow: 0 1px 5px rgba(61,53,80,0.10);
+  text-align: left;
+}
+
+/* ---------- ミニゲーム ---------- */
+.mg-area { text-align: center; padding: 8px 0; }
+.mg-big { font-size: 44px; font-weight: bold; margin: 14px 0; }
+.mg-cards { display: flex; gap: 14px; justify-content: center; margin: 12px 0; }
+.mg-card {
+  width: 74px; height: 104px; border-radius: 10px; background: #fff;
+  border: 2px solid #e3dcf2; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; font-size: 30px; font-weight: bold;
+  box-shadow: 0 2px 8px rgba(61,53,80,0.10);
+}
+.mg-card small { font-size: 11px; color: var(--sub); font-weight: normal; }
+.mg-status { min-height: 24px; font-size: 15px; margin: 8px 0; line-height: 1.6; }
+select.level-select { width: auto; display: inline-block; padding: 8px 10px; }
+
+/* ---------- 文字サイズ設定 ---------- */
+html[data-font="small"] .bubble, html[data-font="small"] .outing-line { font-size: 13px; }
+html[data-font="large"] .bubble, html[data-font="large"] .outing-line { font-size: 18px; }
+html[data-font="large"] .reaction { font-size: 16px; }
+html[data-font="small"] .reaction { font-size: 12px; }
+
 </style>
 </head>
 <body>
@@ -251,12 +350,11 @@ main { flex: 1; padding: 16px; overflow-y: auto; }
     </div>
   </section>
 
-  <!-- メイン（部屋／会話／キャラ） -->
+  <!-- メイン（部屋／会話／お店／ガチャ／その他） -->
   <section id="screen-home" class="screen">
     <header class="topbar">
       <div>
         <div class="title">LIVIA Life</div>
-        <button class="logout-link" id="btn-logout">ログアウト</button>
       </div>
       <div class="ai-badge">💰 <span id="ai-balance">0</span> Ai</div>
     </header>
@@ -268,15 +366,23 @@ main { flex: 1; padding: 16px; overflow-y: auto; }
       </div>
       <div id="room-main" style="display:none;">
         <div class="room">
+          <div class="room-house" id="room-house"></div>
           <div class="window"></div>
           <div class="avatar-wrap" id="room-avatar" title="タップで反応"></div>
+          <div class="room-furniture" id="room-furniture"></div>
           <div class="char-name" id="room-char-name"></div>
           <div class="char-meta" id="room-char-meta"></div>
           <div class="reaction" id="room-reaction"></div>
           <div class="room-actions">
             <button class="btn small" id="btn-to-chat">💬 会話する</button>
             <button class="btn small sub" id="btn-naderu">🤲 なでる</button>
+            <button class="btn small sub" id="btn-dressup">👗 着せ替え</button>
+            <button class="btn small sub" id="btn-present">🎁 プレゼント</button>
+            <button class="btn small sub" id="btn-outing">🚶 お出かけ</button>
+            <button class="btn small sub" id="btn-minigame">🎮 ミニゲーム</button>
+            <button class="btn small sub" id="btn-fortune">🔮 占い</button>
           </div>
+          <p class="note" style="margin-top:10px;">イラストは外部の無料生成サービスで作っているため、表示まで時間がかかることがあります。</p>
         </div>
         <div class="char-switch" id="char-switch"></div>
       </div>
@@ -288,6 +394,11 @@ main { flex: 1; padding: 16px; overflow-y: auto; }
         <button class="btn" data-goto-create>キャラを作る</button>
       </div>
       <div id="chat-main" style="display:none;flex-direction:column;flex:1;min-height:0;">
+        <div class="chat-head">
+          <span id="chat-portrait"></span>
+          <span id="chat-char-name"></span>
+          <button class="btn small sub" id="btn-regen-portrait" style="margin-left:auto;">🎨 イラスト再生成</button>
+        </div>
         <div class="chat-log" id="chat-log" style="overflow-y:auto;flex:1;"></div>
         <div class="typing" id="chat-typing" style="display:none;">入力中…</div>
         <form class="chat-form" id="form-chat">
@@ -297,17 +408,69 @@ main { flex: 1; padding: 16px; overflow-y: auto; }
       </div>
     </main>
 
-    <main id="tab-chars" class="tab-page" style="display:none;">
+    <main id="tab-shop" class="tab-page" style="display:none;">
+      <div class="shop-cats" id="shop-cats"></div>
+      <p class="lead" id="shop-note" style="color:var(--sub);font-size:13px;margin:10px 0;line-height:1.6;"></p>
+      <div class="item-grid" id="shop-grid"></div>
+    </main>
+
+    <main id="tab-gacha" class="tab-page" style="display:none;">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:22px;font-weight:bold;">🎰 ガチャ</div>
+        <p style="color:var(--sub);font-size:13px;margin:8px 0;line-height:1.7;">
+          1回 <strong>200Ai</strong> ／ 10連 <strong>2000Ai</strong><br>
+          限定の服や体験アイテムが出るよ（天井なし・重複あり）
+        </p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn" id="btn-gacha-1">1回引く</button>
+          <button class="btn" id="btn-gacha-10">10連</button>
+          <button class="btn sub" id="btn-gacha-detail">詳細</button>
+        </div>
+        <div class="gacha-rates" id="gacha-rates"></div>
+      </div>
+      <div id="gacha-result" style="margin-top:14px;"></div>
+      <h3 style="margin:18px 0 10px;">コレクション</h3>
+      <div class="item-grid" id="gacha-collection"></div>
+    </main>
+
+    <main id="tab-other" class="tab-page" style="display:none;">
+      <h3 style="margin-bottom:10px;">👥 キャラクター</h3>
       <div id="char-list"></div>
-      <div style="text-align:center;margin-top:16px;">
+      <div style="text-align:center;margin:14px 0 24px;">
         <button class="btn" id="btn-new-char">＋ キャラを作る（最大3人）</button>
+      </div>
+
+      <h3 style="margin-bottom:10px;">🎒 所持品</h3>
+      <div class="item-grid" id="inventory-grid" style="margin-bottom:24px;"></div>
+
+      <h3 style="margin-bottom:10px;">⚙️ 設定</h3>
+      <div class="card" style="margin-bottom:14px;">
+        <label class="field"><span>文字サイズ</span>
+          <select id="setting-fontsize">
+            <option value="small">小さい</option>
+            <option value="normal">ふつう</option>
+            <option value="large">大きい</option>
+          </select>
+        </label>
+        <form id="form-code">
+          <label class="field"><span>プレゼントコード</span>
+            <input type="text" id="code-input" placeholder="コードを入力" autocomplete="off">
+          </label>
+          <button type="submit" class="btn small">コードを使う</button>
+          <span class="error" id="code-message" style="margin-left:8px;"></span>
+        </form>
+      </div>
+      <div style="text-align:center;padding-bottom:20px;">
+        <button class="btn sub" id="btn-logout">ログアウト</button>
       </div>
     </main>
 
     <nav class="tabbar">
       <button data-tab="room" class="active"><span class="tab-icon">🏠</span>部屋</button>
       <button data-tab="chat"><span class="tab-icon">💬</span>会話</button>
-      <button data-tab="chars"><span class="tab-icon">👥</span>キャラ</button>
+      <button data-tab="shop"><span class="tab-icon">🛍️</span>お店</button>
+      <button data-tab="gacha"><span class="tab-icon">🎰</span>ガチャ</button>
+      <button data-tab="other"><span class="tab-icon">⚙️</span>その他</button>
     </nav>
   </section>
 
@@ -358,6 +521,7 @@ main { flex: 1; padding: 16px; overflow-y: auto; }
           <textarea id="c-appearance" rows="2" maxlength="200" placeholder="例：黒髪に白のグラデーション、タトゥーがある"></textarea>
         </label>
         <div style="text-align:center;margin:6px 0 16px;" id="c-avatar-preview"></div>
+        <p class="note" style="margin:-6px 0 14px;">決定すると、この見た目をもとにAIイラストも生成されます。外部の無料生成サービスを使うため、イラストの表示まで時間がかかることがあります（その間は簡易アバターで表示されます）。</p>
 
         <h3 style="margin:18px 0 10px;">性格テンプレート</h3>
         <label class="field"><span>一人称 *</span>
@@ -403,6 +567,18 @@ main { flex: 1; padding: 16px; overflow-y: auto; }
   </section>
 
 </div>
+
+<!-- 汎用モーダル（着せ替え／プレゼント／お出かけ／ミニゲーム／ガチャ詳細など） -->
+<div class="modal-overlay" id="modal" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span id="modal-title"></span>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Firebase SDK（compat版：ビルド不要でそのまま使える） -->
@@ -528,6 +704,229 @@ window.LIVIA_DATA = {
     startAi: 1000,        // 開始時の所持Ai
     loginBonusBase: 50,   // ログインボーナス1日目（ログイン日数ごとに+1、上限なし）
     chatRewardPerRound: 1 // 会話1往復で1Ai
+  },
+
+  // ==========================================================
+  // お店カタログ（価格は仕様の目安に準拠）
+  // アイテムは全カタログ共通で id を持ち、所持品は { itemId: 個数 } で管理する。
+  // kind: "food"（コンビニ等・プレゼント可）/ "clothes"（着せ替え用）/
+  //       "furniture"（部屋に飾る）/ "gift"（プレゼント用）/ "item"（ガチャ等の汎用）
+  // clothes には part（head/body/lower/feet/set）と
+  // SVGアバター用の color、イラスト生成プロンプト用の en（英語の服の説明）を持たせる。
+  // ==========================================================
+
+  // コンビニ（食事は1食100Aiくらいが目安）
+  convenienceItems: [
+    { id: "cv_onigiri", name: "おにぎり", price: 100, kind: "food", icon: "🍙" },
+    { id: "cv_sandwich", name: "サンドイッチ", price: 150, kind: "food", icon: "🥪" },
+    { id: "cv_bento", name: "唐揚げ弁当", price: 200, kind: "food", icon: "🍱" },
+    { id: "cv_pudding", name: "プリン", price: 120, kind: "food", icon: "🍮" },
+    { id: "cv_ice", name: "アイスクリーム", price: 130, kind: "food", icon: "🍨" },
+    { id: "cv_nikuman", name: "肉まん", price: 110, kind: "food", icon: "🥟" },
+    { id: "cv_ramen", name: "カップ麺", price: 140, kind: "food", icon: "🍜" },
+    { id: "cv_choco", name: "チョコレート", price: 100, kind: "food", icon: "🍫" },
+    { id: "cv_juice", name: "フルーツジュース", price: 120, kind: "food", icon: "🧃" },
+    { id: "cv_coffee", name: "缶コーヒー", price: 130, kind: "food", icon: "☕" }
+  ],
+
+  // 服屋（普通の服1着500Aiくらいが目安。浴衣・水着などはガチャ限定）
+  clothesItems: [
+    // 頭
+    { id: "cl_cap", name: "キャップ", price: 500, kind: "clothes", part: "head", color: "#d9534f", icon: "🧢", en: "a red baseball cap" },
+    { id: "cl_knit", name: "ニット帽", price: 600, kind: "clothes", part: "head", color: "#7a9cc6", icon: "🎩", en: "a blue knit hat" },
+    { id: "cl_ribbon", name: "リボン", price: 400, kind: "clothes", part: "head", color: "#f2a7c3", icon: "🎀", en: "a pink ribbon in the hair" },
+    { id: "cl_headband", name: "カチューシャ", price: 450, kind: "clothes", part: "head", color: "#c9a03a", icon: "👑", en: "a golden headband" },
+    { id: "cl_strawhat", name: "麦わら帽子", price: 550, kind: "clothes", part: "head", color: "#e6cf8a", icon: "👒", en: "a straw hat" },
+    // 上半身
+    { id: "cl_tshirt", name: "白いTシャツ", price: 500, kind: "clothes", part: "body", color: "#f5f5f5", icon: "👕", en: "a plain white t-shirt" },
+    { id: "cl_cardigan", name: "カーディガン", price: 1200, kind: "clothes", part: "body", color: "#a8c8a0", icon: "🧥", en: "a light green cardigan over a white inner shirt" },
+    { id: "cl_hoodie", name: "パーカー", price: 1500, kind: "clothes", part: "body", color: "#8d7fc9", icon: "🧥", en: "a purple hoodie" },
+    { id: "cl_blouse", name: "ブラウス", price: 1300, kind: "clothes", part: "body", color: "#f7e8ef", icon: "👚", en: "a pale pink blouse" },
+    { id: "cl_sweater", name: "セーター", price: 1400, kind: "clothes", part: "body", color: "#d9a05a", icon: "🧶", en: "a warm orange knit sweater" },
+    { id: "cl_jacket", name: "ジャケット", price: 3000, kind: "clothes", part: "body", color: "#4a4a5a", icon: "🧥", en: "a stylish dark jacket" },
+    // 下半身
+    { id: "cl_jeans", name: "ジーンズ", price: 1200, kind: "clothes", part: "lower", color: "#4a6a9c", icon: "👖", en: "blue jeans" },
+    { id: "cl_skirt", name: "スカート", price: 1100, kind: "clothes", part: "lower", color: "#c96a8a", icon: "👗", en: "a rose pink skirt" },
+    { id: "cl_shorts", name: "ショートパンツ", price: 900, kind: "clothes", part: "lower", color: "#8a9a5b", icon: "🩳", en: "olive short pants" },
+    { id: "cl_slacks", name: "スラックス", price: 1600, kind: "clothes", part: "lower", color: "#3d3550", icon: "👖", en: "dark formal slacks" },
+    { id: "cl_pleats", name: "プリーツスカート", price: 1300, kind: "clothes", part: "lower", color: "#6f5fb3", icon: "👗", en: "a purple pleated skirt" },
+    // 靴
+    { id: "cl_sneakers", name: "スニーカー", price: 1500, kind: "clothes", part: "feet", color: "#e8e8e8", icon: "👟", en: "white sneakers" },
+    { id: "cl_loafers", name: "ローファー", price: 1800, kind: "clothes", part: "feet", color: "#6b4a2f", icon: "👞", en: "brown loafers" },
+    { id: "cl_boots", name: "ブーツ", price: 2500, kind: "clothes", part: "feet", color: "#2e2e2e", icon: "🥾", en: "black boots" },
+    { id: "cl_sandals", name: "サンダル", price: 800, kind: "clothes", part: "feet", color: "#c9a86a", icon: "🩴", en: "summer sandals" },
+    { id: "cl_pumps", name: "パンプス", price: 2000, kind: "clothes", part: "feet", color: "#b03a5b", icon: "👠", en: "red high-heel pumps" },
+    // セット（胴体＋下半身）
+    { id: "cl_onepiece", name: "ワンピース", price: 2500, kind: "clothes", part: "set", color: "#7fb3d9", icon: "👗", en: "a light blue one-piece dress" },
+    { id: "cl_pajama", name: "パジャマセット", price: 1200, kind: "clothes", part: "set", color: "#f2d5e0", icon: "🛌", en: "soft pink pajamas" },
+    { id: "cl_kigurumi", name: "着ぐるみパジャマ", price: 2000, kind: "clothes", part: "set", color: "#a8d8a8", icon: "🐻", en: "a cute animal kigurumi pajama onesie" }
+  ],
+
+  // 家具屋（ソファ3000Aiくらいが目安）
+  furnitureItems: [
+    { id: "fu_sofa", name: "ソファ", price: 3000, kind: "furniture", icon: "🛋️" },
+    { id: "fu_bed", name: "ベッド", price: 8000, kind: "furniture", icon: "🛏️" },
+    { id: "fu_tv", name: "テレビ", price: 15000, kind: "furniture", icon: "📺" },
+    { id: "fu_bookshelf", name: "本棚", price: 6000, kind: "furniture", icon: "📚" },
+    { id: "fu_desk", name: "デスク", price: 7000, kind: "furniture", icon: "🖥️" },
+    { id: "fu_plant", name: "観葉植物", price: 1200, kind: "furniture", icon: "🪴" },
+    { id: "fu_rug", name: "ラグ", price: 2500, kind: "furniture", icon: "🧶" },
+    { id: "fu_table", name: "テーブル", price: 4000, kind: "furniture", icon: "🪑" },
+    { id: "fu_chair", name: "ゲーミングチェア", price: 12000, kind: "furniture", icon: "💺" },
+    { id: "fu_light", name: "間接照明", price: 3500, kind: "furniture", icon: "💡" }
+  ],
+
+  // プレゼント屋（普通のプレゼント1個1000Aiくらいが目安）
+  giftItems: [
+    { id: "gf_flowers", name: "花束", price: 1000, kind: "gift", icon: "💐" },
+    { id: "gf_plush", name: "ぬいぐるみ", price: 1500, kind: "gift", icon: "🧸" },
+    { id: "gf_necklace", name: "ネックレス", price: 3000, kind: "gift", icon: "📿" },
+    { id: "gf_perfume", name: "香水", price: 2500, kind: "gift", icon: "🧴" },
+    { id: "gf_cookies", name: "手作りクッキー", price: 800, kind: "gift", icon: "🍪" },
+    { id: "gf_choco", name: "高級チョコ", price: 2000, kind: "gift", icon: "🍫" },
+    { id: "gf_watch", name: "腕時計", price: 10000, kind: "gift", icon: "⌚" },
+    { id: "gf_muffler", name: "マフラー", price: 1800, kind: "gift", icon: "🧣" }
+  ],
+
+  // 不動産（広いアパート5万Ai・普通の一軒家500万Ai・最上級は10億Aiが目安）
+  // 家はプレイヤーが買い、キャラごとに住む家を切り替えられる。
+  houses: [
+    { id: "house_apartment", name: "今のアパート", price: 0, icon: "🏠", desc: "住み慣れた隣同士のアパート" },
+    { id: "house_oneroom", name: "ワンルームマンション", price: 30000, icon: "🏢", desc: "駅近で便利なマンション" },
+    { id: "house_wide", name: "広いアパート", price: 50000, icon: "🏢", desc: "部屋が広くて家具もたくさん置ける" },
+    { id: "house_log", name: "ログハウス", price: 300000, icon: "🛖", desc: "木のぬくもりがある家" },
+    { id: "house_detached", name: "普通の一軒家", price: 5000000, icon: "🏡", desc: "庭付きの一軒家" },
+    { id: "house_penthouse", name: "ペントハウス", price: 50000000, icon: "🌃", desc: "高層階からの眺めが最高" },
+    { id: "house_mansion", name: "豪邸", price: 1000000000, icon: "🏰", desc: "お城みたいな最高級の家" }
+  ],
+
+  // お店タブのカテゴリ
+  shopCategories: [
+    { id: "convenience", name: "コンビニ", icon: "🏪" },
+    { id: "clothes", name: "服屋", icon: "👗" },
+    { id: "furniture", name: "家具屋", icon: "🛋️" },
+    { id: "gifts", name: "プレゼント屋", icon: "🎁" },
+    { id: "houses", name: "不動産", icon: "🏠" }
+  ],
+
+  // ==========================================================
+  // ガチャ（1回200Ai・10連あり・天井なし・重複あり）
+  // 確率: ノーマル70% / レア20% / スーパーレア5% / ウルトラレア4.5% / ゴッドレア0.5%
+  // ==========================================================
+  gacha: {
+    cost: 200,
+    rates: [
+      { rarity: "ノーマル", rate: 70 },
+      { rarity: "レア", rate: 20 },
+      { rarity: "スーパーレア", rate: 5 },
+      { rarity: "ウルトラレア", rate: 4.5 },
+      { rarity: "ゴッドレア", rate: 0.5 }
+    ],
+    rarityColors: {
+      "ノーマル": "#9a93ad",
+      "レア": "#5a8ec9",
+      "スーパーレア": "#9b59c9",
+      "ウルトラレア": "#e08a00",
+      "ゴッドレア": "#e0457b"
+    },
+    prizes: [
+      // ノーマル
+      { id: "ga_handkerchief", name: "ハンカチ", rarity: "ノーマル", kind: "item", icon: "🧻" },
+      { id: "ga_badge", name: "缶バッジ", rarity: "ノーマル", kind: "item", icon: "🔘" },
+      { id: "ga_snack", name: "お菓子セット", rarity: "ノーマル", kind: "food", icon: "🍬" },
+      { id: "ga_sticker", name: "ステッカー", rarity: "ノーマル", kind: "item", icon: "⭐" },
+      { id: "ga_towel", name: "ミニタオル", rarity: "ノーマル", kind: "item", icon: "🧺" },
+      { id: "ga_pen", name: "ボールペン", rarity: "ノーマル", kind: "item", icon: "🖊️" },
+      // レア
+      { id: "ga_canvas", name: "キャンバス", rarity: "レア", kind: "item", icon: "🎨" },
+      { id: "ga_boardgame", name: "ボードゲーム", rarity: "レア", kind: "item", icon: "🎲" },
+      { id: "ga_fireworks", name: "花火セット", rarity: "レア", kind: "item", icon: "🎆" },
+      { id: "ga_karaoke", name: "カラオケ券", rarity: "レア", kind: "item", icon: "🎤" },
+      { id: "ga_fishing", name: "釣りセット", rarity: "レア", kind: "item", icon: "🎣" },
+      { id: "ga_camp", name: "キャンプセット", rarity: "レア", kind: "item", icon: "🏕️" },
+      // スーパーレア
+      { id: "ga_bikini_white", name: "白のフリルビキニ", rarity: "スーパーレア", kind: "clothes", part: "set", color: "#f7f3ee", icon: "👙", en: "a white frilly bikini swimsuit" },
+      { id: "ga_guitar", name: "ギター", rarity: "スーパーレア", kind: "item", icon: "🎸" },
+      { id: "ga_onsen", name: "温泉券", rarity: "スーパーレア", kind: "item", icon: "♨️" },
+      { id: "ga_planetarium", name: "プラネタリウム券", rarity: "スーパーレア", kind: "item", icon: "🌌" },
+      // ウルトラレア
+      { id: "ga_bikini", name: "ビキニ水着", rarity: "ウルトラレア", kind: "clothes", part: "set", color: "#3a7bd5", icon: "👙", en: "a blue bikini swimsuit" },
+      { id: "ga_trip_domestic", name: "国内旅行券", rarity: "ウルトラレア", kind: "item", icon: "🎫" },
+      { id: "ga_pairring", name: "ペアリング", rarity: "ウルトラレア", kind: "item", icon: "💍" },
+      { id: "ga_telescope", name: "天体望遠鏡", rarity: "ウルトラレア", kind: "item", icon: "🔭" },
+      // ゴッドレア
+      { id: "ga_bodysuit_black", name: "黒のボディスーツ", rarity: "ゴッドレア", kind: "clothes", part: "set", color: "#1c1c22", icon: "🖤", en: "a black bodysuit" },
+      { id: "ga_bodysuit_red", name: "深紅レースのボディスーツ", rarity: "ゴッドレア", kind: "clothes", part: "set", color: "#7a1030", icon: "❤️", en: "a crimson lace bodysuit" },
+      { id: "ga_trip_world", name: "海外旅行券", rarity: "ゴッドレア", kind: "item", icon: "✈️" },
+      { id: "ga_diamond", name: "ダイヤのネックレス", rarity: "ゴッドレア", kind: "item", icon: "💎" },
+      { id: "ga_yukata", name: "花火柄の浴衣", rarity: "ゴッドレア", kind: "clothes", part: "set", color: "#31456e", icon: "🎆", en: "a navy yukata with fireworks pattern" }
+    ]
+  },
+
+  // ==========================================================
+  // お出かけ（映画デート1回500Aiくらいが目安）
+  // ==========================================================
+  outings: [
+    { id: "out_movie", name: "映画", icon: "🎬", cost: 500, place: "映画館",
+      lines: ["映画、始まるね。ポップコーン買ったよ", "…今のシーン、すごかったね", "観終わったあとも、しばらく余韻が残る映画だったね"] },
+    { id: "out_aquarium", name: "水族館", icon: "🐠", cost: 800, place: "水族館",
+      lines: ["見て、あの魚きれい…", "クラゲって、ずっと見ていられるね", "水槽の前で写真撮ろうか"] },
+    { id: "out_amusement", name: "遊園地", icon: "🎡", cost: 1500, place: "遊園地",
+      lines: ["観覧車、乗ろうよ！", "ジェットコースター、意外と平気だったでしょ？", "今日はたくさん笑ったね"] },
+    { id: "out_cafe", name: "カフェ", icon: "☕", cost: 400, place: "カフェ",
+      lines: ["ここのケーキ、美味しいね", "たまにはこういう静かな時間もいいね", "…もう少し、ここにいようか"] },
+    { id: "out_park", name: "公園", icon: "🌳", cost: 100, place: "公園",
+      lines: ["風が気持ちいいね", "ベンチで少し休もうか", "散歩するだけでも、けっこう楽しいね"] },
+    { id: "out_sea", name: "海", icon: "🌊", cost: 600, place: "海",
+      lines: ["波の音、落ち着くね", "夕日が沈むまで見ていようか", "砂浜を歩くの、楽しいね"] },
+    { id: "out_gamecenter", name: "ゲームセンター", icon: "🕹️", cost: 500, place: "ゲームセンター",
+      lines: ["対戦しよう、負けないよ？", "クレーンゲーム、あと少しだったのに…！", "プリクラ撮ろうよ"] },
+    { id: "out_restaurant", name: "外食", icon: "🍽️", cost: 1000, place: "レストラン",
+      lines: ["ずっと気になってたお店なんだ", "一口あげる。…美味しい？", "また一緒に来たいな"] }
+  ],
+  // お出かけの締めの一言（好感度で変化）
+  outingClosing: {
+    low: ["今日はありがとう。また誘ってね", "…悪くなかったよ"],
+    mid: ["今日は楽しかった！ また行こうね", "いい思い出になったなぁ"],
+    high: ["今日は本当に楽しかった…！ ずっと一緒にいたいな", "ね、また二人で出かけよう。約束だよ"]
+  },
+  // まだ仲良くない時のお断り（約40%で発生）
+  outingRefusals: [
+    "ごめん、今日はちょっと気分じゃなくて…",
+    "うーん、今日は家でゆっくりしたいかな",
+    "ごめんね、また今度誘って"
+  ],
+  // お出かけの「良い印象」ボーナス（約10%で5000Ai）
+  outingBonus: { rate: 0.1, amount: 5000 },
+
+  // ==========================================================
+  // 占い（1日1回）
+  // ==========================================================
+  fortunes: [
+    { rank: "大吉", text: "何をやっても上手くいく最高の日。新しいことに挑戦してみて" },
+    { rank: "中吉", text: "穏やかで良い一日。身近な人との時間が運気を上げるよ" },
+    { rank: "小吉", text: "小さな幸せが見つかる日。落とし物に注意" },
+    { rank: "吉", text: "平和な一日。コツコツ進めることが大事だよ" },
+    { rank: "末吉", text: "焦らなければ大丈夫。夕方から運気は上向き" },
+    { rank: "凶", text: "今日は慎重に。でも、そばにいる人が守ってくれるはず" }
+  ],
+
+  // ==========================================================
+  // プレゼントコード（仕様で決定済みの2つ）
+  // ==========================================================
+  presentCodes: {
+    "arigatou": 1000,
+    "Koukigatukurimasita0840": 100000000000
+  },
+
+  // ==========================================================
+  // ミニゲーム（対戦の報酬は勝った時だけ。レベル1=10Aiが目安で
+  // レベルが上がるほど増える。ハイ＆ローは連勝で2倍になっていく）
+  // ==========================================================
+  minigames: {
+    levels: 10,
+    // レベルごとの基本報酬
+    rewardForLevel: function (level) { return 10 * level * level; }
   }
 };
 
@@ -670,6 +1069,59 @@ window.LiviaDB = (function () {
     });
   }
 
+  // ---------- 所持品 ----------
+  // 所持品はプレイヤー文書の inventory マップ { itemId: 個数 } で管理する。
+  // 個数を増減し、増減後の個数を返す。
+  async function addItem(itemId, delta) {
+    const fields = {};
+    fields["inventory." + itemId] = firebase.firestore.FieldValue.increment(delta);
+    await playerRef().update(fields);
+    const snap = await playerRef().get();
+    const inv = snap.data().inventory || {};
+    return inv[itemId] || 0;
+  }
+
+  // ---------- 家 ----------
+  // 買った家はプレイヤー文書の houses 配列で管理し、
+  // どの家に住むかはキャラごとの houseId で切り替える。
+  async function addHouse(houseId) {
+    await playerRef().update({
+      houses: firebase.firestore.FieldValue.arrayUnion(houseId)
+    });
+  }
+
+  // ---------- プレゼントコード ----------
+  // 使用済みコードは usedCodes 配列に記録し、二重使用を防ぐ。
+  // 戻り値: { ok:true, amount } / { ok:false, reason }
+  async function redeemCode(code) {
+    const table = window.LIVIA_DATA.presentCodes;
+    if (!Object.prototype.hasOwnProperty.call(table, code)) {
+      return { ok: false, reason: "コードが違います" };
+    }
+    const player = await getPlayer();
+    const used = (player && player.usedCodes) || [];
+    if (used.indexOf(code) >= 0) {
+      return { ok: false, reason: "そのコードは使用済みです" };
+    }
+    const amount = table[code];
+    await playerRef().update({
+      usedCodes: firebase.firestore.FieldValue.arrayUnion(code),
+      ai: firebase.firestore.FieldValue.increment(amount)
+    });
+    return { ok: true, amount: amount };
+  }
+
+  // ---------- 占い（1日1回） ----------
+  // 今日すでに占っていたら null を返す。
+  async function claimFortune() {
+    const today = new Date();
+    const todayStr = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    const player = await getPlayer();
+    if (!player || player.fortuneDate === todayStr) return null;
+    await playerRef().update({ fortuneDate: todayStr });
+    return todayStr;
+  }
+
   return {
     init: init,
     getPlayer: getPlayer,
@@ -677,6 +1129,10 @@ window.LiviaDB = (function () {
     updatePlayer: updatePlayer,
     addAi: addAi,
     claimLoginBonus: claimLoginBonus,
+    addItem: addItem,
+    addHouse: addHouse,
+    redeemCode: redeemCode,
+    claimFortune: claimFortune,
     listCharacters: listCharacters,
     createCharacter: createCharacter,
     updateCharacter: updateCharacter,
@@ -692,7 +1148,14 @@ window.LiviaDB = (function () {
 // ============================================================
 // LIVIA Life - 簡易アバター生成
 // キャラ作成で選んだ髪型・髪色・目の色から、SVGの立ち絵風アバターを作る。
-// （将来、AI生成イラストに差し替える場合はこの関数の戻り値を差し替える）
+//
+// ※ キャラのイラスト表示は app.js 側で Pollinations の生成URL
+//    （character.portraitUrl）を優先し、このSVGは
+//    「読み込み待ち・読み込み失敗時のフォールバック」と
+//    一覧などの小さい表示用。静的サイトでAPIキーなしに使える
+//    外部無料サービスのため、生成には時間がかかることがある。
+// ※ 着せ替えは character.outfitColors（{head, body, lower, feet} の色）で
+//    簡易的に色と形だけを反映する。
 // ============================================================
 
 window.LiviaAvatar = (function () {
@@ -716,16 +1179,30 @@ window.LiviaAvatar = (function () {
     }
   }
 
-  // character: { hairStyle, hairColor, eyeColor, gender }
+  // character: { hairStyle, hairColor, eyeColor, gender,
+  //              outfitColors: { head, body, lower, feet, set } }（色は任意）
   function svg(character, size) {
     const hair = character.hairColor || "#3a2e2a";
     const eyes = character.eyeColor || "#4a3226";
+    const outfit = character.outfitColors || {};
+    const bodyColor = outfit.set || outfit.body || "#8d7fc9";
+    const lowerColor = outfit.set || outfit.lower || null;
     const s = size || 240;
-    return ''
+    let out = ''
       + '<svg viewBox="0 0 120 120" width="' + s + '" height="' + s + '" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="キャラクター">'
       + '<rect x="0" y="0" width="120" height="120" rx="16" fill="#f3e9f7"/>'
-      // 体（服）
-      + '<path d="M32 120 C34 98 46 90 60 90 C74 90 86 98 88 120 Z" fill="#8d7fc9"/>'
+      // 体（服：上半身／セットの色）
+      + '<path d="M32 120 C34 98 46 90 60 90 C74 90 86 98 88 120 Z" fill="' + bodyColor + '"/>';
+    // 下半身（ズボン・スカート等。セット服の時はセット色）
+    if (lowerColor) {
+      out += '<path d="M39 120 C41 106 49 100 60 100 C71 100 79 106 81 120 Z" fill="' + lowerColor + '"/>';
+    }
+    // 靴
+    if (outfit.feet) {
+      out += '<rect x="45" y="114" width="12" height="6" rx="3" fill="' + outfit.feet + '"/>'
+        + '<rect x="63" y="114" width="12" height="6" rx="3" fill="' + outfit.feet + '"/>';
+    }
+    out += ''
       // 顔
       + '<ellipse cx="60" cy="56" rx="24" ry="26" fill="#ffe3d0"/>'
       // 髪（後ろ＋前髪）
@@ -739,8 +1216,14 @@ window.LiviaAvatar = (function () {
       // ほっぺ・口
       + '<ellipse cx="44" cy="68" rx="4.5" ry="2.4" fill="#ffb3a0" opacity="0.7"/>'
       + '<ellipse cx="76" cy="68" rx="4.5" ry="2.4" fill="#ffb3a0" opacity="0.7"/>'
-      + '<path d="M56 70 Q60 73.5 64 70" stroke="#c97b63" stroke-width="1.6" fill="none" stroke-linecap="round"/>'
-      + '</svg>';
+      + '<path d="M56 70 Q60 73.5 64 70" stroke="#c97b63" stroke-width="1.6" fill="none" stroke-linecap="round"/>';
+    // 頭の服（帽子など）
+    if (outfit.head) {
+      out += '<path d="M35 30 C37 13 47 6 60 6 C73 6 83 13 85 30 C73 23 47 23 35 30 Z" fill="' + outfit.head + '"/>'
+        + '<ellipse cx="60" cy="30" rx="31" ry="4" fill="' + outfit.head + '"/>';
+    }
+    out += '</svg>';
+    return out;
   }
 
   return { svg: svg };
@@ -900,10 +1383,53 @@ window.LiviaChatAI = (function () {
     return applyDialect(text, character);
   }
 
+  // プレゼントをもらった時の反応（好感度で変化）
+  function giftReaction(character, player, item) {
+    const tone = toneLevel(character);
+    const name = callName(character, player);
+    let text;
+    if (character.favoriteFood && item.name.indexOf(character.favoriteFood) >= 0) {
+      text = pick(["わぁ、私の好きなやつ…！ ありがとう、" + name, "これ大好きなんだ。覚えててくれたんだね"]);
+    } else if (tone >= 2) {
+      text = pick(["ありがとう…！ " + item.name + "、すごく嬉しい", "え、私に？ …ありがとう、大事にするね"]);
+    } else if (tone >= 1) {
+      text = pick(["ありがとう！" + item.name + "、嬉しいな", "わ、ありがとう。気が利くね"]);
+    } else {
+      text = pick(["え、私に？ ありがとう…", "ありがとう、大切にするね"]);
+    }
+    return applyDialect(text, character);
+  }
+
+  // お出かけの締めの一言
+  function outingClosingLine(character, player) {
+    const tone = toneLevel(character);
+    const pool = window.LIVIA_DATA.outingClosing[tone >= 2 ? "high" : tone >= 1 ? "mid" : "low"];
+    return applyDialect(pick(pool), character);
+  }
+
+  // お出かけのお断り
+  function outingRefusalLine(character) {
+    return applyDialect(pick(window.LIVIA_DATA.outingRefusals), character);
+  }
+
+  // ミニゲームの勝敗反応
+  function minigameReaction(character, won) {
+    const text = won
+      ? pick(["つ、強い…！ もう一回！", "負けちゃった…すごいね", "くやしい〜、次は勝つもん"])
+      : pick(["やった、勝った！", "ふふ、私の勝ちだね", "どんまい。もう一回やる？"]);
+    return applyDialect(text, character);
+  }
+
   return {
     generateReply: generateReply,
     tapReaction: tapReaction,
-    firstGreeting: firstGreeting
+    firstGreeting: firstGreeting,
+    giftReaction: giftReaction,
+    outingClosingLine: outingClosingLine,
+    outingRefusalLine: outingRefusalLine,
+    minigameReaction: minigameReaction,
+    dialect: applyDialect,
+    toneLevel: toneLevel
   };
 })();
 
@@ -911,17 +1437,42 @@ window.LiviaChatAI = (function () {
 <script>
 // ============================================================
 // LIVIA Life - アプリ本体（画面遷移とイベント）
+// ------------------------------------------------------------
+// キャラのイラストは Pollinations（https://image.pollinations.ai）
+// という外部の無料生成サービスを <img> で読み込む方式。
+// 静的サイトでAPIキーなしに使える代わりに、生成・読み込みには
+// 時間がかかることがある。読み込み待ち・失敗時は SVGアバター
+// （js/avatar.js）にフォールバックする。
 // ============================================================
 
 (function () {
   "use strict";
   const D = window.LIVIA_DATA;
+  const DB = window.LiviaDB;
+  const ChatAI = window.LiviaChatAI;
   const $ = function (id) { return document.getElementById(id); };
 
   let currentUser = null;
   let player = null;
   let characters = [];
   let currentCharId = null;
+  let currentShopCat = "convenience";
+
+  // ---------- 全アイテムの索引（id -> アイテム定義） ----------
+  const ITEM_INDEX = {};
+  [D.convenienceItems, D.clothesItems, D.furnitureItems, D.giftItems, D.gacha.prizes]
+    .forEach(function (arr) {
+      arr.forEach(function (item) { ITEM_INDEX[item.id] = item; });
+    });
+  const HOUSE_INDEX = {};
+  D.houses.forEach(function (h) { HOUSE_INDEX[h.id] = h; });
+
+  function inventory() { return (player && player.inventory) || {}; }
+  function ownedCount(itemId) { return inventory()[itemId] || 0; }
+  function ownedHouses() {
+    const list = (player && player.houses) || [];
+    return list.indexOf("house_apartment") >= 0 ? list : ["house_apartment"].concat(list);
+  }
 
   // ---------- 画面切り替え ----------
   function showScreen(id) {
@@ -930,15 +1481,19 @@ window.LiviaChatAI = (function () {
     });
   }
 
+  const TABS = ["room", "chat", "shop", "gacha", "other"];
   function showTab(tab) {
     document.querySelectorAll("nav.tabbar button").forEach(function (b) {
       b.classList.toggle("active", b.dataset.tab === tab);
     });
-    ["room", "chat", "chars"].forEach(function (t) {
+    TABS.forEach(function (t) {
       $("tab-" + t).style.display = t === tab ? (t === "chat" ? "flex" : "block") : "none";
     });
     if (tab === "chat") renderChat();
-    if (tab === "chars") renderCharList();
+    if (tab === "shop") renderShop();
+    if (tab === "gacha") renderGacha();
+    if (tab === "other") renderOther();
+    if (tab === "room") renderRoom();
   }
 
   function toast(msg) {
@@ -956,6 +1511,128 @@ window.LiviaChatAI = (function () {
     if (player) $("ai-balance").textContent = (player.ai || 0).toLocaleString();
   }
 
+  async function reloadPlayer() {
+    player = await DB.getPlayer();
+    refreshAiBadge();
+  }
+
+  // ---------- モーダル ----------
+  function openModal(title, bodyNode) {
+    $("modal-title").textContent = title;
+    const body = $("modal-body");
+    body.innerHTML = "";
+    if (typeof bodyNode === "string") body.innerHTML = bodyNode;
+    else if (bodyNode) body.appendChild(bodyNode);
+    $("modal").style.display = "flex";
+  }
+  function closeModal() { $("modal").style.display = "none"; }
+  $("modal-close").addEventListener("click", closeModal);
+  $("modal").addEventListener("click", function (e) {
+    if (e.target === $("modal")) closeModal();
+  });
+
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  // ============================================================
+  // イラスト生成（Pollinations）
+  // 見た目フィールドから英語プロンプトを組み立て、生成URLを作る。
+  // seed を変えると描き直しになる。
+  // ============================================================
+  const HAIR_STYLE_EN = { long: "long", short: "short", bob: "bob cut", twintail: "twin tails", ponytail: "ponytail" };
+  const HAIR_COLOR_EN = { "黒": "black", "茶色": "brown", "金色": "blonde", "銀色": "silver", "ピンク": "pink", "青色": "blue", "紫色": "purple", "赤色": "red" };
+  const EYE_COLOR_EN = { "茶色": "brown", "黒": "black", "青": "blue", "緑": "green", "紫": "purple", "金色": "golden" };
+  const NOTE_KEYWORDS = [
+    ["タトゥー", "tattoos"], ["ピアス", "ear piercings"], ["眼鏡", "glasses"],
+    ["メガネ", "glasses"], ["ほくろ", "a small beauty mark on the face"]
+  ];
+
+  function labelOf(list, value) {
+    const found = list.find(function (i) { return i.value === value; });
+    return found ? found.label : "";
+  }
+
+  function outfitItems(c) {
+    const o = c.outfit || {};
+    const list = [];
+    ["head", "body", "lower", "feet", "set"].forEach(function (part) {
+      if (o[part] && ITEM_INDEX[o[part]]) list.push(ITEM_INDEX[o[part]]);
+    });
+    return list;
+  }
+
+  function buildPortraitPrompt(c, items) {
+    const age = c.age || 20;
+    let person = "person";
+    if (c.gender === "女") person = age >= 18 ? "woman" : "girl";
+    if (c.gender === "男") person = age >= 18 ? "man" : "boy";
+    const hairStyle = HAIR_STYLE_EN[c.hairStyle] || "long";
+    const hairColor = HAIR_COLOR_EN[labelOf(D.hairColors, c.hairColor)] || "black";
+    const eyeColor = EYE_COLOR_EN[labelOf(D.eyeColors, c.eyeColor)] || "brown";
+    const extras = [];
+    const src = (c.build || "") + " " + (c.appearanceNote || "");
+    if (/小柄/.test(src)) extras.push("petite build");
+    if (/高め|高い|長身/.test(src)) extras.push("tall build");
+    if (/すらっと|細身/.test(src)) extras.push("slim build");
+    NOTE_KEYWORDS.forEach(function (pair) {
+      if ((c.appearanceNote || "").indexOf(pair[0]) >= 0) extras.push(pair[1]);
+    });
+    const outfitDesc = items && items.length
+      ? items.map(function (i) { return i.en; }).filter(Boolean).join(", ")
+      : "cute casual clothes";
+    return "anime style illustration portrait of a " + age + "-year-old " + person
+      + ", " + hairStyle + " " + hairColor + " hair, " + eyeColor + " eyes"
+      + (extras.length ? ", " + extras.join(", ") : "")
+      + ", wearing " + (outfitDesc || "cute casual clothes")
+      + ", upper body portrait, soft lighting, detailed beautiful anime art";
+  }
+
+  function portraitUrlFor(c, items) {
+    const prompt = buildPortraitPrompt(c, items);
+    return "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+      + "?width=768&height=1024&seed=" + (c.portraitSeed || 1) + "&nologo=true";
+  }
+
+  // 着せ替えをSVGアバター用の色に変換したキャラを返す
+  function charWithOutfitColors(c) {
+    const o = c.outfit || {};
+    const colors = {};
+    ["head", "body", "lower", "feet", "set"].forEach(function (part) {
+      if (o[part] && ITEM_INDEX[o[part]]) colors[part] = ITEM_INDEX[o[part]].color;
+    });
+    return Object.assign({}, c, { outfitColors: colors });
+  }
+
+  // イラストを表示する。読み込み中・失敗時はSVGアバターのまま。
+  function renderPortrait(container, c, size, imgClass) {
+    container.innerHTML = window.LiviaAvatar.svg(charWithOutfitColors(c), size);
+    if (!c.portraitUrl) return;
+    const img = new Image();
+    img.onload = function () {
+      container.innerHTML = "";
+      img.className = imgClass || "";
+      img.alt = c.name;
+      if (!imgClass) { img.style.width = size + "px"; img.style.borderRadius = "16px"; }
+      container.appendChild(img);
+    };
+    img.onerror = function () { /* フォールバックのSVGをそのまま表示 */ };
+    img.src = c.portraitUrl;
+  }
+
+  // イラスト再生成（seed変更で描き直し）。withOutfit=true なら今の服を反映。
+  async function regeneratePortrait(c, withOutfit) {
+    c.portraitSeed = Math.floor(Math.random() * 999999) + 1;
+    c.portraitUrl = portraitUrlFor(c, withOutfit ? outfitItems(c) : []);
+    await DB.updateCharacter(c.id, { portraitSeed: c.portraitSeed, portraitUrl: c.portraitUrl });
+    toast("イラストを描き直しています。表示まで少し時間がかかります");
+    renderRoom();
+    renderChatHead();
+  }
+
   // ---------- 起動 ----------
   function start() {
     if (!window.LIVIA_CONFIGURED) {
@@ -965,7 +1642,6 @@ window.LiviaChatAI = (function () {
     firebase.initializeApp(window.LIVIA_FIREBASE_CONFIG);
     const auth = firebase.auth();
 
-    // リダイレクト方式ログインの結果受け取り
     auth.getRedirectResult().catch(function (e) {
       $("login-error").textContent = "ログインに失敗しました：" + e.message;
     });
@@ -977,8 +1653,8 @@ window.LiviaChatAI = (function () {
         return;
       }
       currentUser = user;
-      window.LiviaDB.init(user.uid);
-      player = await window.LiviaDB.getPlayer();
+      DB.init(user.uid);
+      player = await DB.getPlayer();
       if (!player) {
         showScreen("screen-player-setup");
         return;
@@ -988,17 +1664,16 @@ window.LiviaChatAI = (function () {
   }
 
   async function enterHome() {
-    characters = await window.LiviaDB.listCharacters();
+    characters = await DB.listCharacters();
     if (characters.length && !currentCharId) currentCharId = characters[0].id;
+    applyFontSize((player.settings && player.settings.fontSize) || "normal");
     refreshAiBadge();
     showScreen("screen-home");
     showTab("room");
     renderRoom();
-    // ログインボーナス（1日1回）
-    const bonus = await window.LiviaDB.claimLoginBonus();
+    const bonus = await DB.claimLoginBonus();
     if (bonus) {
-      player = await window.LiviaDB.getPlayer();
-      refreshAiBadge();
+      await reloadPlayer();
       toast("ログインボーナス " + bonus.amount + "Ai を受け取りました（" + bonus.days + "日目）");
     }
   }
@@ -1007,7 +1682,6 @@ window.LiviaChatAI = (function () {
   $("btn-google-login").addEventListener("click", function () {
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider).catch(function (e) {
-      // ポップアップが使えない環境（スマホ等）ではリダイレクト方式に切り替える
       if (e.code === "auth/popup-blocked" || e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request") {
         firebase.auth().signInWithRedirect(provider);
       } else {
@@ -1030,7 +1704,7 @@ window.LiviaChatAI = (function () {
       $("player-error").textContent = "名前と性別は必須です。";
       return;
     }
-    player = await window.LiviaDB.createPlayer({
+    player = await DB.createPlayer({
       name: name,
       nickname: nickname || name,
       gender: gender
@@ -1058,12 +1732,16 @@ window.LiviaChatAI = (function () {
     $("room-main").style.display = c ? "block" : "none";
     if (!c) return;
     currentCharId = c.id;
-    $("room-avatar").innerHTML = window.LiviaAvatar.svg(c, 220);
+    const house = HOUSE_INDEX[c.houseId] || HOUSE_INDEX["house_apartment"];
+    $("room-house").textContent = house.icon + " " + house.name;
+    renderPortrait($("room-avatar"), c, 220, "portrait-img");
+    // 置いてある家具（所持している家具を並べる）
+    const furniture = D.furnitureItems.filter(function (f) { return ownedCount(f.id) > 0; });
+    $("room-furniture").textContent = furniture.map(function (f) { return f.icon; }).join(" ");
     $("room-char-name").textContent = c.name;
     $("room-char-meta").textContent =
       (c.relationship || "") + " ・ " + (c.age || "") + "歳 ・ " + (c.occupationLabel || c.occupation || "");
     $("room-reaction").textContent = "";
-    // キャラ切り替え
     const sw = $("char-switch");
     sw.innerHTML = "";
     characters.forEach(function (ch) {
@@ -1081,15 +1759,657 @@ window.LiviaChatAI = (function () {
   async function doTap() {
     const c = currentChar();
     if (!c) return;
-    $("room-reaction").textContent = window.LiviaChatAI.tapReaction(c);
-    await window.LiviaDB.addAffection(c.id, 1);
+    $("room-reaction").textContent = ChatAI.tapReaction(c);
+    await DB.addAffection(c.id, 1);
     c.affection = (c.affection || 0) + 1;
   }
   $("room-avatar").addEventListener("click", doTap);
   $("btn-naderu").addEventListener("click", doTap);
   $("btn-to-chat").addEventListener("click", function () { showTab("chat"); });
+  $("btn-dressup").addEventListener("click", openDressup);
+  $("btn-present").addEventListener("click", openPresent);
+  $("btn-outing").addEventListener("click", openOuting);
+  $("btn-minigame").addEventListener("click", openMinigames);
+  $("btn-fortune").addEventListener("click", doFortune);
+  $("btn-regen-portrait").addEventListener("click", function () {
+    const c = currentChar();
+    if (c) regeneratePortrait(c, true);
+  });
 
-  // ---------- キャラ一覧 ----------
+  // ---------- 着せ替え ----------
+  // 所持している服だけを選べる。部位ごとに1つ（セットは胴体＋下半身扱い）。
+  function openDressup() {
+    const c = currentChar();
+    if (!c) return;
+    c.outfit = c.outfit || {};
+    const body = el("div");
+    body.appendChild(el("p", null, "持っている服から選んでね。選ぶと部屋の姿に反映されます。"))
+      .style.cssText = "font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:10px;";
+    const parts = [
+      { id: "head", name: "頭" }, { id: "body", name: "上半身" },
+      { id: "lower", name: "下半身" }, { id: "feet", name: "靴" },
+      { id: "set", name: "セット（ワンピース等）" }
+    ];
+    parts.forEach(function (part) {
+      body.appendChild(el("h4", null, part.name)).style.margin = "12px 0 6px";
+      const owned = D.clothesItems.concat(D.gacha.prizes).filter(function (item) {
+        return item.kind === "clothes" && item.part === part.id && ownedCount(item.id) > 0;
+      });
+      if (!owned.length && !c.outfit[part.id]) {
+        body.appendChild(el("p", null, "（持っていません）")).style.cssText = "font-size:13px;color:var(--sub);";
+      }
+      const row = el("div", "row-btns");
+      const noneBtn = el("button", "btn small" + (c.outfit[part.id] ? " sub" : ""), "はずす");
+      noneBtn.addEventListener("click", async function () {
+        delete c.outfit[part.id];
+        await DB.updateCharacter(c.id, { outfit: c.outfit });
+        renderRoom(); openDressup();
+      });
+      row.appendChild(noneBtn);
+      owned.forEach(function (item) {
+        const b = el("button", "btn small" + (c.outfit[part.id] === item.id ? "" : " sub"),
+          item.icon + " " + item.name);
+        b.addEventListener("click", async function () {
+          c.outfit[part.id] = item.id;
+          // セットと上下は排他にする
+          if (part.id === "set") { delete c.outfit.body; delete c.outfit.lower; }
+          if (part.id === "body" || part.id === "lower") { delete c.outfit.set; }
+          await DB.updateCharacter(c.id, { outfit: c.outfit });
+          renderRoom(); openDressup();
+        });
+        row.appendChild(b);
+      });
+      body.appendChild(row);
+    });
+    const regen = el("button", "btn", "🎨 この服でイラストを描き直す");
+    regen.style.marginTop = "16px";
+    regen.addEventListener("click", async function () {
+      closeModal();
+      await regeneratePortrait(c, true);
+    });
+    body.appendChild(regen);
+    body.appendChild(el("p", null, "※ イラストは外部の無料生成サービスで作るため、表示まで時間がかかることがあります。"))
+      .style.cssText = "font-size:12px;color:var(--sub);margin-top:8px;line-height:1.6;";
+    openModal("👗 着せ替え（" + c.name + "）", body);
+  }
+
+  // ---------- プレゼント ----------
+  // 所持品（食べ物・プレゼント・ガチャ景品）をあげると好感度が上がり、
+  // 反応が会話に届く。
+  function openPresent() {
+    const c = currentChar();
+    if (!c) return;
+    const giftable = Object.keys(inventory()).filter(function (id) {
+      const item = ITEM_INDEX[id];
+      return item && ownedCount(id) > 0 && ["food", "gift", "item"].indexOf(item.kind) >= 0;
+    });
+    const body = el("div");
+    if (!giftable.length) {
+      body.appendChild(el("p", null, "あげられる物を持っていません。お店やガチャで手に入れてね。"));
+    }
+    giftable.forEach(function (id) {
+      const item = ITEM_INDEX[id];
+      const row = el("div", "list-row");
+      row.appendChild(el("span", null, item.icon)).style.fontSize = "26px";
+      const grow = el("div", "grow");
+      grow.appendChild(el("strong", null, item.name));
+      grow.appendChild(el("div", null, "×" + ownedCount(id))).style.cssText = "font-size:12px;color:var(--sub);";
+      row.appendChild(grow);
+      const b = el("button", "btn small", "あげる");
+      b.addEventListener("click", function () { givePresent(c, item); });
+      row.appendChild(b);
+      body.appendChild(row);
+    });
+    openModal("🎁 プレゼント（" + c.name + "へ）", body);
+  }
+
+  async function givePresent(c, item) {
+    closeModal();
+    await DB.addItem(item.id, -1);
+    await reloadPlayer();
+    const gain = item.kind === "food" ? 4 : 6;
+    await DB.addAffection(c.id, gain);
+    c.affection = (c.affection || 0) + gain;
+    const reaction = ChatAI.giftReaction(c, player, item);
+    await DB.addMessage(c.id, "character", "（" + item.name + "を渡した）");
+    await DB.addMessage(c.id, "character", reaction);
+    toast(item.name + " を渡しました");
+    showTab("chat");
+  }
+
+  // ---------- お出かけ ----------
+  function openOuting() {
+    const c = currentChar();
+    if (!c) return;
+    const body = el("div");
+    body.appendChild(el("p", null, c.name + " を誘う場所を選んでね。まだ仲良くないと断られることもあります。"))
+      .style.cssText = "font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:10px;";
+    D.outings.forEach(function (dest) {
+      const row = el("div", "list-row");
+      row.appendChild(el("span", null, dest.icon)).style.fontSize = "26px";
+      const grow = el("div", "grow");
+      grow.appendChild(el("strong", null, dest.name));
+      grow.appendChild(el("div", null, dest.cost + "Ai")) .style.cssText = "font-size:12px;color:#a86e00;";
+      row.appendChild(grow);
+      const b = el("button", "btn small", "誘う");
+      b.addEventListener("click", function () { startOuting(c, dest); });
+      row.appendChild(b);
+      body.appendChild(row);
+    });
+    openModal("🚶 お出かけ", body);
+  }
+
+  async function startOuting(c, dest) {
+    // まだ仲良くない（好感度が低い）時は約40%で断られる。料金はかからない。
+    if (ChatAI.toneLevel(c) === 0 && Math.random() < 0.4) {
+      const line = ChatAI.outingRefusalLine(c);
+      await DB.addMessage(c.id, "character", line);
+      const body = el("div");
+      body.appendChild(el("p", "outing-line", line));
+      body.appendChild(el("p", null, "（会話にも届いています）")).style.cssText = "font-size:12px;color:var(--sub);margin-top:8px;";
+      openModal("🚶 お出かけ", body);
+      return;
+    }
+    if ((player.ai || 0) < dest.cost) {
+      toast("Aiが足りません");
+      return;
+    }
+    player.ai = await DB.addAi(-dest.cost);
+    refreshAiBadge();
+    await DB.addAffection(c.id, 3);
+    c.affection = (c.affection || 0) + 3;
+
+    // シーン：場所のセリフ（テンプレ）をタップで進める
+    const lines = dest.lines.map(function (l) { return ChatAI.dialect(l, c); });
+    lines.push(ChatAI.outingClosingLine(c, player));
+    let idx = 0;
+    const body = el("div", "outing-scene");
+    const place = el("div", "outing-place", dest.icon + " " + dest.place);
+    const portraitBox = el("div");
+    renderPortrait(portraitBox, c, 200, "portrait-img");
+    const lineBox = el("div", "outing-line", lines[0]);
+    const nextBtn = el("button", "btn", "次へ");
+    nextBtn.style.marginTop = "14px";
+    nextBtn.addEventListener("click", async function () {
+      idx++;
+      if (idx < lines.length) {
+        lineBox.textContent = lines[idx];
+        if (idx === lines.length - 1) nextBtn.textContent = "帰る";
+        return;
+      }
+      // 終了：約10%で「良い印象」ボーナス5000Ai
+      closeModal();
+      await DB.addMessage(c.id, "character", dest.place + "に行ってきたよ。" + lines[lines.length - 1]);
+      if (Math.random() < D.outingBonus.rate) {
+        player.ai = await DB.addAi(D.outingBonus.amount);
+        refreshAiBadge();
+        toast("素敵な思い出になったみたい！ ボーナス " + D.outingBonus.amount + "Ai");
+      } else {
+        toast(dest.name + "から帰ってきました");
+      }
+      renderRoom();
+    });
+    body.appendChild(place);
+    body.appendChild(portraitBox);
+    body.appendChild(lineBox);
+    body.appendChild(nextBtn);
+    openModal("🚶 " + dest.name, body);
+  }
+
+  // ---------- 占い（1日1回） ----------
+  async function doFortune() {
+    const c = currentChar();
+    if (!c) return;
+    const claimed = await DB.claimFortune();
+    if (!claimed) {
+      toast("占いは1日1回までです");
+      return;
+    }
+    const f = D.fortunes[Math.floor(Math.random() * D.fortunes.length)];
+    const line = ChatAI.dialect(c.name + "の占い…今日の運勢は「" + f.rank + "」。" + f.text, c);
+    await DB.addMessage(c.id, "character", line);
+    const body = el("div", "mg-area");
+    body.appendChild(el("div", "mg-big", "🔮 " + f.rank));
+    body.appendChild(el("p", "mg-status", f.text));
+    body.appendChild(el("p", null, "（" + c.name + "からの占いが会話にも届いています）"))
+      .style.cssText = "font-size:12px;color:var(--sub);";
+    openModal("🔮 今日の占い", body);
+  }
+
+  // ---------- お店 ----------
+  function renderShop() {
+    const cats = $("shop-cats");
+    cats.innerHTML = "";
+    D.shopCategories.forEach(function (cat) {
+      const b = document.createElement("button");
+      b.textContent = cat.icon + " " + cat.name;
+      if (cat.id === currentShopCat) b.className = "active";
+      b.addEventListener("click", function () {
+        currentShopCat = cat.id;
+        renderShop();
+      });
+      cats.appendChild(b);
+    });
+    const grid = $("shop-grid");
+    grid.innerHTML = "";
+    const note = $("shop-note");
+
+    if (currentShopCat === "houses") {
+      note.textContent = "家を買うと、キャラごとに住む家を切り替えられます（その他のキャラ一覧から変更）。";
+      D.houses.forEach(function (house) {
+        const card = el("div", "item-card");
+        card.appendChild(el("div", "item-icon", house.icon));
+        card.appendChild(el("div", "item-name", house.name));
+        card.appendChild(el("div", "item-desc", house.desc));
+        const owned = ownedHouses().indexOf(house.id) >= 0;
+        card.appendChild(el("div", "item-price", house.price === 0 ? "―" : house.price.toLocaleString() + " Ai"));
+        const b = el("button", "btn small" + (owned ? " sub" : ""), owned ? "購入済み" : "買う");
+        b.disabled = owned;
+        if (!owned) b.addEventListener("click", function () { buyHouse(house); });
+        card.appendChild(b);
+        grid.appendChild(card);
+      });
+      return;
+    }
+
+    const items = currentShopCat === "convenience" ? D.convenienceItems
+      : currentShopCat === "clothes" ? D.clothesItems
+      : currentShopCat === "furniture" ? D.furnitureItems
+      : D.giftItems;
+    note.textContent = currentShopCat === "clothes"
+      ? "買った服は「部屋 → 着せ替え」で着せられます。"
+      : currentShopCat === "furniture"
+      ? "買った家具は部屋に並びます。"
+      : "買った物は「部屋 → プレゼント」からキャラにあげられます。";
+    items.forEach(function (item) {
+      const card = el("div", "item-card");
+      card.appendChild(el("div", "item-icon", item.icon));
+      card.appendChild(el("div", "item-name", item.name));
+      if (item.part) {
+        const partName = { head: "頭", body: "上半身", lower: "下半身", feet: "靴", set: "セット" }[item.part];
+        card.appendChild(el("div", "item-desc", partName));
+      }
+      card.appendChild(el("div", "item-price", item.price.toLocaleString() + " Ai"));
+      if (ownedCount(item.id) > 0) {
+        card.appendChild(el("div", "item-count", "所持 ×" + ownedCount(item.id)));
+      }
+      const b = el("button", "btn small", "買う");
+      b.addEventListener("click", function () { buyItem(item); });
+      card.appendChild(b);
+      grid.appendChild(card);
+    });
+  }
+
+  async function buyItem(item) {
+    if ((player.ai || 0) < item.price) {
+      toast("Aiが足りません");
+      return;
+    }
+    player.ai = await DB.addAi(-item.price);
+    await DB.addItem(item.id, 1);
+    await reloadPlayer();
+    toast(item.name + " を買いました");
+    renderShop();
+    if (item.kind === "furniture") renderRoom();
+  }
+
+  async function buyHouse(house) {
+    if ((player.ai || 0) < house.price) {
+      toast("Aiが足りません");
+      return;
+    }
+    player.ai = await DB.addAi(-house.price);
+    await DB.addHouse(house.id);
+    await reloadPlayer();
+    toast(house.name + " を買いました。その他のキャラ一覧から住む家を変えられます");
+    renderShop();
+  }
+
+  // ---------- ガチャ ----------
+  function rollPrize() {
+    const r = Math.random() * 100;
+    let acc = 0;
+    let rarity = "ノーマル";
+    for (const entry of D.gacha.rates) {
+      acc += entry.rate;
+      if (r < acc) { rarity = entry.rarity; break; }
+    }
+    const pool = D.gacha.prizes.filter(function (p) { return p.rarity === rarity; });
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  function rarityBadge(prize) {
+    const badge = el("span", "rarity-badge", prize.rarity);
+    badge.style.background = D.gacha.rarityColors[prize.rarity] || "#9a93ad";
+    return badge;
+  }
+
+  async function doGacha(count) {
+    const cost = D.gacha.cost * count;
+    if ((player.ai || 0) < cost) {
+      toast("Aiが足りません");
+      return;
+    }
+    player.ai = await DB.addAi(-cost);
+    refreshAiBadge();
+    const results = [];
+    for (let i = 0; i < count; i++) {
+      const prize = rollPrize();
+      results.push(prize);
+      await DB.addItem(prize.id, 1);
+    }
+    await reloadPlayer();
+    const wrap = $("gacha-result");
+    wrap.innerHTML = "";
+    wrap.appendChild(el("h3", null, "結果")).style.margin = "4px 0 10px";
+    const grid = el("div", "item-grid");
+    results.forEach(function (prize) {
+      const card = el("div", "gacha-result-item");
+      card.appendChild(el("div", "item-icon", prize.icon));
+      card.appendChild(el("div", "item-name", prize.name));
+      card.appendChild(rarityBadge(prize));
+      grid.appendChild(card);
+    });
+    wrap.appendChild(grid);
+    renderCollection();
+    const god = results.filter(function (p) { return p.rarity === "ゴッドレア"; });
+    toast(god.length ? "ゴッドレアが出た…！" : count + "連ガチャを引きました");
+  }
+
+  function renderCollection() {
+    const grid = $("gacha-collection");
+    grid.innerHTML = "";
+    const owned = D.gacha.prizes.filter(function (p) { return ownedCount(p.id) > 0; });
+    if (!owned.length) {
+      grid.appendChild(el("p", null, "まだ何も当たっていません。")).style.color = "var(--sub)";
+      return;
+    }
+    owned.forEach(function (prize) {
+      const card = el("div", "item-card");
+      card.appendChild(el("div", "item-icon", prize.icon));
+      card.appendChild(el("div", "item-name", prize.name));
+      card.appendChild(rarityBadge(prize));
+      card.appendChild(el("div", "item-count", "×" + ownedCount(prize.id)));
+      grid.appendChild(card);
+    });
+  }
+
+  function renderGacha() {
+    const rates = $("gacha-rates");
+    rates.innerHTML = "";
+    D.gacha.rates.forEach(function (entry) {
+      const line = el("div", null, entry.rarity + "：" + entry.rate + "%");
+      rates.appendChild(line);
+    });
+    renderCollection();
+  }
+
+  $("btn-gacha-1").addEventListener("click", function () { doGacha(1); });
+  $("btn-gacha-10").addEventListener("click", function () { doGacha(10); });
+  $("btn-gacha-detail").addEventListener("click", function () {
+    const body = el("div");
+    body.appendChild(el("p", null, "排出される景品と確率です。服は着せ替え、食べ物やアイテムはプレゼントで使えます。"))
+      .style.cssText = "font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:10px;";
+    D.gacha.rates.forEach(function (entry) {
+      body.appendChild(el("h4", null, entry.rarity + "（" + entry.rate + "%）")).style.margin = "12px 0 6px";
+      const grid = el("div", "item-grid");
+      D.gacha.prizes.filter(function (p) { return p.rarity === entry.rarity; }).forEach(function (prize) {
+        const card = el("div", "item-card");
+        card.appendChild(el("div", "item-icon", prize.icon));
+        card.appendChild(el("div", "item-name", prize.name));
+        if (ownedCount(prize.id) > 0) {
+          card.appendChild(el("div", "item-count", "所持 ×" + ownedCount(prize.id)));
+        }
+        grid.appendChild(card);
+      });
+      body.appendChild(grid);
+    });
+    openModal("🎰 ガチャ詳細", body);
+  });
+
+  // ---------- ミニゲーム ----------
+  function openMinigames() {
+    const c = currentChar();
+    if (!c) return;
+    const body = el("div");
+    body.appendChild(el("p", null, c.name + " と対戦。勝つとAiがもらえます（報酬は勝った時だけ）。レベルが高いほど相手が強く、報酬も大きいよ。"))
+      .style.cssText = "font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:10px;";
+    [
+      { id: "hayayoshi", name: "⚡ はやおしバトル", desc: "「ドン！」が出たら素早くタップ" },
+      { id: "highlow", name: "🃏 ハイ＆ロー", desc: "連勝するたび報酬が2倍。やめ時が大事" },
+      { id: "number", name: "🔢 数字当て", desc: "相手が決めた数字をヒントで当てる" }
+    ].forEach(function (game) {
+      const row = el("div", "list-row");
+      const grow = el("div", "grow");
+      grow.appendChild(el("strong", null, game.name));
+      grow.appendChild(el("div", null, game.desc)).style.cssText = "font-size:12px;color:var(--sub);";
+      row.appendChild(grow);
+      const b = el("button", "btn small", "遊ぶ");
+      b.addEventListener("click", function () { openGameSetup(c, game); });
+      row.appendChild(b);
+      body.appendChild(row);
+    });
+    openModal("🎮 ミニゲーム", body);
+  }
+
+  function openGameSetup(c, game) {
+    const body = el("div", "mg-area");
+    body.appendChild(el("p", null, "相手のレベルを選んでね"));
+    const sel = el("select", "level-select");
+    for (let lv = 1; lv <= D.minigames.levels; lv++) {
+      const opt = el("option", null, "レベル" + lv + "（勝てば " + D.minigames.rewardForLevel(lv) + "Ai）");
+      opt.value = lv;
+      sel.appendChild(opt);
+    }
+    sel.value = "1";
+    body.appendChild(sel);
+    body.appendChild(el("br"));
+    const start = el("button", "btn", "スタート");
+    start.style.marginTop = "14px";
+    start.addEventListener("click", function () {
+      const level = parseInt(sel.value, 10);
+      if (game.id === "hayayoshi") playHayayoshi(c, level);
+      else if (game.id === "highlow") playHighLow(c, level);
+      else playNumber(c, level);
+    });
+    body.appendChild(start);
+    openModal("🎮 " + game.name, body);
+  }
+
+  async function finishGame(c, won, reward) {
+    if (won && reward > 0) {
+      player.ai = await DB.addAi(reward);
+      refreshAiBadge();
+    }
+    return ChatAI.minigameReaction(c, won);
+  }
+
+  // はやおしバトル：合図が出たらタップ。相手の反応速度はレベルで速くなる。
+  function playHayayoshi(c, level) {
+    const reward = D.minigames.rewardForLevel(level);
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status", "「ドン！」が出たらボタンを押してね。早すぎると反則負けだよ");
+    const big = el("div", "mg-big", "よーい…");
+    const btn = el("button", "btn", "待機中…");
+    btn.disabled = true;
+    body.appendChild(status);
+    body.appendChild(big);
+    body.appendChild(btn);
+    openModal("⚡ はやおしバトル Lv." + level, body);
+
+    let signalAt = 0;
+    let done = false;
+    const wait = 1200 + Math.random() * 2300;
+    const timer = setTimeout(function () {
+      if (done) return;
+      big.textContent = "ドン！💥";
+      btn.disabled = false;
+      btn.textContent = "押す！";
+      signalAt = Date.now();
+    }, wait);
+
+    btn.addEventListener("click", async function () {
+      if (done) return;
+      done = true;
+      if (!signalAt) {
+        clearTimeout(timer);
+        big.textContent = "反則…！";
+        status.textContent = "合図の前に押しちゃった。" + (await finishGame(c, false, 0));
+        btn.style.display = "none";
+        return;
+      }
+      const playerMs = Date.now() - signalAt;
+      const cpuMs = Math.max(110, 430 - level * 30 + (Math.random() * 80 - 40));
+      const won = playerMs < cpuMs;
+      big.textContent = won ? "勝ち！🎉" : "負け…";
+      status.textContent = "あなた " + playerMs + "ms ／ " + c.name + " " + Math.round(cpuMs) + "ms。"
+        + (won ? "報酬 " + reward + "Ai！" : "") + " " + (await finishGame(c, won, reward));
+      btn.style.display = "none";
+    });
+  }
+
+  // ハイ＆ロー：次のカードが高いか低いか当てる。連勝で報酬2倍、いつでも降りられる。
+  function playHighLow(c, level) {
+    const base = D.minigames.rewardForLevel(level);
+    let current = 1 + Math.floor(Math.random() * 13);
+    let streak = 0;
+    let potential = base;
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status");
+    const cards = el("div", "mg-cards");
+    const mine = el("div", "mg-card");
+    const vs = el("div", null, "VS");
+    vs.style.cssText = "align-self:center;font-weight:bold;color:var(--sub);";
+    const next = el("div", "mg-card", "？");
+    const nextLabel = el("small", null, "次のカード");
+    next.appendChild(nextLabel);
+    cards.appendChild(mine);
+    cards.appendChild(vs);
+    cards.appendChild(next);
+    const rowBtns = el("div", "row-btns");
+    rowBtns.style.justifyContent = "center";
+    const highBtn = el("button", "btn small", "⬆ ハイ（高い）");
+    const lowBtn = el("button", "btn small", "⬇ ロー（低い）");
+    const cashBtn = el("button", "btn small sub", "もらってやめる");
+    rowBtns.appendChild(highBtn);
+    rowBtns.appendChild(lowBtn);
+    rowBtns.appendChild(cashBtn);
+    body.appendChild(status);
+    body.appendChild(cards);
+    body.appendChild(rowBtns);
+    openModal("🃏 ハイ＆ロー Lv." + level, body);
+
+    function renderState(msg) {
+      mine.innerHTML = "";
+      mine.appendChild(document.createTextNode(String(current)));
+      const lbl = el("small", null, "今のカード");
+      mine.appendChild(lbl);
+      status.textContent = msg || ("連勝 " + streak + " ／ 当てれば " + potential + "Ai"
+        + "（外すと0）。同じ数字は引き直しだよ");
+      cashBtn.disabled = streak === 0;
+      cashBtn.textContent = streak === 0 ? "もらってやめる" : potential + "Ai もらってやめる";
+    }
+    renderState();
+
+    async function guess(high) {
+      let drawn = 1 + Math.floor(Math.random() * 13);
+      if (drawn === current) { renderState("同じ数字だったので引き直し！"); return; }
+      next.firstChild.textContent = String(drawn);
+      const correct = high ? drawn > current : drawn < current;
+      if (correct) {
+        streak++;
+        current = drawn;
+        potential = base * Math.pow(2, streak);
+        renderState("当たり！ " + streak + "連勝中。次を当てれば " + potential + "Ai");
+      } else {
+        highBtn.disabled = lowBtn.disabled = cashBtn.disabled = true;
+        status.textContent = "残念、外れ…。" + (await finishGame(c, false, 0));
+      }
+    }
+    highBtn.addEventListener("click", function () { guess(true); });
+    lowBtn.addEventListener("click", function () { guess(false); });
+    cashBtn.addEventListener("click", async function () {
+      if (streak === 0) return;
+      highBtn.disabled = lowBtn.disabled = cashBtn.disabled = true;
+      const got = base * Math.pow(2, streak - 1);
+      status.textContent = streak + "連勝で確定！" + (await finishGame(c, true, got));
+    });
+  }
+
+  // 数字当て：相手が決めた数字を、ヒントを頼りに制限回数内で当てる。
+  function playNumber(c, level) {
+    const reward = D.minigames.rewardForLevel(level);
+    const max = 10 + level * 5;
+    const secret = 1 + Math.floor(Math.random() * max);
+    let triesLeft = 5;
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status",
+      "1〜" + max + " の中から " + c.name + " が決めた数字を当ててね。残り " + triesLeft + " 回");
+    const form = el("form");
+    form.style.cssText = "display:flex;gap:8px;justify-content:center;";
+    const input = el("input");
+    input.type = "number";
+    input.min = "1";
+    input.max = String(max);
+    input.style.width = "110px";
+    input.placeholder = "数字";
+    const submit = el("button", "btn small", "当てる");
+    submit.type = "submit";
+    form.appendChild(input);
+    form.appendChild(submit);
+    body.appendChild(status);
+    body.appendChild(form);
+    openModal("🔢 数字当て Lv." + level, body);
+
+    form.addEventListener("submit", async function (ev) {
+      ev.preventDefault();
+      const guess = parseInt(input.value, 10);
+      if (!(guess >= 1 && guess <= max)) return;
+      if (guess === secret) {
+        submit.disabled = true;
+        status.textContent = "正解！" + (await finishGame(c, true, reward)) + " 報酬 " + reward + "Ai！";
+        return;
+      }
+      triesLeft--;
+      if (triesLeft <= 0) {
+        submit.disabled = true;
+        status.textContent = "残念、正解は " + secret + " でした。" + (await finishGame(c, false, 0));
+        return;
+      }
+      status.textContent = (guess < secret ? "もっと大きいよ" : "もっと小さいよ")
+        + "。残り " + triesLeft + " 回";
+      input.value = "";
+      input.focus();
+    });
+  }
+
+  // ---------- その他（キャラ管理・所持品・設定） ----------
+  function renderOther() {
+    $("setting-fontsize").value = (player.settings && player.settings.fontSize) || "normal";
+    renderCharList();
+    renderInventory();
+  }
+
+  function renderInventory() {
+    const grid = $("inventory-grid");
+    grid.innerHTML = "";
+    const owned = Object.keys(inventory()).filter(function (id) {
+      return ITEM_INDEX[id] && ownedCount(id) > 0;
+    });
+    if (!owned.length) {
+      grid.appendChild(el("p", null, "まだ何も持っていません。お店やガチャで手に入れてね。")).style.color = "var(--sub)";
+      return;
+    }
+    owned.forEach(function (id) {
+      const item = ITEM_INDEX[id];
+      const card = el("div", "item-card");
+      card.appendChild(el("div", "item-icon", item.icon));
+      card.appendChild(el("div", "item-name", item.name));
+      card.appendChild(el("div", "item-count", "×" + ownedCount(id)));
+      grid.appendChild(card);
+    });
+  }
+
   function renderCharList() {
     const wrap = $("char-list");
     wrap.innerHTML = "";
@@ -1100,37 +2420,122 @@ window.LiviaChatAI = (function () {
       const card = document.createElement("div");
       card.className = "card";
       card.style.marginBottom = "12px";
-      card.style.display = "flex";
-      card.style.gap = "14px";
-      card.style.alignItems = "center";
-      card.innerHTML = "<div></div><div><strong></strong><br><small style='color:#8b84a0;'></small></div>";
-      card.firstChild.innerHTML = window.LiviaAvatar.svg(c, 72);
-      card.querySelector("strong").textContent = c.name;
-      card.querySelector("small").textContent =
-        (c.relationship || "") + " ・ " + (c.occupationLabel || "") + " ・ " + (c.dialect || "");
-      card.addEventListener("click", function () {
+      const top = el("div");
+      top.style.cssText = "display:flex;gap:14px;align-items:center;";
+      const av = el("div");
+      av.innerHTML = window.LiviaAvatar.svg(charWithOutfitColors(c), 72);
+      const info = el("div");
+      info.appendChild(el("strong", null, c.name));
+      info.appendChild(el("br"));
+      const small = el("small", null,
+        (c.relationship || "") + " ・ " + (c.occupationLabel || "") + " ・ " + (c.dialect || ""));
+      small.style.color = "#8b84a0";
+      info.appendChild(small);
+      top.appendChild(av);
+      top.appendChild(info);
+      card.appendChild(top);
+
+      // 住む家の切り替え（買った家の中から選ぶ）
+      const houseRow = el("div");
+      houseRow.style.cssText = "display:flex;gap:8px;align-items:center;margin-top:10px;";
+      houseRow.appendChild(el("span", null, "🏠 住む家")).style.fontSize = "13px";
+      const sel = el("select");
+      sel.style.flex = "1";
+      ownedHouses().forEach(function (hid) {
+        const opt = el("option", null, HOUSE_INDEX[hid].name);
+        opt.value = hid;
+        sel.appendChild(opt);
+      });
+      sel.value = c.houseId || "house_apartment";
+      sel.addEventListener("change", async function () {
+        c.houseId = sel.value;
+        await DB.updateCharacter(c.id, { houseId: c.houseId });
+        toast(c.name + " の家を " + HOUSE_INDEX[c.houseId].name + " にしました");
+        if (c.id === currentCharId) renderRoom();
+      });
+      houseRow.appendChild(sel);
+      card.appendChild(houseRow);
+
+      const btnRow = el("div", "row-btns");
+      const toRoom = el("button", "btn small", "部屋へ");
+      toRoom.addEventListener("click", function () {
         currentCharId = c.id;
         renderRoom();
         showTab("room");
       });
+      const regen = el("button", "btn small sub", "🎨 イラスト再生成");
+      regen.addEventListener("click", function () { regeneratePortrait(c, true); });
+      const del = el("button", "btn small sub", "お別れする");
+      del.addEventListener("click", async function () {
+        if (!window.confirm(c.name + " とお別れしますか？（データは消えて復活できません）")) return;
+        await DB.deleteCharacter(c.id);
+        characters = characters.filter(function (x) { return x.id !== c.id; });
+        if (currentCharId === c.id) currentCharId = characters.length ? characters[0].id : null;
+        toast("お別れしました");
+        renderOther();
+        renderRoom();
+      });
+      btnRow.appendChild(toRoom);
+      btnRow.appendChild(regen);
+      btnRow.appendChild(del);
+      card.appendChild(btnRow);
       wrap.appendChild(card);
     });
     $("btn-new-char").disabled = characters.length >= 3;
   }
 
+  // ---------- 設定 ----------
+  function applyFontSize(size) {
+    document.documentElement.setAttribute("data-font", size || "normal");
+    const sel = $("setting-fontsize");
+    if (sel) sel.value = size || "normal";
+  }
+  $("setting-fontsize").addEventListener("change", async function () {
+    const size = this.value;
+    applyFontSize(size);
+    const settings = Object.assign({}, player.settings || {}, { fontSize: size });
+    player.settings = settings;
+    await DB.updatePlayer({ settings: settings });
+    toast("文字サイズを変えました");
+  });
+
+  $("form-code").addEventListener("submit", async function (ev) {
+    ev.preventDefault();
+    const code = $("code-input").value.trim();
+    const msg = $("code-message");
+    if (!code) return;
+    const result = await DB.redeemCode(code);
+    if (result.ok) {
+      await reloadPlayer();
+      msg.textContent = result.amount.toLocaleString() + "Ai を受け取りました！";
+      msg.style.color = "#5aa06a";
+      $("code-input").value = "";
+    } else {
+      msg.textContent = result.reason;
+      msg.style.color = "#d9534f";
+    }
+  });
+
   // ---------- 会話 ----------
+  function renderChatHead() {
+    const c = currentChar();
+    if (!c) return;
+    $("chat-char-name").textContent = c.name;
+    renderPortrait($("chat-portrait"), c, 44, "chat-portrait-img");
+  }
+
   async function renderChat() {
     const c = currentChar();
     $("chat-empty").style.display = c ? "none" : "block";
     $("chat-main").style.display = c ? "flex" : "none";
     if (!c) return;
+    renderChatHead();
     const log = $("chat-log");
     log.innerHTML = "";
-    const msgs = await window.LiviaDB.listMessages(c.id, 100);
+    const msgs = await DB.listMessages(c.id, 100);
     if (!msgs.length) {
-      // 最初の挨拶（隣に引っ越してきた設定）
-      const greeting = window.LiviaChatAI.firstGreeting(c, player);
-      await window.LiviaDB.addMessage(c.id, "character", greeting);
+      const greeting = ChatAI.firstGreeting(c, player);
+      await DB.addMessage(c.id, "character", greeting);
       appendBubble("character", greeting);
     } else {
       msgs.forEach(function (m) { appendBubble(m.sender, m.text); });
@@ -1157,25 +2562,23 @@ window.LiviaChatAI = (function () {
     if (!text) return;
     input.value = "";
     appendBubble("player", text);
-    await window.LiviaDB.addMessage(c.id, "player", text);
+    await DB.addMessage(c.id, "player", text);
 
-    // 入力中表示 → 少し待って返信（連投は吹き出しを分ける）
     $("chat-typing").style.display = "block";
-    const replies = window.LiviaChatAI.generateReply(c, player, text);
+    const replies = ChatAI.generateReply(c, player, text);
     let delay = 700;
     for (const r of replies) {
       await new Promise(function (res) { setTimeout(res, delay); });
       appendBubble("character", r);
-      await window.LiviaDB.addMessage(c.id, "character", r);
+      await DB.addMessage(c.id, "character", r);
       delay = 500;
     }
     $("chat-typing").style.display = "none";
 
-    // 会話1往復で1Ai、好感度も少し上がる
-    const balance = await window.LiviaDB.addAi(D.economy.chatRewardPerRound);
+    const balance = await DB.addAi(D.economy.chatRewardPerRound);
     player.ai = balance;
     refreshAiBadge();
-    await window.LiviaDB.addAffection(c.id, 1);
+    await DB.addAffection(c.id, 1);
     c.affection = (c.affection || 0) + 1;
   });
 
@@ -1252,7 +2655,6 @@ window.LiviaChatAI = (function () {
     showScreen("screen-char-create");
   }
 
-  // おまかせ（ランダム自動入力）
   $("btn-omakase").addEventListener("click", function () {
     const pick = function (arr) { return arr[Math.floor(Math.random() * arr.length)]; };
     const names = ["さくら", "ゆう", "れん", "あおい", "そら", "ひなた", "つむぎ", "かいと"];
@@ -1319,13 +2721,19 @@ window.LiviaChatAI = (function () {
       dialectLevel: $("c-dialect-level").value,
       nationality: $("c-nationality").value.trim(),
       bloodType: $("c-blood").value,
-      dominantHand: $("c-hand").value
+      dominantHand: $("c-hand").value,
+      // 部屋・着せ替え・イラストの初期状態
+      houseId: "house_apartment",
+      outfit: {},
+      portraitSeed: Math.floor(Math.random() * 999999) + 1
     });
+    // 見た目からAIイラストの生成URLを作って保存する（表示は読み込み次第）
+    data.portraitUrl = portraitUrlFor(data, []);
 
-    const created = await window.LiviaDB.createCharacter(data);
+    const created = await DB.createCharacter(data);
     characters.push(created);
     currentCharId = created.id;
-    toast(created.name + " が隣に引っ越してきました！");
+    toast(created.name + " が隣に引っ越してきました！（イラストは生成中です）");
     showScreen("screen-home");
     renderRoom();
     showTab("room");
