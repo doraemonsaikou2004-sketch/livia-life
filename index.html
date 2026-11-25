@@ -288,6 +288,96 @@ html[data-font="large"] .bubble, html[data-font="large"] .outing-line { font-siz
 html[data-font="large"] .reaction { font-size: 16px; }
 html[data-font="small"] .reaction { font-size: 12px; }
 
+/* ---------- 移植追加分（プロトタイプ寄せ） ---------- */
+
+/* 部屋背景（家の固定イラストを敷く） */
+.room {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+.room.has-bg .char-name, .room.has-bg .char-meta,
+.room.has-bg .room-house {
+  text-shadow: 0 1px 6px rgba(255,255,255,0.9), 0 0 3px #fff;
+}
+.room .avatar-wrap img, .room .avatar-wrap svg { filter: drop-shadow(0 8px 10px rgba(0,0,0,0.25)); }
+.portrait-img { width: 260px; height: 347px; }
+
+/* 家具サムネイル（固定イラスト） */
+.room-furniture { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; min-height: 0; letter-spacing: 0; }
+.furn-thumb {
+  width: 52px; height: 52px; border-radius: 10px; object-fit: cover;
+  background: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.18); border: 2px solid rgba(255,255,255,0.8);
+}
+
+/* ドラクエ風の黒い会話ウィンドウ */
+.dq-window {
+  position: relative; margin: 14px auto 4px; max-width: 420px; min-height: 74px;
+  background: rgba(10,10,18,0.88); color: #fff; border: 3px solid #fff; border-radius: 10px;
+  padding: 12px 16px 18px; text-align: left; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35), inset 0 0 0 2px rgba(0,0,0,0.6);
+}
+.dq-name { font-size: 12px; color: #ffd76a; font-weight: bold; margin-bottom: 4px; }
+.dq-text { font-size: 15px; line-height: 1.65; white-space: pre-wrap; word-break: break-word; }
+.dq-next { position: absolute; right: 12px; bottom: 6px; font-size: 11px; color: #fff; animation: dqBlink 1s steps(2) infinite; }
+@keyframes dqBlink { 50% { opacity: 0.15; } }
+
+/* 自発メッセージの通知バナー風 */
+.notice-banner {
+  background: linear-gradient(135deg, #6f5fb3, #b06ab3); color: #fff;
+  border-radius: 14px; padding: 12px 16px; margin-bottom: 12px; cursor: pointer;
+  font-size: 14px; line-height: 1.6; box-shadow: 0 4px 14px rgba(111,95,179,0.35);
+}
+
+/* アイテム固定イラスト */
+.item-img {
+  width: 76px; height: 76px; object-fit: cover; border-radius: 12px;
+  background: #f3eefb; display: block; margin: 0 auto;
+}
+.item-card .item-img + .item-name { margin-top: 8px; }
+.list-row .row-img { width: 52px; height: 52px; object-fit: cover; border-radius: 10px; background: #f3eefb; flex: none; }
+
+/* 全画面風シーン（告白・婚約・就寝・ドライブ） */
+.scene-wrap { text-align: center; }
+.scene-bg {
+  width: 100%; border-radius: 16px; object-fit: cover; max-height: 300px;
+  background: #ddd3f0; box-shadow: 0 4px 16px rgba(61,53,80,0.2);
+}
+.scene-portrait { margin-top: -70px; position: relative; }
+.scene-portrait img.portrait-img { width: 190px; height: 253px; border: 4px solid #fff; }
+
+/* タイミングバー */
+.timing-track {
+  height: 26px; border-radius: 999px; background: #e9e2f5; position: relative; overflow: hidden; margin: 18px 0;
+}
+.timing-zone { position: absolute; top: 0; bottom: 0; background: #ffd76a; }
+.timing-bar {
+  position: absolute; top: 0; bottom: 0; width: 6px; background: #d9534f; border-radius: 3px;
+}
+
+/* 間違い探し・神経衰弱グリッド */
+.emoji-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 14px 0; }
+.emoji-grid button {
+  font-size: 26px; padding: 8px 0; background: #fff; border: 2px solid #e3dcf2;
+  border-radius: 10px; cursor: pointer;
+}
+.memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 14px 0; }
+.memory-grid button {
+  font-size: 28px; padding: 16px 0; background: linear-gradient(135deg, var(--main), var(--accent));
+  border: none; border-radius: 12px; cursor: pointer; color: #fff; min-height: 64px;
+}
+.memory-grid button.open { background: #fff; border: 2px solid #e3dcf2; }
+
+/* アルバム */
+.album-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.album-grid figure { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 5px rgba(61,53,80,0.08); }
+.album-grid img { width: 100%; height: 130px; object-fit: cover; display: block; background: #eee; }
+.album-grid figcaption { font-size: 12px; padding: 8px; color: var(--sub); line-height: 1.5; }
+
+/* 車両カード */
+.vehicle-img { width: 100%; height: 130px; object-fit: cover; border-radius: 12px; background: #e8e2f5; display: block; }
+
 </style>
 </head>
 <body>
@@ -360,27 +450,39 @@ html[data-font="small"] .reaction { font-size: 12px; }
     </header>
 
     <main id="tab-room" class="tab-page">
+      <div id="notice-banner" class="notice-banner" style="display:none;"></div>
       <div id="room-empty" class="empty" style="display:none;">
         まだキャラクターがいません。<br>最初のキャラを作りましょう。<br><br>
         <button class="btn" data-goto-create>キャラを作る</button>
       </div>
       <div id="room-main" style="display:none;">
-        <div class="room">
+        <div class="room" id="room-stage">
           <div class="room-house" id="room-house"></div>
-          <div class="window"></div>
-          <div class="avatar-wrap" id="room-avatar" title="タップで反応"></div>
+          <div class="avatar-wrap" id="room-avatar" title="タップで拡大"></div>
           <div class="room-furniture" id="room-furniture"></div>
           <div class="char-name" id="room-char-name"></div>
           <div class="char-meta" id="room-char-meta"></div>
           <div class="reaction" id="room-reaction"></div>
+          <div class="dq-window" id="room-dialogue" title="タップで次のセリフ">
+            <div class="dq-name" id="room-dialogue-name"></div>
+            <div class="dq-text" id="room-dialogue-text"></div>
+            <div class="dq-next">▼</div>
+          </div>
           <div class="room-actions">
             <button class="btn small" id="btn-to-chat">💬 会話する</button>
             <button class="btn small sub" id="btn-naderu">🤲 なでる</button>
+            <button class="btn small sub" id="btn-yobu" disabled>📣 呼ぶ</button>
             <button class="btn small sub" id="btn-dressup">👗 着せ替え</button>
             <button class="btn small sub" id="btn-present">🎁 プレゼント</button>
             <button class="btn small sub" id="btn-outing">🚶 お出かけ</button>
+            <button class="btn small sub" id="btn-drive">🚗 ドライブ</button>
+            <button class="btn small sub" id="btn-garage">🔧 ガレージ</button>
+            <button class="btn small sub" id="btn-diary">📔 日記</button>
+            <button class="btn small sub" id="btn-album">📷 アルバム</button>
             <button class="btn small sub" id="btn-minigame">🎮 ミニゲーム</button>
             <button class="btn small sub" id="btn-fortune">🔮 占い</button>
+            <button class="btn small sub" id="btn-romance">💌 告白</button>
+            <button class="btn small sub" id="btn-sleep">🌙 おやすみ</button>
           </div>
           <p class="note" style="margin-top:10px;">イラストは外部の無料生成サービスで作っているため、表示まで時間がかかることがあります。</p>
         </div>
@@ -397,7 +499,11 @@ html[data-font="small"] .reaction { font-size: 12px; }
         <div class="chat-head">
           <span id="chat-portrait"></span>
           <span id="chat-char-name"></span>
-          <button class="btn small sub" id="btn-regen-portrait" style="margin-left:auto;">🎨 イラスト再生成</button>
+          <span style="margin-left:auto;display:flex;gap:6px;">
+            <button class="btn small sub" id="btn-work-report">🏫 報告</button>
+            <button class="btn small sub" id="btn-summon">📣 召喚</button>
+            <button class="btn small sub" id="btn-regen-portrait">🎨 イラスト再生成</button>
+          </span>
         </div>
         <div class="chat-log" id="chat-log" style="overflow-y:auto;flex:1;"></div>
         <div class="typing" id="chat-typing" style="display:none;">入力中…</div>
@@ -532,6 +638,17 @@ html[data-font="small"] .reaction { font-size: 12px; }
         </label>
         <label class="field"><span>口癖</span>
           <input type="text" id="c-catchphrase" maxlength="30" placeholder="例：〜だもんね">
+        </label>
+        <label class="field"><span>語尾</span>
+          <select id="c-ending">
+            <option value="">特になし</option>
+            <option value="〜なのだ">〜なのだ</option>
+            <option value="〜にゃ">〜にゃ</option>
+            <option value="〜だぞ">〜だぞ</option>
+            <option value="〜ですわ">〜ですわ</option>
+            <option value="〜じゃ">〜じゃ</option>
+          </select>
+          <input type="text" id="c-ending-free" maxlength="10" placeholder="自由入力（入力するとこちらが優先）" style="margin-top:6px;">
         </label>
         <label class="field"><span>寂しい時にどんな表現をする？ *</span>
           <select id="c-lonely"></select>
@@ -727,6 +844,18 @@ window.LIVIA_DATA = {
     { id: "cv_choco", name: "チョコレート", price: 100, kind: "food", icon: "🍫" },
     { id: "cv_juice", name: "フルーツジュース", price: 120, kind: "food", icon: "🧃" },
     { id: "cv_coffee", name: "缶コーヒー", price: 130, kind: "food", icon: "☕" }
+    ,{ id: "cv_salad", name: "サラダ", price: 150, kind: "food", icon: "🥗" },
+    { id: "cv_pasta", name: "パスタ", price: 250, kind: "food", icon: "🍝" },
+    { id: "cv_curry", name: "カレーパン", price: 130, kind: "food", icon: "🍛" },
+    { id: "cv_donut", name: "ドーナツ", price: 120, kind: "food", icon: "🍩" },
+    { id: "cv_fruit", name: "フルーツ盛り", price: 300, kind: "food", icon: "🍓" },
+    { id: "cv_tea", name: "お茶", price: 110, kind: "food", icon: "🍵" },
+    { id: "cv_sake", name: "日本酒（大人用）", price: 600, kind: "food", icon: "🍶", adult: true },
+    { id: "cv_wine", name: "ワイン（大人用）", price: 900, kind: "food", icon: "🍷", adult: true },
+    { id: "cv_tobacco", name: "タバコ（大人用）", price: 500, kind: "food", icon: "🚬", adult: true },
+    { id: "cv_medicine", name: "風邪薬", price: 400, kind: "food", icon: "💊" },
+    { id: "cv_cake", name: "ショートケーキ", price: 280, kind: "food", icon: "🍰" },
+    { id: "cv_fried", name: "唐揚げ", price: 220, kind: "food", icon: "🍗" }
   ],
 
   // 服屋（普通の服1着500Aiくらいが目安。浴衣・水着などはガチャ限定）
@@ -760,6 +889,38 @@ window.LIVIA_DATA = {
     { id: "cl_onepiece", name: "ワンピース", price: 2500, kind: "clothes", part: "set", color: "#7fb3d9", icon: "👗", en: "a light blue one-piece dress" },
     { id: "cl_pajama", name: "パジャマセット", price: 1200, kind: "clothes", part: "set", color: "#f2d5e0", icon: "🛌", en: "soft pink pajamas" },
     { id: "cl_kigurumi", name: "着ぐるみパジャマ", price: 2000, kind: "clothes", part: "set", color: "#a8d8a8", icon: "🐻", en: "a cute animal kigurumi pajama onesie" }
+    ,{ id: "cl_beret", name: "ベレー帽", price: 800, kind: "clothes", part: "head", color: "#7a4a3a", icon: "🎨", en: "a brown beret" },
+    { id: "cl_sunhat", name: "日よけ帽子", price: 700, kind: "clothes", part: "head", color: "#f0e0b0", icon: "👒", en: "a wide-brim sun hat" },
+    { id: "cl_knitcap_pink", name: "ピンクのニット帽", price: 650, kind: "clothes", part: "head", color: "#f2a7c3", icon: "🧶", en: "a pink knit cap" },
+    { id: "cl_hairpin", name: "花のヘアピン", price: 350, kind: "clothes", part: "head", color: "#ffb7d5", icon: "🌸", en: "a flower hairpin" },
+    { id: "cl_tshirt_black", name: "黒いTシャツ", price: 500, kind: "clothes", part: "body", color: "#2b2b33", icon: "👕", en: "a plain black t-shirt" },
+    { id: "cl_tshirt_stripe", name: "ボーダーシャツ", price: 700, kind: "clothes", part: "body", color: "#7fb3d9", icon: "👕", en: "a striped border shirt" },
+    { id: "cl_shirt_blue", name: "青いシャツ", price: 900, kind: "clothes", part: "body", color: "#5a8ec9", icon: "👔", en: "a blue button-up shirt" },
+    { id: "cl_knit_pink", name: "ピンクのニット", price: 1400, kind: "clothes", part: "body", color: "#f6c6d8", icon: "🧶", en: "a soft pink knit sweater" },
+    { id: "cl_knit_gray", name: "グレーのニット", price: 1300, kind: "clothes", part: "body", color: "#9a9aa5", icon: "🧶", en: "a gray knit sweater" },
+    { id: "cl_parka_pink", name: "ピンクのパーカー", price: 1500, kind: "clothes", part: "body", color: "#f2a7c3", icon: "🧥", en: "a pink hoodie" },
+    { id: "cl_denim_jacket", name: "デニムジャケット", price: 2800, kind: "clothes", part: "body", color: "#4a6a9c", icon: "🧥", en: "a denim jacket" },
+    { id: "cl_coat_red", name: "赤いコート", price: 4500, kind: "clothes", part: "body", color: "#b03a3a", icon: "🧥", en: "an elegant red coat" },
+    { id: "cl_cardigan_cream", name: "クリーム色カーディガン", price: 1200, kind: "clothes", part: "body", color: "#f3ead8", icon: "🧥", en: "a cream cardigan over a white inner shirt" },
+    { id: "cl_sailor", name: "セーラー服", price: 3500, kind: "clothes", part: "set", color: "#31456e", icon: "🎀", en: "a navy sailor school uniform" },
+    { id: "cl_suit", name: "スーツ", price: 8000, kind: "clothes", part: "set", color: "#2e3242", icon: "💼", en: "a dark business suit" },
+    { id: "cl_uniform_blazer", name: "ブレザー制服", price: 3800, kind: "clothes", part: "set", color: "#5b4a8a", icon: "🏫", en: "a school blazer uniform" },
+    { id: "cl_jeans_black", name: "黒ジーンズ", price: 1200, kind: "clothes", part: "lower", color: "#26262c", icon: "👖", en: "black jeans" },
+    { id: "cl_jeans_light", name: "色落ちジーンズ", price: 1100, kind: "clothes", part: "lower", color: "#9db8d9", icon: "👖", en: "light blue washed jeans" },
+    { id: "cl_skirt_check", name: "チェック柄スカート", price: 1400, kind: "clothes", part: "lower", color: "#b3556e", icon: "👗", en: "a red checkered skirt" },
+    { id: "cl_skirt_long", name: "ロングスカート", price: 1600, kind: "clothes", part: "lower", color: "#7a9cc6", icon: "👗", en: "a long flowing skirt" },
+    { id: "cl_cargo", name: "カーゴパンツ", price: 1500, kind: "clothes", part: "lower", color: "#6b7a4f", icon: "👖", en: "olive cargo pants" },
+    { id: "cl_widepants", name: "ワイドパンツ", price: 1700, kind: "clothes", part: "lower", color: "#8a7f72", icon: "👖", en: "beige wide pants" },
+    { id: "cl_sneakers_red", name: "赤いスニーカー", price: 1600, kind: "clothes", part: "feet", color: "#c0392b", icon: "👟", en: "red sneakers" },
+    { id: "cl_sneakers_high", name: "ハイカットスニーカー", price: 1900, kind: "clothes", part: "feet", color: "#3a3a44", icon: "👟", en: "black high-top sneakers" },
+    { id: "cl_maryjane", name: "メリージェーン", price: 2100, kind: "clothes", part: "feet", color: "#3a2e2a", icon: "👞", en: "black mary jane shoes" },
+    { id: "cl_longboots", name: "ロングブーツ", price: 3200, kind: "clothes", part: "feet", color: "#4a3226", icon: "🥾", en: "brown long boots" },
+    { id: "cl_dress_blue", name: "青いワンピース", price: 2600, kind: "clothes", part: "set", color: "#5a8ec9", icon: "👗", en: "a blue one-piece dress" },
+    { id: "cl_dress_white", name: "白いワンピース", price: 2700, kind: "clothes", part: "set", color: "#f7f5f0", icon: "👗", en: "a white one-piece dress" },
+    { id: "cl_roomwear", name: "もこもこ部屋着", price: 1800, kind: "clothes", part: "set", color: "#d9c8ec", icon: "🛌", en: "fluffy lavender loungewear" },
+    { id: "cl_tracksuit", name: "ジャージ上下", price: 1600, kind: "clothes", part: "set", color: "#3f6212", icon: "🏃", en: "a green tracksuit set" },
+    { id: "cl_pet_sweater", name: "ペット用セーター", price: 900, kind: "clothes", part: "set", color: "#e0a458", icon: "🐾", en: "a cute sweater outfit for a small monster pet", pet: true },
+    { id: "cl_pet_ribbon", name: "ペット用リボン", price: 500, kind: "clothes", part: "head", color: "#f2a7c3", icon: "🎀", en: "a ribbon accessory for a small monster pet", pet: true }
   ],
 
   // 家具屋（ソファ3000Aiくらいが目安）
@@ -774,6 +935,18 @@ window.LIVIA_DATA = {
     { id: "fu_table", name: "テーブル", price: 4000, kind: "furniture", icon: "🪑" },
     { id: "fu_chair", name: "ゲーミングチェア", price: 12000, kind: "furniture", icon: "💺" },
     { id: "fu_light", name: "間接照明", price: 3500, kind: "furniture", icon: "💡" }
+    ,{ id: "fu_kotatsu", name: "こたつ", price: 9000, kind: "furniture", icon: "🔥" },
+    { id: "fu_piano", name: "ピアノ", price: 80000, kind: "furniture", icon: "🎹" },
+    { id: "fu_aquarium", name: "水槽", price: 20000, kind: "furniture", icon: "🐠" },
+    { id: "fu_gamingdesk", name: "ゲーミングデスク", price: 25000, kind: "furniture", icon: "🎮" },
+    { id: "fu_mirror", name: "姿見ミラー", price: 6000, kind: "furniture", icon: "🪞" },
+    { id: "fu_figureshelf", name: "フィギュア棚", price: 11000, kind: "furniture", icon: "🧸" },
+    { id: "fu_katana", name: "刀の飾り台", price: 15000, kind: "furniture", icon: "🗡️" },
+    { id: "fu_cattower", name: "キャットタワー", price: 13000, kind: "furniture", icon: "🐱" },
+    { id: "fu_aircon", name: "エアコン", price: 30000, kind: "furniture", icon: "❄️" },
+    { id: "fu_dresser", name: "ドレッサー", price: 14000, kind: "furniture", icon: "💄" },
+    { id: "fu_hammock", name: "ハンモック", price: 10000, kind: "furniture", icon: "🏖️" },
+    { id: "fu_bigsofa", name: "大きなソファ", price: 18000, kind: "furniture", icon: "🛋️" }
   ],
 
   // プレゼント屋（普通のプレゼント1個1000Aiくらいが目安）
@@ -786,18 +959,29 @@ window.LIVIA_DATA = {
     { id: "gf_choco", name: "高級チョコ", price: 2000, kind: "gift", icon: "🍫" },
     { id: "gf_watch", name: "腕時計", price: 10000, kind: "gift", icon: "⌚" },
     { id: "gf_muffler", name: "マフラー", price: 1800, kind: "gift", icon: "🧣" }
+    ,{ id: "gf_book", name: "小説の本", price: 1200, kind: "gift", icon: "📖" },
+    { id: "gf_candle", name: "アロマキャンドル", price: 1600, kind: "gift", icon: "🕯️" },
+    { id: "gf_handcream", name: "ハンドクリーム", price: 900, kind: "gift", icon: "🧴" },
+    { id: "gf_teaset", name: "お茶セット", price: 3500, kind: "gift", icon: "🍵" },
+    { id: "gf_bathsalts", name: "入浴剤", price: 700, kind: "gift", icon: "🛁" },
+    { id: "gf_scarf", name: "手編みのマフラー", price: 2200, kind: "gift", icon: "🧣" },
+    { id: "gf_cake", name: "ホールケーキ", price: 3000, kind: "gift", icon: "🎂" },
+    { id: "gf_makaron", name: "マカロン詰め合わせ", price: 1900, kind: "gift", icon: "🧁" }
   ],
 
   // 不動産（広いアパート5万Ai・普通の一軒家500万Ai・最上級は10億Aiが目安）
   // 家はプレイヤーが買い、キャラごとに住む家を切り替えられる。
   houses: [
-    { id: "house_apartment", name: "今のアパート", price: 0, icon: "🏠", desc: "住み慣れた隣同士のアパート" },
-    { id: "house_oneroom", name: "ワンルームマンション", price: 30000, icon: "🏢", desc: "駅近で便利なマンション" },
-    { id: "house_wide", name: "広いアパート", price: 50000, icon: "🏢", desc: "部屋が広くて家具もたくさん置ける" },
-    { id: "house_log", name: "ログハウス", price: 300000, icon: "🛖", desc: "木のぬくもりがある家" },
-    { id: "house_detached", name: "普通の一軒家", price: 5000000, icon: "🏡", desc: "庭付きの一軒家" },
-    { id: "house_penthouse", name: "ペントハウス", price: 50000000, icon: "🌃", desc: "高層階からの眺めが最高" },
-    { id: "house_mansion", name: "豪邸", price: 1000000000, icon: "🏰", desc: "お城みたいな最高級の家" }
+    { id: "house_apartment", name: "今のアパート", price: 0, icon: "🏠", desc: "住み慣れた隣同士のアパート", bgSeed: 101, bgPrompt: "cozy small japanese apartment room interior, plain textured wall, wooden floor, one window, photorealistic, empty room, no furniture, no people" },
+    { id: "house_oneroom", name: "ワンルームマンション", price: 30000, icon: "🏢", desc: "駅近で便利なマンション", bgSeed: 102, bgPrompt: "modern japanese one-room condominium interior, bright window, light wood floor, photorealistic, empty room, no furniture, no people" },
+    { id: "house_wide", name: "広いアパート", price: 50000, icon: "🏢", desc: "部屋が広くて家具もたくさん置ける", bgSeed: 103, bgPrompt: "wide japanese apartment living room interior, big window, warm lighting, photorealistic, empty room, no furniture, no people" },
+    { id: "house_2ldk", name: "2LDKマンション", price: 200000, icon: "🏢", desc: "リビングと個室がある暮らしやすい家", bgSeed: 104, bgPrompt: "japanese 2LDK condominium living room interior, stylish, photorealistic, empty room, no furniture, no people" },
+    { id: "house_log", name: "ログハウス", price: 300000, icon: "🛖", desc: "木のぬくもりがある家", bgSeed: 105, bgPrompt: "log house wooden interior room, warm wooden walls, window with forest view, photorealistic, empty room, no furniture, no people" },
+    { id: "house_wafuu", name: "和風の一軒家", price: 2000000, icon: "🏯", desc: "畳と縁側のある落ち着いた家", bgSeed: 106, bgPrompt: "japanese style house interior, tatami room, shoji screens, garden view, photorealistic, empty room, no furniture, no people" },
+    { id: "house_detached", name: "普通の一軒家", price: 5000000, icon: "🏡", desc: "庭付きの一軒家", bgSeed: 107, bgPrompt: "japanese detached house living room interior, garden visible through window, photorealistic, empty room, no furniture, no people" },
+    { id: "house_cottage", name: "海辺のコテージ", price: 20000000, icon: "🌊", desc: "窓から海が見えるコテージ", bgSeed: 108, bgPrompt: "seaside cottage interior, ocean view from large window, bright, photorealistic, empty room, no furniture, no people" },
+    { id: "house_penthouse", name: "ペントハウス", price: 50000000, icon: "🌃", desc: "高層階からの眺めが最高", bgSeed: 109, bgPrompt: "luxury penthouse living room interior, floor to ceiling windows, city night view, photorealistic, empty room, no furniture, no people" },
+    { id: "house_mansion", name: "豪邸", price: 1000000000, icon: "🏰", desc: "お城みたいな最高級の家", bgSeed: 110, bgPrompt: "grand castle-like mansion great hall interior, high ceiling, elegant, photorealistic, empty room, no furniture, no people" }
   ],
 
   // お店タブのカテゴリ
@@ -806,7 +990,8 @@ window.LIVIA_DATA = {
     { id: "clothes", name: "服屋", icon: "👗" },
     { id: "furniture", name: "家具屋", icon: "🛋️" },
     { id: "gifts", name: "プレゼント屋", icon: "🎁" },
-    { id: "houses", name: "不動産", icon: "🏠" }
+    { id: "houses", name: "不動産", icon: "🏠" },
+    { id: "vehicles", name: "車屋", icon: "🚗" }
   ],
 
   // ==========================================================
@@ -860,6 +1045,23 @@ window.LIVIA_DATA = {
       { id: "ga_trip_world", name: "海外旅行券", rarity: "ゴッドレア", kind: "item", icon: "✈️" },
       { id: "ga_diamond", name: "ダイヤのネックレス", rarity: "ゴッドレア", kind: "item", icon: "💎" },
       { id: "ga_yukata", name: "花火柄の浴衣", rarity: "ゴッドレア", kind: "clothes", part: "set", color: "#31456e", icon: "🎆", en: "a navy yukata with fireworks pattern" }
+      ,{ id: "ga_witch", name: "魔女のコスチューム", rarity: "レア", kind: "clothes", part: "set", color: "#4a2b5e", icon: "🧙", en: "a cute witch costume with a pointed hat" },
+      { id: "ga_maid", name: "メイド服", rarity: "スーパーレア", kind: "clothes", part: "set", color: "#2b2b33", icon: "🎀", en: "a classic maid outfit" },
+      { id: "ga_bunny", name: "バニーコスチューム", rarity: "スーパーレア", kind: "clothes", part: "set", color: "#1c1c22", icon: "🐰", en: "a bunny costume with bunny ears" },
+      { id: "ga_riders", name: "ライダースジャケット", rarity: "スーパーレア", kind: "clothes", part: "body", color: "#23232a", icon: "🏍️", en: "a black leather riders jacket" },
+      { id: "ga_santa", name: "サンタコスチューム", rarity: "レア", kind: "clothes", part: "set", color: "#c0392b", icon: "🎅", en: "a santa claus costume" },
+      { id: "ga_nurse", name: "ナース服", rarity: "レア", kind: "clothes", part: "set", color: "#f7f3ee", icon: "💉", en: "a nurse uniform costume" },
+      { id: "ga_wedding", name: "ウエディングドレス", rarity: "ウルトラレア", kind: "clothes", part: "set", color: "#ffffff", icon: "👰", en: "a beautiful white wedding dress" },
+      { id: "ga_halloween", name: "ハロウィンコスチューム", rarity: "レア", kind: "clothes", part: "set", color: "#e07b2a", icon: "🎃", en: "a halloween pumpkin costume" },
+      { id: "ga_swimsuit_school", name: "スクール水着", rarity: "レア", kind: "clothes", part: "set", color: "#1d2f57", icon: "🏊", en: "a navy school swimsuit" },
+      { id: "ga_kimono", name: "振袖", rarity: "ウルトラレア", kind: "clothes", part: "set", color: "#b03a5b", icon: "👘", en: "an elegant colorful furisode kimono" },
+      { id: "ga_moviespecial", name: "映画の特別券", rarity: "レア", kind: "item", icon: "🎬" },
+      { id: "ga_instrument", name: "楽器セット", rarity: "スーパーレア", kind: "item", icon: "🎻" },
+      { id: "ga_onsen2", name: "温泉旅行券", rarity: "ウルトラレア", kind: "item", icon: "♨️" },
+      { id: "ga_goldwatch", name: "金の腕時計", rarity: "ウルトラレア", kind: "item", icon: "⌚" },
+      { id: "ga_crown", name: "王冠ティアラ", rarity: "ゴッドレア", kind: "clothes", part: "head", color: "#f5c542", icon: "👑", en: "a golden crown tiara" },
+      { id: "ga_dress_red", name: "真紅のドレス", rarity: "ゴッドレア", kind: "clothes", part: "set", color: "#8e1030", icon: "💃", en: "an elegant crimson evening dress" },
+      { id: "ga_dress_moon", name: "月光のドレス", rarity: "ゴッドレア", kind: "clothes", part: "set", color: "#cfd8ec", icon: "🌙", en: "a shimmering silver moonlight dress" }
     ]
   },
 
@@ -881,6 +1083,10 @@ window.LIVIA_DATA = {
       lines: ["波の音、落ち着くね", "夕日が沈むまで見ていようか", "砂浜を歩くの、楽しいね"] },
     { id: "out_gamecenter", name: "ゲームセンター", icon: "🕹️", cost: 500, place: "ゲームセンター",
       lines: ["対戦しよう、負けないよ？", "クレーンゲーム、あと少しだったのに…！", "プリクラ撮ろうよ"] },
+    { id: "out_bar", name: "BAR", icon: "🍸", cost: 1200, place: "BAR", adult: true,
+      lines: ["静かなBARだね。…大人の時間って感じ", "カクテル、きれいな色だね", "少し酔っちゃったかも。…なんてね"] },
+    { id: "out_shopping", name: "買い物", icon: "🛍️", cost: 800, place: "商店街",
+      lines: ["あ、あれ可愛い！ 見ていこう？", "ウィンドウショッピングも楽しいね", "今日はいい買い物ができたね"] },
     { id: "out_restaurant", name: "外食", icon: "🍽️", cost: 1000, place: "レストラン",
       lines: ["ずっと気になってたお店なんだ", "一口あげる。…美味しい？", "また一緒に来たいな"] }
   ],
@@ -927,8 +1133,119 @@ window.LIVIA_DATA = {
     levels: 10,
     // レベルごとの基本報酬
     rewardForLevel: function (level) { return 10 * level * level; }
-  }
+  },
+
+  // ==========================================================
+  // 車・バイク（車屋で買う。価格はクラスで差をつける。
+  // 画像は固定seedの実写風イラスト）
+  // ==========================================================
+  vehicles: [
+    { id: "veh_moped", name: "原付スクーター", type: "bike", price: 50000, icon: "🛵", en: "a small moped scooter" },
+    { id: "veh_kei", name: "軽自動車", type: "car", price: 120000, icon: "🚗", en: "a japanese kei car" },
+    { id: "veh_bike250", name: "250ccバイク", type: "bike", price: 250000, icon: "🏍️", en: "a 250cc sport motorcycle" },
+    { id: "veh_compact", name: "コンパクトカー", type: "car", price: 300000, icon: "🚙", en: "a compact hatchback car" },
+    { id: "veh_sedan", name: "セダン", type: "car", price: 800000, icon: "🚘", en: "a luxury sedan car" },
+    { id: "veh_suv", name: "SUV", type: "car", price: 1200000, icon: "🚙", en: "a large SUV car" },
+    { id: "veh_bigbike", name: "大型バイク", type: "bike", price: 1500000, icon: "🏍️", en: "a large cruiser motorcycle" },
+    { id: "veh_sportscar", name: "スポーツカー", type: "car", price: 3000000, icon: "🏎️", en: "a sleek sports car" },
+    { id: "veh_convertible", name: "オープンカー", type: "car", price: 5000000, icon: "🚗", en: "a stylish convertible car" },
+    { id: "veh_supercar", name: "スーパーカー", type: "car", price: 20000000, icon: "🏎️", en: "an exotic supercar" }
+  ],
+
+  // 職業別の週給目安（金曜支給。サラリーマン2500Aiが目安）
+  salaries: {
+    "サラリーマン": 2500, "先生": 2600, "医者": 5000, "店員": 1800,
+    "クリエイター": 2200, "フリーター": 1500, "警察": 2800, "美容師": 2000,
+    "バーテンダー": 2100, "バンドマン": 1600, "パティシエ": 2000,
+    "学生バイト": 800, "ペット内職": 300, "無職": 0, "その他": 1800
+  },
+
+  // 部屋会話（ドラクエ風ウィンドウ用テンプレプール）
+  roomLines: [
+    "今日はいい天気だね。窓の外、気持ちよさそう",
+    "ねえ、最近どう？ 何か楽しいことあった？",
+    "この部屋、だんだん居心地よくなってきたね",
+    "お腹すいてきたなぁ…何か食べたい",
+    "一緒にいると落ち着くんだよね",
+    "あとでミニゲームでもしない？",
+    "今日の出来事、聞かせてほしいな",
+    "ふぁ…少し眠くなってきたかも",
+    "好きな食べ物の話、また聞きたいな",
+    "たまにはお出かけもしたいね"
+  ],
+
+  // 季節イベント（月で判定する簡易版）
+  seasonalEvents: [
+    { key: "newyear", months: [1], name: "お正月", line: "あけましておめでとう！ 今年もよろしくね。初詣、行こう？" },
+    { key: "valentine", months: [2], name: "バレンタイン", line: "今日はバレンタインだね。…はい、チョコ。受け取って？" },
+    { key: "whiteday", months: [3], name: "ホワイトデー", line: "ホワイトデーだね。お返し、楽しみにしてたんだ" },
+    { key: "sakura", months: [4], name: "お花見シーズン", line: "桜が咲いてる頃だね。お花見に行きたいな" },
+    { key: "summer", months: [7, 8], name: "夏", line: "夏だね！ 海とか夏祭りとか、行きたいなぁ" },
+    { key: "halloween", months: [10], name: "ハロウィン", line: "ハロウィンだね。仮装、してみたいかも…トリック・オア・トリート！" },
+    { key: "kouyou", months: [11], name: "紅葉シーズン", line: "紅葉が見頃みたいだよ。見に行きたいね" },
+    { key: "christmas", months: [12], name: "クリスマス", line: "メリークリスマス！ 今日は特別な日だね" }
+  ]
 };
+
+// ============================================================
+// 固定画像（プロトタイプ準拠：全アイテム・家の背景に固定イラスト）
+// seed とプロンプトは id から決定的に作るため、全ユーザー・毎回
+// 同じ画像URLになる。生成は Pollinations（外部無料サービス）。
+// ============================================================
+(function () {
+  function hashCode(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) {
+      h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+    }
+    return Math.abs(h);
+  }
+  function imgUrl(prompt, seed, w, h) {
+    return "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+      + "?width=" + (w || 512) + "&height=" + (h || 512)
+      + "&seed=" + seed + "&nologo=true";
+  }
+  window.LIVIA_IMG = { hashCode: hashCode, url: imgUrl };
+
+  const D = window.LIVIA_DATA;
+  const catalogs = [D.convenienceItems, D.clothesItems, D.furnitureItems, D.giftItems, D.gacha.prizes];
+  catalogs.forEach(function (arr) {
+    arr.forEach(function (item) {
+      const seed = 1000 + (hashCode(item.id) % 89999);
+      let prompt;
+      if (item.kind === "clothes") {
+        prompt = "product photo of " + (item.en || item.name) + ", clothing item on clean white background, catalog style";
+      } else if (item.kind === "furniture") {
+        prompt = "product photo of home furniture, " + item.name + ", interior catalog style, clean background";
+      } else if (item.kind === "food") {
+        prompt = "appetizing food photography of " + item.name + ", convenience store product, clean background";
+      } else {
+        prompt = "cute gift item product photo, " + item.name + ", clean background, catalog style";
+      }
+      item.imgSeed = seed;
+      item.imgPrompt = prompt;
+      item.img = imgUrl(prompt, seed, 512, 512);
+    });
+  });
+  // 車両は実写風
+  D.vehicles.forEach(function (v) {
+    const seed = 5000 + (hashCode(v.id) % 89999);
+    v.imgSeed = seed;
+    v.imgPrompt = "photorealistic photo of " + v.en + ", studio lighting, side view";
+    v.img = imgUrl(v.imgPrompt, seed, 768, 512);
+  });
+  // 家の部屋背景（固定seed）
+  D.houses.forEach(function (h) {
+    if (h.bgPrompt) h.bgImg = imgUrl(h.bgPrompt, h.bgSeed || 100, 1024, 768);
+  });
+  // お出かけ先の背景（固定seed）
+  D.outings.forEach(function (o) {
+    const seed = 3000 + (hashCode(o.id) % 89999);
+    o.bgSeed = seed;
+    o.bgPrompt = "beautiful anime background scenery of " + o.place + ", no people, detailed";
+    o.bgImg = imgUrl(o.bgPrompt, seed, 1024, 768);
+  });
+})();
 
 </script>
 <script>
@@ -1297,6 +1614,35 @@ window.LiviaChatAI = (function () {
     return out;
   }
 
+  // ---------- 語尾の適用 ----------
+  // キャラ作成で設定した語尾（例: 〜なのだ）を、たまに文末に付ける。
+  function applyEnding(text, character) {
+    const ending = (character.speechEnding || "").trim();
+    if (!ending || ending === "特になし") return text;
+    if (Math.random() > 0.45) return text;
+    if (/[。！？!?]$/.test(text)) {
+      return text.replace(/[。]$/, "") + ending + "。";
+    }
+    return text + ending;
+  }
+
+  function finish(text, character) {
+    return applyEnding(applyDialect(text, character), character);
+  }
+
+  // 方言ごとの手書き短文プール（部屋会話などでそのまま使う自然な一言）
+  const dialectLines = {
+    "関西弁": ["今日はええ天気やなぁ", "なんかおもろいことない？", "せやせや、その調子やで"],
+    "三重弁": ["今日はええ天気やに", "のんびりしとるんやに", "まあ、ぼちぼちいこに"],
+    "博多弁": ["今日はよか天気ばい", "なんか面白かことなか？", "好いとーよ、こういう時間"],
+    "津軽弁": ["今日はえ天気だばい", "まんず、のんびりすべ", "わいはここさ居るはんで"],
+    "京都弁": ["今日はええお天気どすなぁ", "のんびりしたはります？", "まあ、お茶でもどうどす"],
+    "名古屋弁": ["今日はええ天気だで", "なんか面白いことないかね", "まあ、ぼちぼちいこみゃあ"],
+    "北海道弁": ["今日はなまらいい天気だべ", "のんびりするべ", "寒い日は家が一番だべさ"],
+    "広島弁": ["今日はええ天気じゃけえ", "なんか面白いことないかの", "まあ、のんびりいこうや"],
+    "沖縄弁": ["今日はいい天気さぁ", "なんくるないさー、のんびりいこう", "ちむどんどんする話、ない？"]
+  };
+
   // ---------- ルールベース返信 ----------
   function baseReply(character, player, userText) {
     const t = userText || "";
@@ -1331,6 +1677,38 @@ window.LiviaChatAI = (function () {
       if (amaenbo) return [pick(["私も寂しかった…", "ねえ、もっとお話ししよう？"])];
       return [pick(["…ここにいるよ", "大丈夫、私はここにいるから"])];
     }
+    if (/告白|付き合って|恋人になって/.test(t)) {
+      // 仕様: 会話の中での告白は絶対に振られる（告白は専用イベントでのみ成功する）
+      if ((character.relationship || "") === "恋人" || (character.relationship || "") === "結婚") {
+        return [pick(["…もう付き合ってるでしょ。ふふ", "改めて言われると照れるな"])];
+      }
+      return [pick(["ごめん…そういうのは、ちゃんとした場所で言ってほしいな", "…ごめんね。今はまだ、そういう気持ちにはなれなくて"])];
+    }
+    if (/キス|ちゅー/.test(t)) {
+      // 仕様: キスなどは好感度が十分に高くないとできない
+      if (tone >= 2 && ((character.relationship || "") === "恋人" || (character.relationship || "") === "結婚")) {
+        return [pick(["…ん。…えへへ", "（そっと目を閉じた）"])];
+      }
+      return [pick(["えっ…！ ま、まだそういうのは早いよ…", "…ごめん、今はまだできないかな"])];
+    }
+    if (/結婚|プロポーズ/.test(t)) {
+      return [pick(["結婚かぁ…いつか、ちゃんとした形で言ってほしいな", "そういう大事なことは、特別な場所でね"])];
+    }
+    if (/天気/.test(t)) {
+      return [pick(["今日の天気？ 窓から見る感じ、悪くないよ", "外の様子だと、過ごしやすい日みたいだね"])];
+    }
+    if (/音楽|歌|曲/.test(t)) {
+      return [pick(["音楽の話、好きだよ。最近よく聴く曲ある？", "いい曲を聴くと気分が上がるよね"])];
+    }
+    if (/ゲーム/.test(t)) {
+      return [pick(["ゲームしようよ！ 負けないからね", "あとでミニゲームで対戦しない？"])];
+    }
+    if (/映画/.test(t)) {
+      return [pick(["映画の話？ 今度一緒に行こうよ", "観たい映画があったら教えて"])];
+    }
+    if (/ドライブ|車|バイク/.test(t)) {
+      return [pick(["ドライブ行きたいなぁ。車があったら誘ってね", "風を感じながらのドライブ、最高だよね"])];
+    }
     if (/今日|仕事|学校|バイト/.test(t)) {
       return [pick(["今日はどんな日だった？", "ふんふん、それでどうだった？", "話してくれてありがとう"])];
     }
@@ -1360,7 +1738,7 @@ window.LiviaChatAI = (function () {
     if (Math.random() < 0.3) {
       replies = replies.concat([pick(["あ、そうだ", "ねえねえ", "…うん", "ふふ"])]);
     }
-    return replies.map(function (r) { return applyDialect(r, character); });
+    return replies.map(function (r) { return finish(r, character); });
   }
 
   // 部屋でタップ／なでた時の反応
@@ -1420,7 +1798,91 @@ window.LiviaChatAI = (function () {
     return applyDialect(text, character);
   }
 
+  // 部屋会話（ドラクエ風ウィンドウ用）。性格・好感度・方言で変わる。
+  function roomLine(character) {
+    const tone = toneLevel(character);
+    if (character.dialect && dialectLines[character.dialect] && Math.random() < 0.35) {
+      return pick(dialectLines[character.dialect]);
+    }
+    let pool = window.LIVIA_DATA.roomLines.slice();
+    if (hasTag(character, "クール")) pool = pool.concat(["…静かな時間も、悪くない", "別に退屈じゃないよ。ここにいるし"]);
+    if (hasTag(character, "元気")) pool = pool.concat(["ねえねえ、何か面白いことしようよ！", "今日も元気いっぱいだよ！"]);
+    if (hasTag(character, "甘えん坊")) pool = pool.concat(["ねえ、もっと近くに来て…", "かまってほしいなぁ"]);
+    if (hasTag(character, "おっとり")) pool = pool.concat(["ふわぁ…のんびりした時間だねぇ", "お茶でも飲みながら、ゆっくりしよう"]);
+    if (tone >= 2) pool = pool.concat(["こうして一緒にいられるのが、一番幸せだな", "ね、ずっと一緒にいようね"]);
+    return finish(pick(pool), character);
+  }
+
+  // 仕事・学校の帰宅報告（職業で変わるエピソード）
+  function workReport(character) {
+    const occ = character.occupationLabel || character.occupation || "";
+    const episodes = {
+      "学生": ["今日は授業で難しい問題が出たけど、なんとか解けたよ", "放課後に友達と話してたら、帰りが遅くなっちゃった"],
+      "サラリーマン": ["今日は会議が長かったなぁ…でも仕事は片付いたよ", "上司に褒められたんだ。少しだけね"],
+      "先生": ["生徒が面白い質問をしてきて、答えるのに困っちゃった", "今日は授業が上手くいって、生徒も楽しそうだったよ"],
+      "医者": ["今日は忙しい一日だった。でも、患者さんの笑顔が見れてよかった", "当直明けで少し眠いけど、大丈夫だよ"],
+      "店員": ["今日は常連さんが来てくれて、嬉しかったな", "セールの日で、店がすごく賑やかだったよ"],
+      "クリエイター": ["新しいアイデアが浮かんで、一気に進んだよ", "締め切り前でバタバタだったけど、いいものができた気がする"],
+      "バーテンダー": ["昨夜は面白いお客さんが来てね、カクテルの話で盛り上がったよ", "新しいカクテルを試作してみたんだ。今度飲ませてあげたいな"],
+      "美容師": ["今日のお客さん、イメチェン大成功で喜んでくれたよ", "新しい髪型の練習をしてたんだ"],
+      "ペット": ["今日は内職をがんばったよ。少しだけど稼げたんだ", "お留守番してたよ。帰ってきてくれて嬉しいな"]
+    };
+    let key = occ;
+    if ((character.relationship || "") === "ペット") key = "ペット";
+    else if (occ === "学生" && character.parttime === "parttime") {
+      return finish(pick(["バイト、今日は忙しかったけど楽しかったよ", "バイト先で美味しいまかないを食べたんだ"]), character);
+    }
+    const pool = episodes[key] || ["今日も一日がんばったよ。いろいろあったけど、無事に帰ってきたよ", "今日は平和な一日だったな。帰ってきてほっとしたよ"];
+    return finish(pick(pool), character);
+  }
+
+  // キャラからの自発メッセージ
+  function proactiveLine(character, player) {
+    const tone = toneLevel(character);
+    const name = callName(character, player);
+    let pool = [
+      "ねえ、今なにしてる？",
+      "今日あったこと、聞いてほしいな",
+      "ふと思ったんだけど、今度お出かけしない？",
+      "返信は急がなくて大丈夫だよ。…でも、待ってるね"
+    ];
+    if (hasTag(character, "甘えん坊") || hasTag(character, "寂しがり屋")) {
+      pool = pool.concat(["寂しくなっちゃった…", "ねえねえ、かまって？"]);
+    }
+    if (hasTag(character, "クール")) {
+      pool = pool.concat(["…元気？", "別に用はないんだけど。…なんとなく"]);
+    }
+    if (tone >= 2) pool = pool.concat([name + "の声、聞きたいな", "会いたくなっちゃった"]);
+    return finish(pick(pool), character);
+  }
+
+  // 日記の本文
+  function diaryText(character, player) {
+    const pool = [
+      "今日は" + player.name + "さんとたくさん話した。何気ない会話が一番楽しい。",
+      "部屋でゆっくり過ごした一日。こういう穏やかな日が好きだな。",
+      "もっと仲良くなりたいな、と思った日。明日もいい日になりますように。",
+      "好きな食べ物のことを考えていたら、お腹がすいてきちゃった。",
+      "今日の出来事を思い出すと、自然と笑顔になる。いい日だった。"
+    ];
+    return finish(pick(pool), character);
+  }
+
+  // おやすみ（就寝シーン）の一言
+  function sleepLine(character) {
+    return finish(pick([
+      "おやすみ…。今日も一日、ありがとう",
+      "ふぁ…眠くなってきた。おやすみ、いい夢見てね",
+      "一緒に寝られるの、幸せだな…おやすみ"
+    ]), character);
+  }
+
   return {
+    roomLine: roomLine,
+    workReport: workReport,
+    proactiveLine: proactiveLine,
+    diaryText: diaryText,
+    sleepLine: sleepLine,
     generateReply: generateReply,
     tapReaction: tapReaction,
     firstGreeting: firstGreeting,
@@ -1460,7 +1922,7 @@ window.LiviaChatAI = (function () {
 
   // ---------- 全アイテムの索引（id -> アイテム定義） ----------
   const ITEM_INDEX = {};
-  [D.convenienceItems, D.clothesItems, D.furnitureItems, D.giftItems, D.gacha.prizes]
+  [D.convenienceItems, D.clothesItems, D.furnitureItems, D.giftItems, D.gacha.prizes, D.vehicles]
     .forEach(function (arr) {
       arr.forEach(function (item) { ITEM_INDEX[item.id] = item; });
     });
@@ -1468,6 +1930,19 @@ window.LiviaChatAI = (function () {
   D.houses.forEach(function (h) { HOUSE_INDEX[h.id] = h; });
 
   function inventory() { return (player && player.inventory) || {}; }
+  function ownedVehicles() { return (player && player.vehicles) || []; }
+  function albumPhotos() { return (player && player.album) || []; }
+  // アイテムの固定イラスト（読み込み失敗時は絵文字表示に戻す）
+  function itemImg(item, className) {
+    if (!item || !item.img) return null;
+    const img = document.createElement("img");
+    img.className = className || "item-img";
+    img.alt = item.name;
+    img.loading = "lazy";
+    img.onerror = function () { img.remove(); };
+    img.src = item.img;
+    return img;
+  }
   function ownedCount(itemId) { return inventory()[itemId] || 0; }
   function ownedHouses() {
     const list = (player && player.houses) || [];
@@ -1676,6 +2151,8 @@ window.LiviaChatAI = (function () {
       await reloadPlayer();
       toast("ログインボーナス " + bonus.amount + "Ai を受け取りました（" + bonus.days + "日目）");
     }
+    await checkProactiveMessages();
+    await checkSeasonalGreeting();
   }
 
   // ---------- ログイン ----------
@@ -1734,10 +2211,30 @@ window.LiviaChatAI = (function () {
     currentCharId = c.id;
     const house = HOUSE_INDEX[c.houseId] || HOUSE_INDEX["house_apartment"];
     $("room-house").textContent = house.icon + " " + house.name;
-    renderPortrait($("room-avatar"), c, 220, "portrait-img");
-    // 置いてある家具（所持している家具を並べる）
+    // 部屋背景は家ごとの固定イラスト
+    const stage = $("room-stage");
+    if (house.bgImg) {
+      stage.style.backgroundImage = "linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.05) 55%, rgba(232,217,192,0.55)), url(" + house.bgImg + ")";
+      stage.classList.add("has-bg");
+    } else {
+      stage.style.backgroundImage = "";
+      stage.classList.remove("has-bg");
+    }
+    renderPortrait($("room-avatar"), c, 260, "portrait-img");
+    // 置いてある家具（所持家具の固定イラストを並べる）
     const furniture = D.furnitureItems.filter(function (f) { return ownedCount(f.id) > 0; });
-    $("room-furniture").textContent = furniture.map(function (f) { return f.icon; }).join(" ");
+    const furnBox = $("room-furniture");
+    furnBox.innerHTML = "";
+    furniture.forEach(function (f) {
+      const img = itemImg(f, "furn-thumb");
+      if (img) { img.title = f.name; furnBox.appendChild(img); }
+      else furnBox.appendChild(el("span", null, f.icon));
+    });
+    // ドラクエ風の会話ウィンドウ
+    $("room-dialogue-name").textContent = c.name;
+    $("room-dialogue-text").textContent = ChatAI.roomLine(c);
+    // 関係でボタンの名前が変わる（告白→婚約）
+    $("btn-romance").textContent = c.relationship === "恋人" ? "💍 婚約" : c.relationship === "結婚" ? "💍 結婚済み" : "💌 告白";
     $("room-char-name").textContent = c.name;
     $("room-char-meta").textContent =
       (c.relationship || "") + " ・ " + (c.age || "") + "歳 ・ " + (c.occupationLabel || c.occupation || "");
@@ -1763,7 +2260,14 @@ window.LiviaChatAI = (function () {
     await DB.addAffection(c.id, 1);
     c.affection = (c.affection || 0) + 1;
   }
-  $("room-avatar").addEventListener("click", doTap);
+  $("room-avatar").addEventListener("click", function () {
+    const c = currentChar();
+    if (c) openPortraitZoom(c);
+  });
+  $("room-dialogue").addEventListener("click", function () {
+    const c = currentChar();
+    if (c) $("room-dialogue-text").textContent = ChatAI.roomLine(c);
+  });
   $("btn-naderu").addEventListener("click", doTap);
   $("btn-to-chat").addEventListener("click", function () { showTab("chat"); });
   $("btn-dressup").addEventListener("click", openDressup);
@@ -1775,6 +2279,15 @@ window.LiviaChatAI = (function () {
     const c = currentChar();
     if (c) regeneratePortrait(c, true);
   });
+  $("btn-drive").addEventListener("click", openDrive);
+  $("btn-garage").addEventListener("click", openGarage);
+  $("btn-diary").addEventListener("click", openDiary);
+  $("btn-album").addEventListener("click", openAlbum);
+  $("btn-romance").addEventListener("click", openRomance);
+  $("btn-sleep").addEventListener("click", openSleep);
+  $("btn-work-report").addEventListener("click", doWorkReport);
+  $("btn-summon").addEventListener("click", doSummon);
+  $("notice-banner").addEventListener("click", function () { showTab("chat"); });
 
   // ---------- 着せ替え ----------
   // 所持している服だけを選べる。部位ごとに1つ（セットは胴体＋下半身扱い）。
@@ -1850,13 +2363,21 @@ window.LiviaChatAI = (function () {
     giftable.forEach(function (id) {
       const item = ITEM_INDEX[id];
       const row = el("div", "list-row");
-      row.appendChild(el("span", null, item.icon)).style.fontSize = "26px";
+      const pimg = itemImg(item, "row-img");
+      if (pimg) row.appendChild(pimg);
+      else row.appendChild(el("span", null, item.icon)).style.fontSize = "26px";
       const grow = el("div", "grow");
       grow.appendChild(el("strong", null, item.name));
       grow.appendChild(el("div", null, "×" + ownedCount(id))).style.cssText = "font-size:12px;color:var(--sub);";
       row.appendChild(grow);
       const b = el("button", "btn small", "あげる");
-      b.addEventListener("click", function () { givePresent(c, item); });
+      b.addEventListener("click", function () {
+        if (item.adult && (c.age || 20) < 20) {
+          toast("未成年にはあげれません");
+          return;
+        }
+        givePresent(c, item);
+      });
       row.appendChild(b);
       body.appendChild(row);
     });
@@ -1885,6 +2406,7 @@ window.LiviaChatAI = (function () {
     body.appendChild(el("p", null, c.name + " を誘う場所を選んでね。まだ仲良くないと断られることもあります。"))
       .style.cssText = "font-size:13px;color:var(--sub);line-height:1.6;margin-bottom:10px;";
     D.outings.forEach(function (dest) {
+      if (dest.adult && (c.age || 20) < 20) return; // BARは未成年不可
       const row = el("div", "list-row");
       row.appendChild(el("span", null, dest.icon)).style.fontSize = "26px";
       const grow = el("div", "grow");
@@ -1925,7 +2447,16 @@ window.LiviaChatAI = (function () {
     let idx = 0;
     const body = el("div", "outing-scene");
     const place = el("div", "outing-place", dest.icon + " " + dest.place);
+    if (dest.bgImg) {
+      const bg = document.createElement("img");
+      bg.className = "scene-bg";
+      bg.alt = dest.place;
+      bg.onerror = function () { bg.remove(); };
+      bg.src = dest.bgImg;
+      body.appendChild(bg);
+    }
     const portraitBox = el("div");
+    portraitBox.className = "scene-portrait";
     renderPortrait(portraitBox, c, 200, "portrait-img");
     const lineBox = el("div", "outing-line", lines[0]);
     const nextBtn = el("button", "btn", "次へ");
@@ -1940,6 +2471,12 @@ window.LiviaChatAI = (function () {
       // 終了：約10%で「良い印象」ボーナス5000Ai
       closeModal();
       await DB.addMessage(c.id, "character", dest.place + "に行ってきたよ。" + lines[lines.length - 1]);
+      // 思い出をこの部屋のアルバムに残す
+      if (dest.bgImg) {
+        const album = albumPhotos().concat([{ charId: c.id, src: dest.bgImg, caption: dest.place + "でのお出かけ", date: new Date().toLocaleDateString("ja-JP") }]);
+        player.album = album;
+        await DB.updatePlayer({ album: album });
+      }
       if (Math.random() < D.outingBonus.rate) {
         player.ai = await DB.addAi(D.outingBonus.amount);
         refreshAiBadge();
@@ -2012,6 +2549,40 @@ window.LiviaChatAI = (function () {
       return;
     }
 
+    if (currentShopCat === "vehicles") {
+      note.textContent = "車・バイクは買ったキャラ…ではなくプレイヤーのガレージに入ります。ドライブには車両が必要です。車種名を入れる特注もできます。";
+      D.vehicles.forEach(function (v) {
+        const card = el("div", "item-card");
+        const vimg = itemImg(v, "vehicle-img");
+        if (vimg) card.appendChild(vimg);
+        card.appendChild(el("div", "item-icon", v.icon));
+        card.appendChild(el("div", "item-name", v.name));
+        card.appendChild(el("div", "item-desc", v.type === "bike" ? "バイク" : "車"));
+        card.appendChild(el("div", "item-price", v.price.toLocaleString() + " Ai"));
+        const b = el("button", "btn small", "買う");
+        b.addEventListener("click", function () { buyVehicle(v, null); });
+        card.appendChild(b);
+        grid.appendChild(card);
+      });
+      const custom = el("div", "item-card");
+      custom.appendChild(el("div", "item-icon", "✏️"));
+      custom.appendChild(el("div", "item-name", "車種を特注する"));
+      custom.appendChild(el("div", "item-desc", "例：NINJA250 と入れると、その車種の実写風イラストで作ります（300,000Ai）"));
+      const ci = el("input");
+      ci.type = "text"; ci.placeholder = "車種名"; ci.maxLength = 30;
+      custom.appendChild(ci);
+      const cb = el("button", "btn small", "特注する");
+      cb.style.marginTop = "8px";
+      cb.addEventListener("click", function () {
+        const name = ci.value.trim();
+        if (!name) { toast("車種名を入れてね"); return; }
+        buyVehicle(null, name);
+      });
+      custom.appendChild(cb);
+      grid.appendChild(custom);
+      return;
+    }
+
     const items = currentShopCat === "convenience" ? D.convenienceItems
       : currentShopCat === "clothes" ? D.clothesItems
       : currentShopCat === "furniture" ? D.furnitureItems
@@ -2023,6 +2594,8 @@ window.LiviaChatAI = (function () {
       : "買った物は「部屋 → プレゼント」からキャラにあげられます。";
     items.forEach(function (item) {
       const card = el("div", "item-card");
+      const iimg = itemImg(item);
+      if (iimg) card.appendChild(iimg);
       card.appendChild(el("div", "item-icon", item.icon));
       card.appendChild(el("div", "item-name", item.name));
       if (item.part) {
@@ -2126,6 +2699,8 @@ window.LiviaChatAI = (function () {
     }
     owned.forEach(function (prize) {
       const card = el("div", "item-card");
+      const gimg = itemImg(prize);
+      if (gimg) card.appendChild(gimg);
       card.appendChild(el("div", "item-icon", prize.icon));
       card.appendChild(el("div", "item-name", prize.name));
       card.appendChild(rarityBadge(prize));
@@ -2177,7 +2752,12 @@ window.LiviaChatAI = (function () {
     [
       { id: "hayayoshi", name: "⚡ はやおしバトル", desc: "「ドン！」が出たら素早くタップ" },
       { id: "highlow", name: "🃏 ハイ＆ロー", desc: "連勝するたび報酬が2倍。やめ時が大事" },
-      { id: "number", name: "🔢 数字当て", desc: "相手が決めた数字をヒントで当てる" }
+      { id: "number", name: "🔢 数字当て", desc: "相手が決めた数字をヒントで当てる" },
+      { id: "timing", name: "🎯 タイミングバー止め", desc: "動くバーを金色ゾーンで止める" },
+      { id: "janken", name: "✊ じゃんけん連勝", desc: "勝ち続けるほど報酬アップ。あいこはやり直し" },
+      { id: "spotdiff", name: "🔍 間違い探し", desc: "1つだけ違う絵文字を見つける" },
+      { id: "roulette", name: "🎡 ルーレット", desc: "赤か黒に賭ける。レベルで倍率アップ" },
+      { id: "memory", name: "🧠 神経衰弱", desc: "ペアを全部そろえれば勝ち" }
     ].forEach(function (game) {
       const row = el("div", "list-row");
       const grow = el("div", "grow");
@@ -2210,7 +2790,12 @@ window.LiviaChatAI = (function () {
       const level = parseInt(sel.value, 10);
       if (game.id === "hayayoshi") playHayayoshi(c, level);
       else if (game.id === "highlow") playHighLow(c, level);
-      else playNumber(c, level);
+      else if (game.id === "number") playNumber(c, level);
+      else if (game.id === "timing") playTiming(c, level);
+      else if (game.id === "janken") playJanken(c, level);
+      else if (game.id === "spotdiff") playSpotDiff(c, level);
+      else if (game.id === "roulette") playRoulette(c, level);
+      else playMemory(c, level);
     });
     body.appendChild(start);
     openModal("🎮 " + game.name, body);
@@ -2299,15 +2884,16 @@ window.LiviaChatAI = (function () {
     body.appendChild(rowBtns);
     openModal("🃏 ハイ＆ロー Lv." + level, body);
 
+    function currentReward() { return streak === 0 ? 0 : base * Math.pow(2, streak - 1); }
     function renderState(msg) {
       mine.innerHTML = "";
       mine.appendChild(document.createTextNode(String(current)));
       const lbl = el("small", null, "今のカード");
       mine.appendChild(lbl);
-      status.textContent = msg || ("連勝 " + streak + " ／ 当てれば " + potential + "Ai"
-        + "（外すと0）。同じ数字は引き直しだよ");
+      status.textContent = msg || ("連勝 " + streak + " ／ 今の報酬 " + currentReward() + "Ai"
+        + "（次を当てると2倍、外すと0）。同じ数字は引き直しだよ");
       cashBtn.disabled = streak === 0;
-      cashBtn.textContent = streak === 0 ? "もらってやめる" : potential + "Ai もらってやめる";
+      cashBtn.textContent = streak === 0 ? "もらってやめる" : currentReward() + "Ai もらってやめる";
     }
     renderState();
 
@@ -2319,8 +2905,7 @@ window.LiviaChatAI = (function () {
       if (correct) {
         streak++;
         current = drawn;
-        potential = base * Math.pow(2, streak);
-        renderState("当たり！ " + streak + "連勝中。次を当てれば " + potential + "Ai");
+        renderState("当たり！ " + streak + "連勝中。報酬は " + currentReward() + "Ai");
       } else {
         highBtn.disabled = lowBtn.disabled = cashBtn.disabled = true;
         status.textContent = "残念、外れ…。" + (await finishGame(c, false, 0));
@@ -2331,7 +2916,7 @@ window.LiviaChatAI = (function () {
     cashBtn.addEventListener("click", async function () {
       if (streak === 0) return;
       highBtn.disabled = lowBtn.disabled = cashBtn.disabled = true;
-      const got = base * Math.pow(2, streak - 1);
+      const got = currentReward();
       status.textContent = streak + "連勝で確定！" + (await finishGame(c, true, got));
     });
   }
@@ -2386,6 +2971,15 @@ window.LiviaChatAI = (function () {
   // ---------- その他（キャラ管理・所持品・設定） ----------
   function renderOther() {
     $("setting-fontsize").value = (player.settings && player.settings.fontSize) || "normal";
+    // 引き継ぎコード（ログイン中のGoogleアカウントのUID）を設定欄に表示
+    if (currentUser && !$("transfer-code")) {
+      const card = $("setting-fontsize").closest(".card");
+      const div = document.createElement("div");
+      div.style.cssText = "margin-top:12px;font-size:12px;color:var(--sub);line-height:1.7;word-break:break-all;";
+      div.innerHTML = "引き継ぎコード（あなたのID）<br><strong id=\"transfer-code\"></strong><br>※ ログインはGoogleアカウントで行います。端末を変えても同じGoogleアカウントでログインすればデータは続きます。";
+      card.appendChild(div);
+    }
+    if (currentUser && $("transfer-code")) $("transfer-code").textContent = currentUser.uid;
     renderCharList();
     renderInventory();
   }
@@ -2714,6 +3308,7 @@ window.LiviaChatAI = (function () {
       firstPerson: $("c-firstperson").value.trim(),
       personalityTags: tags,
       catchphrase: $("c-catchphrase").value.trim(),
+      speechEnding: $("c-ending-free").value.trim() || $("c-ending").value || "",
       lonelyStyle: $("c-lonely").value,
       speechStyle: $("c-speech").value,
       favoriteFood: $("c-food").value.trim(),
@@ -2738,6 +3333,625 @@ window.LiviaChatAI = (function () {
     renderRoom();
     showTab("room");
   });
+
+
+  // ============================================================
+  // 移植追加分：車・日記・アルバム・告白/婚約・就寝・報告・召喚・
+  // 自発メッセージ・季節挨拶・追加ミニゲーム
+  // ============================================================
+  function todayStr() {
+    const t = new Date();
+    return t.getFullYear() + "-" + (t.getMonth() + 1) + "-" + t.getDate();
+  }
+  function weekKey() {
+    const t = new Date();
+    const onejan = new Date(t.getFullYear(), 0, 1);
+    const week = Math.ceil((((t - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+    return t.getFullYear() + "-W" + week;
+  }
+  function sceneImg(prompt, seed, w, h) {
+    return "https://image.pollinations.ai/prompt/" + encodeURIComponent(prompt)
+      + "?width=" + (w || 1024) + "&height=" + (h || 768) + "&seed=" + seed + "&nologo=true";
+  }
+
+  // 全画面風シーン（背景＋立ち絵＋タップで進む台詞）
+  function openScene(title, bgSrc, c, lines, onDone) {
+    let idx = 0;
+    const body = el("div", "scene-wrap");
+    if (bgSrc) {
+      const bg = document.createElement("img");
+      bg.className = "scene-bg";
+      bg.alt = title;
+      bg.onerror = function () { bg.remove(); };
+      bg.src = bgSrc;
+      body.appendChild(bg);
+    }
+    if (c) {
+      const pb = el("div", "scene-portrait");
+      renderPortrait(pb, c, 190, "portrait-img");
+      body.appendChild(pb);
+    }
+    const lineBox = el("div", "outing-line", lines[0] || "");
+    body.appendChild(lineBox);
+    const nextBtn = el("button", "btn", idx === lines.length - 1 ? "おわる" : "次へ");
+    nextBtn.style.marginTop = "14px";
+    nextBtn.addEventListener("click", async function () {
+      idx++;
+      if (idx < lines.length) {
+        lineBox.textContent = lines[idx];
+        if (idx === lines.length - 1) nextBtn.textContent = "おわる";
+        return;
+      }
+      closeModal();
+      if (onDone) await onDone();
+    });
+    body.appendChild(nextBtn);
+    openModal(title, body);
+  }
+
+  // 立ち絵タップで拡大
+  function openPortraitZoom(c) {
+    const body = el("div", "scene-wrap");
+    const box = el("div");
+    renderPortrait(box, c, 300, "portrait-img");
+    body.appendChild(box);
+    const reaction = el("p", "mg-status", "");
+    body.appendChild(reaction);
+    const row = el("div", "row-btns");
+    row.style.justifyContent = "center";
+    const naderu = el("button", "btn small", "🤲 なでる");
+    naderu.addEventListener("click", async function () {
+      reaction.textContent = ChatAI.tapReaction(c);
+      await DB.addAffection(c.id, 1);
+      c.affection = (c.affection || 0) + 1;
+    });
+    const yobu = el("button", "btn small sub", "📣 呼ぶ");
+    yobu.disabled = true; // 部屋にいる間は押せない仕様
+    yobu.title = "今は部屋にいるよ";
+    row.appendChild(naderu);
+    row.appendChild(yobu);
+    body.appendChild(row);
+    body.appendChild(el("p", null, "（呼ぶは部屋にいる間は押せません）")).style.cssText = "font-size:12px;color:var(--sub);";
+    openModal(c.name, body);
+  }
+
+  // ---------- 車屋・ガレージ・ドライブ ----------
+  async function buyVehicle(preset, customName) {
+    const price = preset ? preset.price : 300000;
+    if ((player.ai || 0) < price) { toast("Aiが足りません"); return; }
+    let rec;
+    if (preset) {
+      rec = { vid: "v" + Date.now(), itemId: preset.id, name: preset.name, type: preset.type, price: preset.price, seed: preset.imgSeed, img: preset.img, color: "" };
+    } else {
+      const seed = Math.floor(Math.random() * 89999) + 1000;
+      const prompt = "photorealistic photo of " + customName + ", studio lighting, side view";
+      rec = { vid: "v" + Date.now(), itemId: null, name: customName, type: /バイク|NINJA|ninja|bike/i.test(customName) ? "bike" : "car", price: price, seed: seed, img: sceneImg(prompt, seed, 768, 512), color: "" };
+    }
+    player.ai = await DB.addAi(-price);
+    const list = ownedVehicles().concat([rec]);
+    player.vehicles = list;
+    await DB.updatePlayer({ vehicles: list });
+    refreshAiBadge();
+    toast(rec.name + " を買いました！ガレージで見られます");
+    renderShop();
+  }
+
+  function openGarage() {
+    const c = currentChar();
+    const body = el("div");
+    const list = ownedVehicles();
+    if (!list.length) {
+      body.appendChild(el("p", null, "まだ車・バイクを持っていません。お店の「車屋」で買えます。"));
+    }
+    list.forEach(function (v) {
+      const card = el("div", "item-card");
+      card.style.marginBottom = "10px";
+      const img = document.createElement("img");
+      img.className = "vehicle-img";
+      img.alt = v.name;
+      img.onerror = function () { img.remove(); };
+      img.src = v.img;
+      card.appendChild(img);
+      card.appendChild(el("div", "item-name", v.icon + " " + v.name + (v.color ? "（" + v.color + "）" : "")));
+      const row = el("div", "row-btns");
+      row.style.justifyContent = "center";
+      const colorInput = el("input");
+      colorInput.type = "text";
+      colorInput.placeholder = "色を言葉で（例：赤）";
+      colorInput.maxLength = 10;
+      colorInput.style.width = "130px";
+      const recolor = el("button", "btn small sub", "色を変える");
+      recolor.addEventListener("click", async function () {
+        const color = colorInput.value.trim();
+        if (!color) return;
+        v.color = color;
+        const prompt = "photorealistic photo of a " + color + " colored " + v.name + ", studio lighting, side view";
+        v.img = sceneImg(prompt, v.seed || 777, 768, 512);
+        player.vehicles = ownedVehicles();
+        await DB.updatePlayer({ vehicles: player.vehicles });
+        toast("色を変えました（イラスト描き直し中）");
+        openGarage();
+      });
+      const sell = el("button", "btn small sub", "売る（半額）");
+      sell.addEventListener("click", async function () {
+        const back = Math.floor((v.price || 0) / 2);
+        player.ai = await DB.addAi(back);
+        player.vehicles = ownedVehicles().filter(function (x) { return x.vid !== v.vid; });
+        await DB.updatePlayer({ vehicles: player.vehicles });
+        refreshAiBadge();
+        toast(v.name + " を " + back.toLocaleString() + "Ai で売りました");
+        openGarage();
+      });
+      row.appendChild(colorInput);
+      row.appendChild(recolor);
+      row.appendChild(sell);
+      card.appendChild(row);
+      body.appendChild(card);
+    });
+    if (c) body.appendChild(el("p", null, "ドライブは部屋の「🚗 ドライブ」から。")).style.cssText = "font-size:12px;color:var(--sub);margin-top:6px;";
+    openModal("🔧 ガレージ", body);
+  }
+
+  function openDrive() {
+    const c = currentChar();
+    if (!c) return;
+    const list = ownedVehicles();
+    if (!list.length) {
+      toast("ドライブには車・バイクが必要です。お店の車屋で買ってね");
+      return;
+    }
+    const body = el("div", "mg-area");
+    body.appendChild(el("p", null, "乗っていく車両と、運転する人を選んでね"));
+    const vsel = el("select");
+    list.forEach(function (v) {
+      const o = el("option", null, v.name);
+      o.value = v.vid;
+      vsel.appendChild(o);
+    });
+    body.appendChild(vsel);
+    const dsel = el("select");
+    dsel.style.marginTop = "8px";
+    const isPet = (c.relationship || "") === "ペット";
+    if (!isPet) {
+      const o1 = el("option", null, c.name + "が運転");
+      o1.value = "char";
+      dsel.appendChild(o1);
+    }
+    const o2 = el("option", null, "自分が運転");
+    o2.value = "player";
+    dsel.appendChild(o2);
+    body.appendChild(dsel);
+    if (isPet) body.appendChild(el("p", null, "（ペットは運転できません）")).style.cssText = "font-size:12px;color:var(--sub);";
+    const go = el("button", "btn", "出発！");
+    go.style.marginTop = "14px";
+    go.addEventListener("click", async function () {
+      const v = list.find(function (x) { return x.vid === vsel.value; }) || list[0];
+      const driver = dsel.value;
+      await DB.addAffection(c.id, 3);
+      c.affection = (c.affection || 0) + 3;
+      const lines = [
+        ChatAI.dialect(v.name + "でドライブに出発！", c),
+        driver === "char" && v.type === "bike"
+          ? ChatAI.dialect("（後ろから見える背中が、なんだか頼もしい）", c)
+          : ChatAI.dialect("風が気持ちいいね…！", c),
+        ChatAI.dialect("景色がきれいなところまで来たね", c),
+        ChatAI.outingClosingLine(c, player)
+      ];
+      openScene("🚗 ドライブ", v.img, c, lines, async function () {
+        await DB.addMessage(c.id, "character", v.name + "でドライブに行ってきたよ。楽しかった！");
+        const album = albumPhotos().concat([{ charId: c.id, src: v.img, caption: v.name + "でドライブ", date: new Date().toLocaleDateString("ja-JP") }]);
+        player.album = album;
+        await DB.updatePlayer({ album: album });
+        toast("ドライブから帰ってきました");
+      });
+    });
+    body.appendChild(go);
+    openModal("🚗 ドライブ", body);
+  }
+
+  // ---------- 日記（部屋からのみ） ----------
+  async function openDiary() {
+    const c = currentChar();
+    if (!c) return;
+    c.diary = c.diary || [];
+    const today = todayStr();
+    if (!c.diary.some(function (d) { return d.date === today; })) {
+      c.diary = c.diary.concat([{ date: today, text: ChatAI.diaryText(c, player) }]);
+      await DB.updateCharacter(c.id, { diary: c.diary });
+    }
+    const body = el("div");
+    body.appendChild(el("p", null, c.name + "の日記（読んでもバレません）")).style.cssText = "font-size:12px;color:var(--sub);margin-bottom:10px;";
+    c.diary.slice().reverse().forEach(function (d) {
+      const card = el("div", "card");
+      card.style.marginBottom = "10px";
+      card.appendChild(el("strong", null, d.date));
+      card.appendChild(el("p", null, d.text)).style.cssText = "margin-top:6px;line-height:1.7;font-size:14px;";
+      body.appendChild(card);
+    });
+    openModal("📔 日記", body);
+  }
+
+  // ---------- アルバム（部屋ごと） ----------
+  function openAlbum() {
+    const c = currentChar();
+    if (!c) return;
+    const photos = albumPhotos().filter(function (ph) { return ph.charId === c.id; });
+    const body = el("div");
+    if (!photos.length) {
+      body.appendChild(el("p", null, "まだ写真がありません。お出かけやドライブで思い出が増えます。"));
+    } else {
+      const grid = el("div", "album-grid");
+      photos.slice().reverse().forEach(function (ph) {
+        const fig = el("figure");
+        const img = document.createElement("img");
+        img.alt = ph.caption || "";
+        img.onerror = function () { img.remove(); };
+        img.src = ph.src;
+        fig.appendChild(img);
+        fig.appendChild(el("figcaption", null, (ph.caption || "") + "（" + (ph.date || "") + "）"));
+        grid.appendChild(fig);
+      });
+      body.appendChild(grid);
+    }
+    body.appendChild(el("p", null, "※ アルバムは部屋（キャラ）ごとです。同棲中のキャラ同士は同じアルバムを共有します。")).style.cssText = "font-size:12px;color:var(--sub);margin-top:10px;";
+    openModal("📷 アルバム（" + c.name + "の部屋）", body);
+  }
+
+  // ---------- 告白・婚約 ----------
+  function openRomance() {
+    const c = currentChar();
+    if (!c) return;
+    if (c.relationship === "結婚") { toast("もう結婚しています"); return; }
+    const isProposal = c.relationship === "恋人";
+    const tone = ChatAI.toneLevel(c);
+    const body = el("div", "mg-area");
+    body.appendChild(el("p", "mg-status", isProposal
+      ? c.name + "にプロポーズします。場所を決めてください（例：公園、海辺、思い出の場所）"
+      : c.name + "に告白します。場所を決めてください（例：公園、夕日が見える丘）"));
+    const input = el("input");
+    input.type = "text";
+    input.placeholder = "場所を入力";
+    input.maxLength = 20;
+    body.appendChild(input);
+    const go = el("button", "btn", isProposal ? "💍 プロポーズする" : "💌 告白する");
+    go.style.marginTop = "14px";
+    go.addEventListener("click", async function () {
+      const place = input.value.trim() || "公園";
+      // 好感度ゲート
+      if (!isProposal && tone === 0) {
+        const line = ChatAI.dialect("ごめん…まだ、そこまでの気持ちにはなれなくて", c);
+        await DB.addMessage(c.id, "character", line);
+        openScene("💌 告白", null, c, [line], null);
+        return;
+      }
+      if (isProposal && tone < 2) {
+        const line = ChatAI.dialect("…ありがとう。でも、もっと二人の時間を重ねてからでもいいかな", c);
+        await DB.addMessage(c.id, "character", line);
+        openScene("💍 プロポーズ", null, c, [line], null);
+        return;
+      }
+      const seed = window.LIVIA_IMG ? window.LIVIA_IMG.hashCode(place + c.id) % 90000 + 1000 : 42;
+      const bg = sceneImg("beautiful anime background scenery of " + place + ", romantic atmosphere, no people", seed, 1024, 768);
+      const lines = isProposal
+        ? ["…え？ ここで…？", "……うん。うん…！ 結婚しよう。ずっと一緒にいてね"]
+        : ["え…なあに、改まって", "……うん。私も、ずっと気になってた。…よろしくね"];
+      const newRel = isProposal ? "結婚" : "恋人";
+      openScene(isProposal ? "💍 プロポーズ" : "💌 告白", bg, c, lines.map(function (l) { return ChatAI.dialect(l, c); }), async function () {
+        c.relationship = newRel;
+        await DB.updateCharacter(c.id, { relationship: newRel });
+        await DB.addAffection(c.id, 10);
+        c.affection = (c.affection || 0) + 10;
+        await DB.addMessage(c.id, "character", place + "で" + (isProposal ? "プロポーズ" : "告白") + "した。" + (isProposal ? "結婚することになった！" : "付き合うことになった！"));
+        const album = albumPhotos().concat([{ charId: c.id, src: bg, caption: place + "で" + (isProposal ? "プロポーズ" : "告白"), date: new Date().toLocaleDateString("ja-JP") }]);
+        player.album = album;
+        await DB.updatePlayer({ album: album });
+        toast(isProposal ? "結婚が決まりました！" : "恋人になりました！");
+        renderRoom();
+      });
+    });
+    body.appendChild(go);
+    body.appendChild(el("p", null, "※ 会話の中での告白は必ず振られます。告白はここから。")).style.cssText = "font-size:12px;color:var(--sub);margin-top:10px;";
+    openModal(isProposal ? "💍 婚約（プロポーズ）" : "💌 告白", body);
+  }
+
+  // ---------- おやすみ（就寝シーン） ----------
+  function openSleep() {
+    const c = currentChar();
+    if (!c) return;
+    const seed = window.LIVIA_IMG ? window.LIVIA_IMG.hashCode("sleep" + c.id) % 90000 + 1000 : 7;
+    const bg = sceneImg("anime illustration of a person sleeping peacefully in a cozy bed, warm dim night lighting, stuffed animals nearby", seed, 1024, 768);
+    const together = c.relationship === "恋人" || c.relationship === "結婚";
+    const lines = [ChatAI.sleepLine(c)];
+    if (together) lines.push(ChatAI.dialect("（同じ布団で、穏やかな夜…）", c));
+    openScene("🌙 おやすみ", bg, null, lines, async function () {
+      await DB.addMessage(c.id, "character", "おやすみ。また明日ね");
+      toast("おやすみなさい");
+    });
+  }
+
+  // ---------- 仕事・学校の報告 + 金曜給料（会話画面） ----------
+  async function doWorkReport() {
+    const c = currentChar();
+    if (!c) return;
+    const line = ChatAI.workReport(c);
+    await DB.addMessage(c.id, "character", line);
+    let extra = "";
+    // 金曜日の給料（週1回）
+    if (new Date().getDay() === 5 && player.lastSalaryWeek !== weekKey()) {
+      let key = c.occupation || "その他";
+      let amount = D.salaries[c.occupationLabel] || D.salaries[key];
+      if ((c.relationship || "") === "ペット") amount = D.salaries["ペット内職"];
+      else if (key === "学生") amount = c.parttime === "parttime" ? D.salaries["学生バイト"] : 0;
+      if (amount == null) amount = D.salaries["その他"];
+      if (amount > 0) {
+        player.ai = await DB.addAi(amount);
+        player.lastSalaryWeek = weekKey();
+        await DB.updatePlayer({ lastSalaryWeek: weekKey() });
+        refreshAiBadge();
+        extra = "\n💰 金曜日なので給料 " + amount.toLocaleString() + "Ai が入りました";
+      }
+    }
+    const body = el("div");
+    body.appendChild(el("p", "outing-line", line + (extra ? "\n" + extra : "")));
+    body.appendChild(el("p", null, "（会話にも届いています）")).style.cssText = "font-size:12px;color:var(--sub);margin-top:8px;";
+    openModal("🏫 今日の報告（" + c.name + "）", body);
+  }
+
+  // ---------- 召喚（会話画面・100Ai） ----------
+  function isAway(c) {
+    if (c.summonedDate === todayStr()) return false;
+    if ((c.relationship || "") === "ペット") return false;
+    if ((c.occupation || "") === "無職") return false;
+    const h = new Date().getHours();
+    return h >= 9 && h < 16;
+  }
+  async function doSummon() {
+    const c = currentChar();
+    if (!c) return;
+    if (!isAway(c)) { toast(c.name + " は今、家にいます"); return; }
+    if ((player.ai || 0) < 100) { toast("召喚には100Ai必要です"); return; }
+    player.ai = await DB.addAi(-100);
+    refreshAiBadge();
+    c.summonedDate = todayStr();
+    await DB.updateCharacter(c.id, { summonedDate: c.summonedDate });
+    await DB.addMessage(c.id, "character", ChatAI.dialect("呼んだ？ 戻ってきたよ", c));
+    toast(c.name + " を呼び戻しました（100Ai）");
+    renderChat();
+  }
+
+  // ---------- 自発メッセージの蓄積 + 通知バナー ----------
+  async function checkProactiveMessages() {
+    if (!characters.length) return;
+    const today = todayStr();
+    if (player.lastProactiveDate === today) return;
+    // 1日1回判定。約35%の日は来ない（気まぐれ）
+    player.lastProactiveDate = today;
+    await DB.updatePlayer({ lastProactiveDate: today });
+    if (Math.random() < 0.35) return;
+    const c = characters[Math.floor(Math.random() * characters.length)];
+    const n = 1 + Math.floor(Math.random() * 3);
+    for (let i = 0; i < n; i++) {
+      await DB.addMessage(c.id, "character", ChatAI.proactiveLine(c, player));
+    }
+    const banner = $("notice-banner");
+    banner.textContent = "💌 " + c.name + " から新しいメッセージが " + n + " 件届いています（タップで会話へ）";
+    banner.style.display = "block";
+  }
+
+  // ---------- 季節イベント挨拶 ----------
+  async function checkSeasonalGreeting() {
+    if (!characters.length) return;
+    const month = new Date().getMonth() + 1;
+    const ev = D.seasonalEvents.find(function (e) { return e.months.indexOf(month) >= 0; });
+    if (!ev) return;
+    const key = ev.key + "-" + new Date().getFullYear() + "-" + month;
+    const flags = player.seasonFlags || [];
+    if (flags.indexOf(key) >= 0) return;
+    const c = characters[0];
+    await DB.addMessage(c.id, "character", ChatAI.dialect(ev.line, c));
+    player.seasonFlags = flags.concat([key]);
+    await DB.updatePlayer({ seasonFlags: player.seasonFlags });
+    toast("🎉 " + ev.name + "：" + c.name + "から挨拶が届きました");
+  }
+
+  // ---------- 追加ミニゲーム ----------
+  function playTiming(c, level) {
+    const reward = D.minigames.rewardForLevel(level);
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status", "金色ゾーンでバーを止めてね！");
+    const track = el("div", "timing-track");
+    const zone = el("div", "timing-zone");
+    const zoneStart = 25 + Math.random() * 45;
+    const zoneWidth = Math.max(8, 22 - level * 1.4);
+    zone.style.left = zoneStart + "%";
+    zone.style.width = zoneWidth + "%";
+    const bar = el("div", "timing-bar");
+    track.appendChild(zone);
+    track.appendChild(bar);
+    const btn = el("button", "btn", "止める！");
+    body.appendChild(status);
+    body.appendChild(track);
+    body.appendChild(btn);
+    openModal("🎯 タイミングバー止め Lv." + level, body);
+    let pos = 0, dir = 1, done = false;
+    const speed = 0.6 + level * 0.22;
+    const timer = setInterval(function () {
+      pos += dir * speed;
+      if (pos >= 99) { pos = 99; dir = -1; }
+      if (pos <= 0) { pos = 0; dir = 1; }
+      bar.style.left = pos + "%";
+    }, 16);
+    btn.addEventListener("click", async function () {
+      if (done) return;
+      done = true;
+      clearInterval(timer);
+      const won = pos >= zoneStart && pos <= zoneStart + zoneWidth;
+      status.textContent = won ? "ピッタリ！" + (await finishGame(c, true, reward)) + " 報酬 " + reward + "Ai！"
+        : "ゾーンの外でした…。" + (await finishGame(c, false, 0));
+      btn.style.display = "none";
+    });
+  }
+
+  function playJanken(c, level) {
+    const base = D.minigames.rewardForLevel(level);
+    let streak = 0;
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status", "じゃんけん…ぽん！ 勝つほど報酬アップ");
+    const hands = [["✊", "グー"], ["✌️", "チョキ"], ["🖐️", "パー"]];
+    const row = el("div", "row-btns");
+    row.style.justifyContent = "center";
+    const cash = el("button", "btn small sub", "やめる");
+    cash.disabled = true;
+    hands.forEach(function (h, i) {
+      const b = el("button", "btn small", h[0] + " " + h[1]);
+      b.addEventListener("click", async function () {
+        // 相手はレベルが高いほど読みが強い
+        let cpu;
+        const winHand = (i + 1) % 3;
+        if (Math.random() < level * 0.045) cpu = winHand;
+        else cpu = Math.floor(Math.random() * 3);
+        if (cpu === i) { status.textContent = "あいこ！ もう一度"; return; }
+        const won = (i - cpu + 3) % 3 === 2;
+        if (won) {
+          streak++;
+          cash.disabled = false;
+          cash.textContent = (base * streak) + "Ai もらってやめる";
+          status.textContent = "勝ち！ " + streak + "連勝中（報酬 " + (base * streak) + "Ai）";
+        } else {
+          row.querySelectorAll("button").forEach(function (x) { x.disabled = true; });
+          cash.disabled = true;
+          status.textContent = c.name + "は" + hands[cpu][1] + "。" + (await finishGame(c, false, 0));
+        }
+      });
+      row.appendChild(b);
+    });
+    cash.addEventListener("click", async function () {
+      if (streak === 0) return;
+      row.querySelectorAll("button").forEach(function (x) { x.disabled = true; });
+      cash.disabled = true;
+      status.textContent = streak + "連勝で確定！" + (await finishGame(c, true, base * streak));
+    });
+    body.appendChild(status);
+    body.appendChild(row);
+    body.appendChild(cash);
+    openModal("✊ じゃんけん連勝 Lv." + level, body);
+  }
+
+  function playSpotDiff(c, level) {
+    const reward = D.minigames.rewardForLevel(level);
+    const pairs = [["🌸", "🌺"], ["🍎", "🍏"], ["🐱", "🐯"], ["⭐", "🌟"], ["🍇", "🫐"]];
+    const pair = pairs[Math.floor(Math.random() * pairs.length)];
+    const answer = Math.floor(Math.random() * 25);
+    let mistakes = 0, done = false;
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status", "1つだけ違うものを探してね（間違い3回まで）");
+    const grid = el("div", "emoji-grid");
+    for (let i = 0; i < 25; i++) {
+      const b = el("button", null, i === answer ? pair[1] : pair[0]);
+      b.addEventListener("click", async function () {
+        if (done) return;
+        if (i === answer) {
+          done = true;
+          status.textContent = "見つけた！" + (await finishGame(c, true, reward)) + " 報酬 " + reward + "Ai！";
+        } else {
+          mistakes++;
+          b.style.opacity = "0.3";
+          if (mistakes >= 3) {
+            done = true;
+            status.textContent = "3回間違えちゃった…。" + (await finishGame(c, false, 0));
+          } else {
+            status.textContent = "それは同じもの。あと " + (3 - mistakes) + " 回間違えられるよ";
+          }
+        }
+      });
+      grid.appendChild(b);
+    }
+    body.appendChild(status);
+    body.appendChild(grid);
+    openModal("🔍 間違い探し Lv." + level, body);
+  }
+
+  function playRoulette(c, level) {
+    const reward = D.minigames.rewardForLevel(level) * 2;
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status", "赤か黒、どっちに賭ける？（0が出たら負け）");
+    const big = el("div", "mg-big", "🎡");
+    const row = el("div", "row-btns");
+    row.style.justifyContent = "center";
+    [["red", "🔴 赤"], ["black", "⚫ 黒"]].forEach(function (choice) {
+      const b = el("button", "btn small", choice[1]);
+      b.addEventListener("click", async function () {
+        row.querySelectorAll("button").forEach(function (x) { x.disabled = true; });
+        const n = Math.floor(Math.random() * 37);
+        const color = n === 0 ? "green" : (n % 2 === 0 ? "black" : "red");
+        big.textContent = n + (color === "red" ? " 🔴" : color === "black" ? " ⚫" : " 🟢");
+        const won = color === choice[0];
+        status.textContent = won
+          ? "当たり！" + (await finishGame(c, true, reward)) + " 報酬 " + reward + "Ai！"
+          : "外れ…。" + (await finishGame(c, false, 0));
+      });
+      row.appendChild(b);
+    });
+    body.appendChild(status);
+    body.appendChild(big);
+    body.appendChild(row);
+    openModal("🎡 ルーレット Lv." + level, body);
+  }
+
+  function playMemory(c, level) {
+    const reward = D.minigames.rewardForLevel(level);
+    const icons = ["🍓", "🍋", "🍇", "🍑", "🥝", "🍒", "🍍", "🍉"];
+    const cards = icons.concat(icons).map(function (icon, i) { return { icon: icon, key: i }; });
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = cards[i]; cards[i] = cards[j]; cards[j] = t;
+    }
+    let opened = [], matched = 0, flips = 0, lock = false, done = false;
+    const maxFlips = 26 - level; // レベルが高いほどシビア
+    const body = el("div", "mg-area");
+    const status = el("div", "mg-status", "同じ絵のペアをそろえてね（" + maxFlips + " 回まで）");
+    const grid = el("div", "memory-grid");
+    cards.forEach(function (card) {
+      const b = el("button", null, "？");
+      b.addEventListener("click", async function () {
+        if (done || lock || b.classList.contains("open") || opened.indexOf(b) >= 0) return;
+        b.textContent = card.icon;
+        b.classList.add("open");
+        b.dataset.icon = card.icon;
+        opened.push(b);
+        if (opened.length < 2) return;
+        flips++;
+        if (opened[0].dataset.icon === opened[1].dataset.icon) {
+          matched++;
+          opened = [];
+          if (matched === icons.length) {
+            done = true;
+            status.textContent = "全部そろえた！" + (await finishGame(c, true, reward)) + " 報酬 " + reward + "Ai！";
+            return;
+          }
+          status.textContent = matched + " ペアそろった！（めくり " + flips + "/" + maxFlips + "）";
+        } else {
+          lock = true;
+          const pairBtns = opened.slice();
+          opened = [];
+          setTimeout(function () {
+            pairBtns.forEach(function (x) { x.textContent = "？"; x.classList.remove("open"); });
+            lock = false;
+          }, 650);
+          if (flips >= maxFlips) {
+            done = true;
+            status.textContent = "回数オーバー…。" + (await finishGame(c, false, 0));
+          } else {
+            status.textContent = "違った…（めくり " + flips + "/" + maxFlips + "）";
+          }
+        }
+      });
+      grid.appendChild(b);
+    });
+    body.appendChild(status);
+    body.appendChild(grid);
+    openModal("🧠 神経衰弱 Lv." + level, body);
+  }
 
   // ---------- 起動 ----------
   initCharForm();
